@@ -26,6 +26,7 @@ import 'package:proxypin/network/util/system_proxy.dart';
 import 'package:proxypin/storage/histories.dart';
 import 'package:proxypin/ui/component/proxy_port_setting.dart';
 import 'package:proxypin/ui/configuration.dart';
+import 'package:proxypin/ui/mobile/liquid_glass.dart';
 import 'package:proxypin/ui/mobile/menu/drawer.dart';
 import 'package:proxypin/ui/mobile/menu/weak_network_tile.dart';
 import 'package:proxypin/ui/mobile/setting/environment.dart';
@@ -74,14 +75,7 @@ class _ConfigPageState extends State<ConfigPage> {
 
     Color color = Theme.of(context).colorScheme.primary.withValues(alpha: 0.85);
 
-    Widget section(List<Widget> tiles) => Card(
-          color: Colors.transparent,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-              side: BorderSide(color: Theme.of(context).dividerColor.withValues(alpha: 0.13)),
-              borderRadius: BorderRadius.circular(10)),
-          child: Column(children: tiles),
-        );
+    Widget section(List<Widget> tiles) => glassSection(context, tiles);
 
     Widget arrow = const Icon(Icons.arrow_forward_ios, size: 16);
 
@@ -211,14 +205,7 @@ class SettingPage extends StatelessWidget {
     AppLocalizations localizations = AppLocalizations.of(context)!;
     bool isCN = Localizations.localeOf(context) == const Locale.fromSubtags(languageCode: 'zh');
 
-    Widget section(List<Widget> tiles) => Card(
-          color: Colors.transparent,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-              side: BorderSide(color: Theme.of(context).dividerColor.withValues(alpha: 0.13)),
-              borderRadius: BorderRadius.circular(10)),
-          child: Column(children: tiles),
-        );
+    Widget section(List<Widget> tiles) => glassSection(context, tiles);
 
     return Scaffold(
         appBar: PreferredSize(
@@ -241,13 +228,7 @@ class SettingPage extends StatelessWidget {
           ]),
           const SizedBox(height: 12),
           // Port and switches
-          Card(
-              color: Colors.transparent,
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                  side: BorderSide(color: Theme.of(context).dividerColor.withValues(alpha: 0.13)),
-                  borderRadius: BorderRadius.circular(10)),
-              child: Column(children: [
+          glassSection(context, [
                 PortWidget(
                     proxyServer: proxyServer,
                     title: '${localizations.proxy}${isCN ? '' : ' '}${localizations.port}',
@@ -334,7 +315,7 @@ class SettingPage extends StatelessWidget {
                         maxLines: 5,
                         minLines: 1)),
                 // const SizedBox(height: 10),
-              ])),
+              ]),
           const SizedBox(height: 12),
           section([
             ListTile(

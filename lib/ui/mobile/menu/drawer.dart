@@ -18,6 +18,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
+import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 import 'package:proxypin/l10n/app_localizations.dart';
 import 'package:proxypin/network/bin/server.dart';
 import 'package:proxypin/network/components/host_filter.dart';
@@ -30,6 +31,7 @@ import 'package:proxypin/ui/toolbox/json_viewer.dart';
 import 'package:proxypin/ui/toolbox/js_run.dart';
 import 'package:proxypin/ui/component/utils.dart';
 import 'package:proxypin/ui/configuration.dart';
+import 'package:proxypin/ui/mobile/liquid_glass.dart';
 import 'package:proxypin/ui/mobile/setting/preference.dart';
 import 'package:proxypin/ui/mobile/request/favorite.dart';
 import 'package:proxypin/ui/mobile/request/history.dart';
@@ -162,8 +164,7 @@ void _hcOpenToolbox(BuildContext ctx, ProxyServer proxyServer) {
           appBar: AppBar(
             title: const Text('工具箱'),
             centerTitle: true,
-            backgroundColor: const Color(0xFFFF9E05),
-            foregroundColor: Colors.white,
+            backgroundColor: Colors.transparent,
             elevation: 0,
           ),
           body: Toolbox(proxyServer: proxyServer))));
@@ -186,10 +187,24 @@ class DrawerWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
     return Drawer(
         width: MediaQuery.of(context).size.width * 0.92,
-        backgroundColor: Theme.of(context).cardColor,
-        child: DefaultTextStyle(
+        backgroundColor: Colors.transparent,
+        shape: const RoundedRectangleBorder(),
+        child: GlassContainer(
+          padding: EdgeInsets.zero,
+          useOwnLayer: true,
+          clipBehavior: Clip.antiAlias,
+          shape: const LiquidRoundedRectangle(borderRadius: 28),
+          settings: LiquidGlassSettings(
+            thickness: 28,
+            blur: 14,
+            glassColor: isDark
+                ? const Color.fromRGBO(30, 40, 60, 0.55)
+                : const Color.fromRGBO(255, 255, 255, 0.42),
+          ),
+          child: DefaultTextStyle(
           style: TextStyle(color: _hcMenuText, fontSize: 15),
           child: ListTileTheme(
             iconColor: _hcMenuIcon,
@@ -245,7 +260,7 @@ class DrawerWidget extends StatelessWidget {
           ],
         )),
       ),
-    );
+    ));
   }
 }
 
@@ -272,14 +287,7 @@ class _SettingPage extends StatelessWidget {
     AppLocalizations localizations = AppLocalizations.of(context)!;
     bool isCN = Localizations.localeOf(context) == const Locale.fromSubtags(languageCode: 'zh');
 
-    Widget section(List<Widget> tiles) => Card(
-          color: Colors.transparent,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-              side: BorderSide(color: Theme.of(context).dividerColor.withValues(alpha: 0.13)),
-              borderRadius: BorderRadius.circular(10)),
-          child: Column(children: tiles),
-        );
+    Widget section(List<Widget> tiles) => glassSection(context, tiles);
 
     return Scaffold(
         appBar: PreferredSize(
@@ -290,13 +298,7 @@ class _SettingPage extends StatelessWidget {
             )),
         body: ListView(padding: const EdgeInsets.all(12), children: [
           // Port and switches
-          Card(
-              color: Colors.transparent,
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                  side: BorderSide(color: Theme.of(context).dividerColor.withValues(alpha: 0.13)),
-                  borderRadius: BorderRadius.circular(10)),
-              child: Column(children: [
+          glassSection(context, [
                 PortWidget(
                     proxyServer: proxyServer,
                     title: '${localizations.proxy}${isCN ? '' : ' '}${localizations.port}',
@@ -381,7 +383,7 @@ class _SettingPage extends StatelessWidget {
                         maxLines: 5,
                         minLines: 1)),
                 const SizedBox(height: 10),
-              ])),
+              ]),
           const SizedBox(height: 12),
           section([
             ListTile(
@@ -424,44 +426,38 @@ class FilterMenu extends StatelessWidget {
         appBar: AppBar(title: Text(localizations.filter, style: const TextStyle(fontSize: 16)), centerTitle: true),
         body: Padding(
             padding: const EdgeInsets.all(12),
-            child: Card(
-                color: Colors.transparent,
-                elevation: 0,
-                shape: RoundedRectangleBorder(
-                    side: BorderSide(color: Theme.of(context).dividerColor.withValues(alpha: 0.13)),
-                    borderRadius: BorderRadius.circular(10)),
-                child: Column(mainAxisSize: MainAxisSize.min, children: [
-                  ListTile(
-                      title: Text(localizations.domainWhitelist),
-                      trailing: const Icon(Icons.arrow_right),
-                      onTap: () => navigator(
-                          context,
-                          MobileFilterWidget(
-                              configuration: proxyServer.configuration, hostList: HostFilter.whitelist))),
-                  Divider(height: 0, thickness: 0.4, color: Theme.of(context).dividerColor.withValues(alpha: 0.22)),
-                  ListTile(
-                      title: Text(localizations.domainBlacklist),
-                      trailing: const Icon(Icons.arrow_right),
-                      onTap: () => navigator(
-                          context,
-                          MobileFilterWidget(
-                              configuration: proxyServer.configuration, hostList: HostFilter.blacklist))),
-                  Platform.isIOS
-                      ? const SizedBox()
-                      : Column(mainAxisSize: MainAxisSize.min, children: [
-                          Divider(
-                              height: 0, thickness: 0.4, color: Theme.of(context).dividerColor.withValues(alpha: 0.22)),
-                          ListTile(
-                              title: Text(localizations.appWhitelist),
-                              trailing: const Icon(Icons.arrow_right),
-                              onTap: () => navigator(context, AppWhitelist(proxyServer: proxyServer))),
-                          Divider(
-                              height: 0, thickness: 0.4, color: Theme.of(context).dividerColor.withValues(alpha: 0.22)),
-                          ListTile(
-                              title: Text(localizations.appBlacklist),
-                              trailing: const Icon(Icons.arrow_right),
-                              onTap: () => navigator(context, AppBlacklist(proxyServer: proxyServer)))
-                        ])
-                ]))));
+            child: glassSection(context, [
+              ListTile(
+                  title: Text(localizations.domainWhitelist),
+                  trailing: const Icon(Icons.arrow_right),
+                  onTap: () => navigator(
+                      context,
+                      MobileFilterWidget(
+                          configuration: proxyServer.configuration, hostList: HostFilter.whitelist))),
+              Divider(height: 0, thickness: 0.4, color: Theme.of(context).dividerColor.withValues(alpha: 0.22)),
+              ListTile(
+                  title: Text(localizations.domainBlacklist),
+                  trailing: const Icon(Icons.arrow_right),
+                  onTap: () => navigator(
+                      context,
+                      MobileFilterWidget(
+                          configuration: proxyServer.configuration, hostList: HostFilter.blacklist))),
+              Platform.isIOS
+                  ? const SizedBox()
+                  : Column(mainAxisSize: MainAxisSize.min, children: [
+                      Divider(
+                          height: 0, thickness: 0.4, color: Theme.of(context).dividerColor.withValues(alpha: 0.22)),
+                      ListTile(
+                          title: Text(localizations.appWhitelist),
+                          trailing: const Icon(Icons.arrow_right),
+                          onTap: () => navigator(context, AppWhitelist(proxyServer: proxyServer))),
+                      Divider(
+                          height: 0, thickness: 0.4, color: Theme.of(context).dividerColor.withValues(alpha: 0.22)),
+                      ListTile(
+                          title: Text(localizations.appBlacklist),
+                          trailing: const Icon(Icons.arrow_right),
+                          onTap: () => navigator(context, AppBlacklist(proxyServer: proxyServer)))
+                    ])
+            ], margin: EdgeInsets.zero)));
   }
 }

@@ -14,6 +14,8 @@
  * limitations under the License.
  */
 
+import 'dart:ui' show ImageFilter;
+
 import 'package:flutter/material.dart';
 import 'package:proxypin/l10n/app_localizations.dart';
 import 'package:proxypin/network/bin/server.dart';
@@ -88,23 +90,37 @@ class RequestListState extends State<RequestListWidget> {
         child: Scaffold(
           appBar: AppBar(
             toolbarHeight: 0,
-            backgroundColor: Colors.white,
+            backgroundColor: Colors.transparent,
             foregroundColor: Colors.black87,
             elevation: 0,
             scrolledUnderElevation: 0,
             automaticallyImplyLeading: false,
-            bottom: TabBar(
-              tabs: tabs,
-              onTap: (index) => tabClickHandles[index].call(),
-              labelColor: const Color(0xFFFF9E05),
-              unselectedLabelColor: const Color(0xFF666666),
-              labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-              unselectedLabelStyle: const TextStyle(fontSize: 16),
-              indicatorColor: const Color(0xFFFF9E05),
-              indicatorWeight: 2,
-              indicatorSize: TabBarIndicatorSize.label,
-              dividerColor: const Color(0xFFEEEEEE),
-              dividerHeight: 1,
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(48),
+              child: ClipRRect(
+                borderRadius: const BorderRadius.vertical(bottom: Radius.circular(20)),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
+                  child: Container(
+                    color: Theme.of(context).brightness == Brightness.dark
+                        ? Colors.black.withValues(alpha: 0.35)
+                        : Colors.white.withValues(alpha: 0.45),
+                    child: TabBar(
+                      tabs: tabs,
+                      onTap: (index) => tabClickHandles[index].call(),
+                      labelColor: const Color(0xFFFF9E05),
+                      unselectedLabelColor: const Color(0xFF666666),
+                      labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
+                      unselectedLabelStyle: const TextStyle(fontSize: 16),
+                      indicatorColor: const Color(0xFFFF9E05),
+                      indicatorWeight: 2,
+                      indicatorSize: TabBarIndicatorSize.label,
+                      dividerColor: Colors.transparent,
+                      dividerHeight: 0,
+                    ),
+                  ),
+                ),
+              ),
             ),
           ),
           body: TabBarView(
