@@ -120,14 +120,17 @@ class _DomainFilterState extends State<DomainFilter> {
         ValueListenableBuilder(
             valueListenable: widget.hostEnableNotifier,
             builder: (_, bool enable, __) {
-              return SwitchListTile(
-                  title: Text(localizations.enable),
-                  value: widget.hostList.enabled,
-                  onChanged: (value) {
-                    widget.hostList.enabled = value;
-                    changed = true;
-                    widget.hostEnableNotifier.value = !widget.hostEnableNotifier.value;
-                  });
+              return ShadTile(
+                titleWidget: Text(localizations.enable),
+                showDivider: false,
+                trailing: ShadSwitch(
+                    value: widget.hostList.enabled,
+                    onChanged: (value) {
+                      widget.hostList.enabled = value;
+                      changed = true;
+                      widget.hostEnableNotifier.value = !widget.hostEnableNotifier.value;
+                    }),
+              );
             }),
         Row(mainAxisAlignment: MainAxisAlignment.end, children: [
           ShadButton.ghost(

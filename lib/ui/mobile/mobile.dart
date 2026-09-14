@@ -620,7 +620,7 @@ class _MobileAppBarState extends State<_MobileAppBar> {
                       MobileApp.requestStateKey.currentState?.search(val);
                       Navigator.of(context).pop();
                     }),
-                leading: IconButton(
+                leading: ShadIconButton.ghost(
                   icon: const Icon(Icons.arrow_back),
                   onPressed: () => Navigator.of(context).pop(),
                 ),

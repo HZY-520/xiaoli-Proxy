@@ -101,17 +101,19 @@ class _MobileSslState extends State<MobileSslWidget> {
                 : CertStatusCard(installed: _installed, trusted: _trusted, proxyServer: widget.proxyServer),
           // SSL toggle and install
           section([
-            SwitchListTile(
-                hoverColor: Colors.transparent,
-                title: Text(localizations.enabledHttps),
-                value: widget.proxyServer.enableSsl,
-                onChanged: (val) {
-                  widget.proxyServer.enableSsl = val;
-                  CertificateManager.cleanCache();
-                  setState(() {
-                    widget.proxyServer.configuration.flushConfig();
-                  });
-                }),
+            ShadTile(
+              titleWidget: Text(localizations.enabledHttps),
+              showDivider: false,
+              trailing: ShadSwitch(
+                  value: widget.proxyServer.enableSsl,
+                  onChanged: (val) {
+                    widget.proxyServer.enableSsl = val;
+                    CertificateManager.cleanCache();
+                    setState(() {
+                      widget.proxyServer.configuration.flushConfig();
+                    });
+                  }),
+            ),
             Divider(height: 0, thickness: 0.3, color: dividerColor),
             ShadTile(
               titleWidget: Text(localizations.installRootCa),
@@ -675,9 +677,12 @@ class _IosCaInstallState extends State<IosCaInstall> {
     final isCN = Localizations.localeOf(context) == const Locale.fromSubtags(languageCode: 'zh');
 
     return Scaffold(
-      appBar: ShadHeader(
-          title: localizations.installRootCa,
-          actions: [IconButton(onPressed: _refreshStatus, icon: const Icon(Icons.refresh))]),
+      appBar: ShadHeader(title: localizations.installRootCa, actions: [
+        ShadIconButton.ghost(
+          onPressed: _refreshStatus,
+          icon: const Icon(Icons.refresh),
+        )
+      ]),
       body: loading
           ? const Center(child: CircularProgressIndicator())
           : ListView(padding: const EdgeInsets.all(12), children: [

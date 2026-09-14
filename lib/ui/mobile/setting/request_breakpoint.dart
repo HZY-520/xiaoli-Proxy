@@ -80,15 +80,15 @@ class _RequestBreakpointPageState extends State<MobileRequestBreakpointPage> {
                     const SizedBox(width: 10),
                     Expanded(
                         child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                      IconButton(
-                          icon: Icon(Icons.add, size: 22, color: Theme.of(context).colorScheme.primary),
-                          onPressed: _editRule,
-                          tooltip: localizations.add),
+                      ShadIconButton.ghost(
+                        icon: Icon(Icons.add, size: 22, color: Theme.of(context).colorScheme.primary),
+                        onPressed: _editRule,
+                      ),
                       const SizedBox(width: 5),
-                      IconButton(
-                          icon: Icon(Icons.input_rounded, size: 22, color: Theme.of(context).colorScheme.primary),
-                          onPressed: _import,
-                          tooltip: localizations.import),
+                      ShadIconButton.ghost(
+                        icon: Icon(Icons.input_rounded, size: 22, color: Theme.of(context).colorScheme.primary),
+                        onPressed: _import,
+                      ),
                     ])),
                     const SizedBox(width: 15)
                   ]),
@@ -487,14 +487,18 @@ class _MobileBreakpointRuleEditorState extends State<MobileBreakpointRuleEditor>
                             child: MethodPopupMenu(value: _method, onChanged: (val) => setState(() => _method = val)))),
                   ),
                   const SizedBox(height: 15),
-                  SwitchListTile(
-                      title: Text(localizations.request),
-                      value: _interceptRequest,
-                      onChanged: (val) => setState(() => _interceptRequest = val)),
-                  SwitchListTile(
-                      title: Text(localizations.response),
-                      value: _interceptResponse,
-                      onChanged: (val) => setState(() => _interceptResponse = val)),
+                  ShadTile(
+                    titleWidget: Text(localizations.request),
+                    showDivider: false,
+                    trailing: ShadSwitch(
+                        value: _interceptRequest, onChanged: (val) => setState(() => _interceptRequest = val)),
+                  ),
+                  ShadTile(
+                    titleWidget: Text(localizations.response),
+                    showDivider: false,
+                    trailing: ShadSwitch(
+                        value: _interceptResponse, onChanged: (val) => setState(() => _interceptResponse = val)),
+                  ),
                 ]))));
   }
 }

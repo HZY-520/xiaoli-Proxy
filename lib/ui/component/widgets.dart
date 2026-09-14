@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:lico_proxy/utils/lang.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class CustomPopupMenuItem<T> extends PopupMenuItem<T> {
   final Color? color;
@@ -124,12 +125,27 @@ class BottomSheetItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-          onPressed?.call();
-        },
-        child: SizedBox(width: double.infinity, child: Text(text, textAlign: TextAlign.center)));
+    // 移动端统一使用 shadcn 菜单项观感；其余端沿用原有 Material 样式。
+    final scheme = ShadTheme.of(context).colorScheme;
+    return InkWell(
+      onTap: () {
+        Navigator.of(context).pop();
+        onPressed?.call();
+      },
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        child: Row(
+          children: [
+            Expanded(
+              child: Text(
+                text,
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: scheme.foreground),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }
 

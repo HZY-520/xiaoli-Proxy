@@ -96,13 +96,11 @@ class _ReportServersPageMobileState extends State<ReportServersPageMobile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: ShadHeader(title: localizations.reportServers, actions: [
-        IconButton(
-          tooltip: localizations.useGuide,
+        ShadIconButton.ghost(
           onPressed: _openGuide,
           icon: const Icon(Icons.help_outline, size: 22),
         ),
-        IconButton(
-          tooltip: localizations.add,
+        ShadIconButton.ghost(
           onPressed: _addServer,
           icon: const Icon(Icons.add, size: 26),
         ),
@@ -133,10 +131,12 @@ class _ReportServersPageMobileState extends State<ReportServersPageMobile> {
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [
-                          // IconButton(
-                          //     onPressed: () => _editServer(idx), icon: const Icon(Icons.edit_outlined, size: 23)),
-                          IconButton(
-                              onPressed: () => _confirmDelete(idx), icon: const Icon(Icons.delete_outline, size: 23)),
+                          // 编辑按钮（暂隐藏）
+                          // ShadIconButton.ghost(
+                          //     onPressed: () => _editServer(idx),
+                          //     icon: const Icon(LucideIcons.pencil, size: 23)),
+                          ShadIconButton.ghost(
+                              onPressed: () => _confirmDelete(idx), icon: const Icon(LucideIcons.trash2, size: 23)),
                         ],
                       ),
                       onTap: () => _editServer(idx),

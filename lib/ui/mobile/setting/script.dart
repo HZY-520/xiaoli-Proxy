@@ -236,24 +236,24 @@ class _ScriptConsoleLogState extends State<ScriptConsoleLog> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: ShadHeader(title: localizations.logger, actions: [
-          IconButton(
-              tooltip: localizations.windowMode,
-              onPressed: () {
-                if (floatingWindowManager.isShow) {
-                  floatingWindowManager.hide();
-                  return;
-                }
-                floatingWindowManager.show(context,
-                    widget: ScriptLogSmallWindow(floatingWindowManager: floatingWindowManager));
-              },
-              icon: const Icon(Icons.picture_in_picture_alt_rounded)),
+          ShadIconButton.ghost(
+            onPressed: () {
+              if (floatingWindowManager.isShow) {
+                floatingWindowManager.hide();
+                return;
+              }
+              floatingWindowManager.show(context,
+                  widget: ScriptLogSmallWindow(floatingWindowManager: floatingWindowManager));
+            },
+            icon: const Icon(Icons.picture_in_picture_alt_rounded),
+          ),
           const SizedBox(width: 5),
-          IconButton(
-              tooltip: localizations.clear,
-              onPressed: () => setState(() {
-                    logs.clear();
-                  }),
-              icon: const Icon(Icons.delete)),
+          ShadIconButton.ghost(
+            onPressed: () => setState(() {
+              logs.clear();
+            }),
+            icon: const Icon(Icons.delete),
+          ),
           const SizedBox(width: 10)
         ]),
         body: Container(
@@ -352,18 +352,20 @@ class _ScriptLogSmallWindowState extends State<ScriptLogSmallWindow> {
                     Positioned(
                         top: -12,
                         left: -5,
-                        child: IconButton(
-                            onPressed: () {
-                              Navigator.of(context)
-                                  .push(MaterialPageRoute(builder: (context) => const ScriptConsoleLog()));
-                            },
-                            icon: const Icon(Icons.picture_in_picture, size: 20))),
+                        child: ShadIconButton.ghost(
+                          onPressed: () {
+                            Navigator.of(context)
+                                .push(MaterialPageRoute(builder: (context) => const ScriptConsoleLog()));
+                          },
+                          icon: const Icon(Icons.picture_in_picture, size: 20),
+                        )),
                     Positioned(
                         top: -12,
                         right: -8,
-                        child: IconButton(
-                            onPressed: () => widget.floatingWindowManager.hide(),
-                            icon: const Icon(Icons.close, size: 20))),
+                        child: ShadIconButton.ghost(
+                          onPressed: () => widget.floatingWindowManager.hide(),
+                          icon: const Icon(Icons.close, size: 20),
+                        )),
                     list()
                   ],
                 ))));
@@ -564,10 +566,10 @@ class _ScriptEditState extends State<ScriptEdit> {
                         Row(children: [
                           const Text("URL(s):"),
                           const SizedBox(width: 8),
-                          IconButton(
-                              icon: const Icon(Icons.add_outlined, size: 20),
-                              tooltip: localizations.add,
-                              onPressed: () => setState(() => urlControllers.add(TextEditingController()))),
+                          ShadIconButton.ghost(
+                            icon: const Icon(Icons.add_outlined, size: 20),
+                            onPressed: () => setState(() => urlControllers.add(TextEditingController())),
+                          ),
                           const Spacer(),
                           Text("${urlControllers.length}", style: const TextStyle(fontSize: 12, color: Colors.grey))
                         ]),
@@ -593,15 +595,15 @@ class _ScriptEditState extends State<ScriptEdit> {
                                     ),
                                   )),
                                   if (urlControllers.length > 1)
-                                    IconButton(
-                                        icon: const Icon(Icons.remove_circle_outline, color: Colors.red),
-                                        tooltip: localizations.delete,
-                                        onPressed: () {
-                                          setState(() {
-                                            urlControllers[i].dispose();
-                                            urlControllers.removeAt(i);
-                                          });
-                                        }),
+                                    ShadIconButton.ghost(
+                                      icon: const Icon(Icons.remove_circle_outline, color: Colors.red),
+                                      onPressed: () {
+                                        setState(() {
+                                          urlControllers[i].dispose();
+                                          urlControllers.removeAt(i);
+                                        });
+                                      },
+                                    ),
                                 ])))
                       ])),
                 ),
@@ -706,27 +708,30 @@ class _ScriptEditState extends State<ScriptEdit> {
                           const Spacer(),
                           Tooltip(
                               message: localizations.copy,
-                              child: IconButton(
-                                  icon: const Icon(Icons.copy_all_outlined, size: 20),
-                                  onPressed: () {
-                                    Clipboard.setData(ClipboardData(text: script.text));
-                                    FlutterToastr.show(localizations.copied, context, position: FlutterToastr.top);
-                                  })),
+                              child: ShadIconButton.ghost(
+                                icon: const Icon(Icons.copy_all_outlined, size: 20),
+                                onPressed: () {
+                                  Clipboard.setData(ClipboardData(text: script.text));
+                                  FlutterToastr.show(localizations.copied, context, position: FlutterToastr.top);
+                                },
+                              )),
                           Tooltip(
                               message: 'Reset',
-                              child: IconButton(
-                                  icon: const Icon(Icons.settings_backup_restore, size: 22),
-                                  onPressed: _useRemote ? null : _resetScript)),
+                              child: ShadIconButton.ghost(
+                                icon: const Icon(Icons.settings_backup_restore, size: 22),
+                                onPressed: _useRemote ? null : _resetScript,
+                              )),
                           Tooltip(
                               message: localizations.clear,
-                              child: IconButton(
-                                  icon: const Icon(Icons.delete_sweep_outlined, size: 22),
-                                  onPressed: _useRemote
-                                      ? null
-                                      : () {
-                                          script.text = '';
-                                          setState(() {});
-                                        }))
+                              child: ShadIconButton.ghost(
+                                icon: const Icon(Icons.delete_sweep_outlined, size: 22),
+                                onPressed: _useRemote
+                                    ? null
+                                    : () {
+                                        script.text = '';
+                                        setState(() {});
+                                      },
+                              ))
                         ]),
                         ClipRRect(
                           borderRadius: BorderRadius.circular(6),

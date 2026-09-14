@@ -180,8 +180,7 @@ class _MobileEnvironmentPageState extends State<MobileEnvironmentPage> {
       behavior: HitTestBehavior.opaque,
       child: Scaffold(
         appBar: ShadHeader(title: localizations.environmentVariables, actions: [
-          IconButton(
-            tooltip: localizations.useGuide,
+          ShadIconButton.ghost(
             onPressed: _openGuide,
             icon: const Icon(Icons.help_outline, size: 20),
           ),
@@ -243,11 +242,15 @@ class _MobileEnvironmentPageState extends State<MobileEnvironmentPage> {
                         for (final e in _draftNamed) _envChip(e),
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                          child: ActionChip(
-                            avatar: const Icon(Icons.add, size: 16),
-                            label: Text(_join(localizations.add, localizations.environment),
-                                style: const TextStyle(fontSize: 12)),
+                          child: ShadBadge.outline(
+                            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                             onPressed: _addEnvironment,
+                            child: Row(mainAxisSize: MainAxisSize.min, children: [
+                              const Icon(LucideIcons.plus, size: 13),
+                              const SizedBox(width: 5),
+                              Text(_join(localizations.add, localizations.environment),
+                                  style: const TextStyle(fontSize: 12)),
+                            ]),
                           ),
                         ),
                       ],
@@ -263,17 +266,22 @@ class _MobileEnvironmentPageState extends State<MobileEnvironmentPage> {
 
   Widget _envChip(Environment env) {
     final sel = env.id == currentId;
+    final scheme = ShadTheme.of(context).colorScheme;
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
       child: GestureDetector(
         onLongPress: env.isGlobal ? null : () => _showEnvMenu(env),
-        child: ChoiceChip(
-          avatar: Icon(env.isGlobal ? Icons.public : Icons.folder_outlined,
-              size: 14, color: sel ? Theme.of(context).colorScheme.primary : Colors.grey),
-          label: Text(env.isGlobal ? localizations.envGlobal : env.name, style: const TextStyle(fontSize: 12)),
-          selected: sel,
-          showCheckmark: false,
-          onSelected: (_) => setState(() => currentId = env.id),
+        child: ShadBadge(
+          backgroundColor: sel ? scheme.primary : scheme.muted,
+          foregroundColor: sel ? scheme.primaryForeground : scheme.mutedForeground,
+          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+          onPressed: () => setState(() => currentId = env.id),
+          child: Row(mainAxisSize: MainAxisSize.min, children: [
+            Icon(env.isGlobal ? LucideIcons.globe : LucideIcons.folder,
+                size: 13, color: sel ? scheme.primaryForeground : scheme.mutedForeground),
+            const SizedBox(width: 5),
+            Text(env.isGlobal ? localizations.envGlobal : env.name, style: const TextStyle(fontSize: 12)),
+          ]),
         ),
       ),
     );
@@ -412,7 +420,7 @@ class _VarRowState extends State<_VarRow> {
         ShadCheckbox(
           value: widget.v.enabled,
           onChanged: (v) => setState(() {
-            widget.v.enabled = v ?? false;
+            widget.v.enabled = v;
             widget.onChanged();
           }),
         ),
@@ -451,7 +459,7 @@ class _VarRowState extends State<_VarRow> {
             },
           ),
         ),
-        IconButton(
+        ShadIconButton.ghost(
           onPressed: widget.onDelete,
           icon: Icon(Icons.delete_outline, size: 18, color: Colors.grey.shade500),
         ),

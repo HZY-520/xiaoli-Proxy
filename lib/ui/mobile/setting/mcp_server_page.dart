@@ -321,12 +321,9 @@ class _McpServerPageState extends State<McpServerPage> {
                   Positioned(
                     top: 0,
                     right: 0,
-                    child: IconButton(
+                    child: ShadIconButton.ghost(
                       icon: const Icon(Icons.copy, size: 16),
                       onPressed: () => _copyToClipboard(configJson),
-                      tooltip: '复制',
-                      padding: EdgeInsets.zero,
-                      constraints: const BoxConstraints(minWidth: 24, minHeight: 24),
                     ),
                   ),
                 ],
@@ -360,12 +357,9 @@ class _McpServerPageState extends State<McpServerPage> {
           ),
         ),
         const SizedBox(width: 4),
-        IconButton(
+        ShadIconButton.ghost(
           icon: const Icon(Icons.copy, size: 14),
           onPressed: () => _copyToClipboard(value),
-          tooltip: '复制',
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(minWidth: 28, minHeight: 28),
         ),
       ],
     );

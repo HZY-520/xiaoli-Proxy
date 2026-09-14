@@ -193,9 +193,11 @@ class RewriteReplaceState extends State<MobileRewriteReplace> {
                     }))),
         Expanded(
             child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-          IconButton(icon: Icon(Icons.search, size: 20), onPressed: () => findController.toggleActive()),
-          IconButton(
-            tooltip: 'JSON Format',
+          ShadIconButton.ghost(
+            icon: Icon(Icons.search, size: 20),
+            onPressed: () => findController.toggleActive(),
+          ),
+          ShadIconButton.ghost(
             icon:
                 Icon(Icons.data_object, size: 20, color: jsonFormatted ? Theme.of(context).colorScheme.primary : null),
             onPressed: () {

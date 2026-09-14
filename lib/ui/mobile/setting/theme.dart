@@ -38,14 +38,15 @@ class MobileThemeSetting extends StatelessWidget {
                 child: Tooltip(
                     preferBelow: false,
                     message: localizations.material3,
-                    child: SwitchListTile(
-                      value: appConfiguration.useMaterial3,
-                      onChanged: (bool value) {
-                        appConfiguration.useMaterial3 = value;
-                        Navigator.of(context).pop();
-                      },
-                      dense: true,
-                      title: const Text("Material3"),
+                    child: ShadTile(
+                      titleWidget: const Text("Material3"),
+                      showDivider: false,
+                      trailing: ShadSwitch(
+                          value: appConfiguration.useMaterial3,
+                          onChanged: (bool value) {
+                            appConfiguration.useMaterial3 = value;
+                            Navigator.of(context).pop();
+                          }),
                     ))),
             PopupMenuItem(
                 child: ShadTile(

@@ -222,16 +222,17 @@ class _CustomRepeatState extends State<MobileCustomRepeat> {
                 height: 35,
                 child: Transform.scale(
                     scale: 0.82,
-                    child: CheckboxListTile(
-                        contentPadding: EdgeInsets.zero,
-                        title: Text("${localizations.fixed}:"),
-                        value: fixed,
-                        dense: true,
-                        onChanged: (val) {
-                          setState(() {
-                            fixed = true;
-                          });
-                        }))),
+                    child: ShadTile(
+                      titleWidget: Text("${localizations.fixed}:"),
+                      showDivider: false,
+                      trailing: ShadCheckbox(
+                          value: fixed,
+                          onChanged: (val) {
+                            setState(() {
+                              fixed = true;
+                            });
+                          }),
+                    ))),
             Expanded(child: textField(interval, style: const TextStyle(fontSize: 13))),
           ]),
           const SizedBox(height: 5),
@@ -240,16 +241,17 @@ class _CustomRepeatState extends State<MobileCustomRepeat> {
                 width: 112,
                 child: Transform.scale(
                     scale: 0.82,
-                    child: CheckboxListTile(
-                        contentPadding: EdgeInsets.zero,
-                        title: Text("${localizations.random}:"),
-                        value: !fixed,
-                        dense: true,
-                        onChanged: (val) {
-                          setState(() {
-                            fixed = false;
-                          });
-                        }))),
+                    child: ShadTile(
+                      titleWidget: Text("${localizations.random}:"),
+                      showDivider: false,
+                      trailing: ShadCheckbox(
+                          value: !fixed,
+                          onChanged: (val) {
+                            setState(() {
+                              fixed = false;
+                            });
+                          }),
+                    ))),
             Flexible(child: textField(minInterval, style: const TextStyle(fontSize: 13))),
             const Padding(padding: EdgeInsets.symmetric(horizontal: 5), child: Text("-")),
             Flexible(child: textField(maxInterval, style: const TextStyle(fontSize: 13))),

@@ -86,7 +86,7 @@ class _AppWhitelistState extends State<AppWhitelist> {
 
     return Scaffold(
         appBar: ShadHeader(title: localizations.appWhitelist, actions: [
-          IconButton(
+          ShadIconButton.ghost(
             icon: const Icon(Icons.add),
             onPressed: () async {
               final packageName = await Navigator.of(context).push(MaterialPageRoute(
@@ -105,8 +105,7 @@ class _AppWhitelistState extends State<AppWhitelist> {
               }
             },
           ),
-          IconButton(
-            tooltip: isCN ? '清除失效应用' : 'clear invalid apps',
+          ShadIconButton.ghost(
             onPressed: () {
               if (configuration.appWhitelist.isEmpty) return;
               setState(() {
@@ -157,7 +156,7 @@ class _AppWhitelistState extends State<AppWhitelist> {
                                   appInfo.icon == null ? const Icon(Icons.question_mark) : Image.memory(appInfo.icon!),
                               titleWidget: Text(appInfo.name ?? ""),
                               subtitleWidget: Text(appInfo.packageName ?? ""),
-                              trailing: IconButton(
+                              trailing: ShadIconButton.ghost(
                                 icon: const Icon(Icons.delete),
                                 onPressed: () {
                                   setState(() {
@@ -232,7 +231,7 @@ class _AppBlacklistState extends State<AppBlacklist> {
 
     return Scaffold(
       appBar: ShadHeader(title: localizations.appBlacklist, actions: [
-        IconButton(
+        ShadIconButton.ghost(
           icon: const Icon(Icons.add),
           onPressed: () async {
             final packageName = await Navigator.of(context).push(MaterialPageRoute(
@@ -252,8 +251,7 @@ class _AppBlacklistState extends State<AppBlacklist> {
             }
           },
         ),
-        IconButton(
-          tooltip: isCN ? '清除失效应用' : 'clear invalid apps',
+        ShadIconButton.ghost(
           onPressed: () {
             if (configuration.appBlacklist?.isEmpty == true) return;
             setState(() {
@@ -286,7 +284,7 @@ class _AppBlacklistState extends State<AppBlacklist> {
                       leading: appInfo.icon == null ? const Icon(Icons.question_mark) : Image.memory(appInfo.icon!),
                       titleWidget: Text(appInfo.name ?? ""),
                       subtitleWidget: Text(appInfo.packageName ?? ""),
-                      trailing: IconButton(
+                      trailing: ShadIconButton.ghost(
                         icon: const Icon(Icons.delete),
                         onPressed: () {
                           setState(() {
@@ -364,10 +362,8 @@ class _InstalledAppsWidgetState extends State<InstalledAppsWidget> {
             hintText: isCN ? "请输入应用名或包名" : "Please enter the application or package name",
             border: InputBorder.none,
             hintStyle: TextStyle(color: Colors.grey.shade500),
-            suffixIcon: IconButton(
-              color: includeSystemApps ? Theme.of(context).colorScheme.primary : null,
+            suffixIcon: ShadIconButton.ghost(
               icon: const Icon(Icons.visibility_outlined),
-              tooltip: isCN ? "显示系统应用" : "Show system apps",
               onPressed: () {
                 setState(() {
                   includeSystemApps = !includeSystemApps;

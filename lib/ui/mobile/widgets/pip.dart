@@ -25,6 +25,7 @@ import 'package:lico_proxy/ui/configuration.dart';
 import 'package:lico_proxy/utils/ip.dart';
 import 'package:lico_proxy/utils/lang.dart';
 import 'package:lico_proxy/utils/listenable_list.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 /// Picture in Picture Window
 class PictureInPictureWindow extends StatefulWidget {
@@ -139,21 +140,21 @@ class _PictureInPictureState extends State<PictureInPictureIcon> {
               yPosition = (yPosition + tapInfo.delta.dy).clamp(_top, _bottom);
             });
           },
-          child: IconButton(
-              tooltip: localizations.windowMode,
-              onPressed: () async {
-                var configuration = widget.proxyServer.configuration;
-                List<String>? appList = configuration.appWhitelistEnabled ? configuration.appWhitelist : [];
-                List<String>? disallowApps;
-                if (appList.isEmpty) {
-                  disallowApps = configuration.appBlacklist ?? [];
-                }
+          child: ShadIconButton.ghost(
+            onPressed: () async {
+              var configuration = widget.proxyServer.configuration;
+              List<String>? appList = configuration.appWhitelistEnabled ? configuration.appWhitelist : [];
+              List<String>? disallowApps;
+              if (appList.isEmpty) {
+                disallowApps = configuration.appBlacklist ?? [];
+              }
 
-                PictureInPicture.enterPictureInPictureMode(
-                    Platform.isAndroid ? await localIp() : "127.0.0.1", widget.proxyServer.port,
-                    appList: appList, disallowApps: disallowApps);
-              },
-              icon: Image.asset('assets/icon/pip_bubble.png', width: 24, height: 24))),
+              PictureInPicture.enterPictureInPictureMode(
+                  Platform.isAndroid ? await localIp() : "127.0.0.1", widget.proxyServer.port,
+                  appList: appList, disallowApps: disallowApps);
+            },
+            icon: Image.asset('assets/icon/pip_bubble.png', width: 24, height: 24),
+          )),
     );
   }
 }

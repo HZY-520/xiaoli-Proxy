@@ -513,12 +513,10 @@ class _MobileCryptoRuleEditPageState extends State<MobileCryptoRuleEditPage> {
                       decoration: _decorate(l10n.cryptoRuleField, hint: isCN ? '为空=整个 body' : 'empty = whole body'),
                     ),
                     const SizedBox(height: 6),
-                    SwitchListTile(
-                      dense: true,
-                      contentPadding: EdgeInsets.zero,
-                      title: Text(l10n.enable),
-                      value: enabled,
-                      onChanged: (v) => setState(() => enabled = v),
+                    ShadTile(
+                      titleWidget: Text(l10n.enable),
+                      showDivider: false,
+                      trailing: ShadSwitch(value: enabled, onChanged: (v) => setState(() => enabled = v)),
                     ),
                   ],
                 ),
@@ -694,16 +692,12 @@ class _MobileCryptoRuleEditPageState extends State<MobileCryptoRuleEditPage> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          IconButton(
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints.tightFor(width: 28, height: 28),
+          ShadIconButton.ghost(
             icon: const Icon(Icons.remove, size: 16),
             onPressed: () => setState(() => ivPrefixLength = math.max(1, ivPrefixLength - 1)),
           ),
           Text(ivPrefixLength.toString()),
-          IconButton(
-            padding: EdgeInsets.zero,
-            constraints: const BoxConstraints.tightFor(width: 28, height: 28),
+          ShadIconButton.ghost(
             icon: const Icon(Icons.add, size: 16),
             onPressed: () => setState(() => ivPrefixLength = math.min(1024, ivPrefixLength + 1)),
           ),

@@ -634,24 +634,15 @@ class _HttpState extends State<_HttpWidget> with SingleTickerProviderStateMixin,
             ),
           ),
           const Spacer(),
-          IconButton(
-            tooltip: localizations.wordWrap,
-            iconSize: 18,
-            visualDensity: VisualDensity.compact,
+          ShadIconButton.ghost(
             icon: Icon(Icons.wrap_text, color: _bodyWrap ? color : null),
             onPressed: _bodyLanguage == _BodyLanguage.none ? null : () => setState(() => _bodyWrap = !_bodyWrap),
           ),
-          IconButton(
-            tooltip: localizations.format,
-            iconSize: 18,
-            visualDensity: VisualDensity.compact,
+          ShadIconButton.ghost(
             icon: const Icon(Icons.auto_fix_high),
             onPressed: _bodyLanguage == _BodyLanguage.none ? null : _beautifyBody,
           ),
-          IconButton(
-            tooltip: localizations.copy,
-            iconSize: 18,
-            visualDensity: VisualDensity.compact,
+          ShadIconButton.ghost(
             icon: const Icon(Icons.copy),
             onPressed: _bodyLanguage == _BodyLanguage.none
                 ? null

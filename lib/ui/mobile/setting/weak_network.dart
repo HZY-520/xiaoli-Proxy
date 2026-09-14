@@ -100,9 +100,8 @@ class _MobileWeakNetworkState extends State<MobileWeakNetwork> {
     return Scaffold(
       appBar: ShadHeader(title: l10n.weakNetwork, actions: [
         // 预设管理入口
-        IconButton(
+        ShadIconButton.ghost(
           icon: const Icon(Icons.tune_rounded),
-          tooltip: '${l10n.edit} ${l10n.weakNetworkPreset}',
           onPressed: _manageProfiles,
         ),
         // 全局弱网开关
@@ -190,7 +189,7 @@ class _MobileWeakNetworkState extends State<MobileWeakNetwork> {
                       ],
                     ),
                   ),
-                  IconButton(
+                  ShadIconButton.ghost(
                     icon: Icon(Icons.delete_outline, size: 20, color: theme.colorScheme.error.withValues(alpha: 0.8)),
                     onPressed: () => _confirmDeleteRule(index),
                   ),
@@ -695,7 +694,7 @@ class _MobileManageProfilesPageState extends State<_MobileManageProfilesPage> {
                     trailing: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        IconButton(
+                        ShadIconButton.ghost(
                           icon: const Icon(Icons.edit_outlined, size: 18),
                           onPressed: () async {
                             final saved = await Navigator.of(context).push<NetworkConditionProfile>(
@@ -707,7 +706,7 @@ class _MobileManageProfilesPageState extends State<_MobileManageProfilesPage> {
                             }
                           },
                         ),
-                        IconButton(
+                        ShadIconButton.ghost(
                           icon: Icon(Icons.delete_outline, size: 18, color: theme.colorScheme.error),
                           onPressed: () {
                             showConfirmDialog(context, content: l10n.confirmContent, onConfirm: () async {

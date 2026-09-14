@@ -85,7 +85,13 @@ class RewriteUpdateState extends State<MobileRewriteUpdate> {
             Expanded(
                 child: Row(
               mainAxisAlignment: MainAxisAlignment.end,
-              children: [IconButton(onPressed: add, icon: const Icon(Icons.add)), const SizedBox(width: 10)],
+              children: [
+                ShadIconButton.ghost(
+                  onPressed: add,
+                  icon: const Icon(Icons.add),
+                ),
+                const SizedBox(width: 10)
+              ],
             ))
           ],
         ),
@@ -268,8 +274,7 @@ class _RewriteUpdateAddState extends State<RewriteUpdateEdit> {
                     ? SizedBox()
                     : Text(i18n.noChangesDetected, style: TextStyle(color: Colors.red, fontSize: 14))),
                 Expanded(child: SizedBox()),
-                IconButton(
-                  tooltip: 'JSON Format',
+                ShadIconButton.ghost(
                   icon: Icon(Icons.data_object,
                       size: 20, color: jsonFormatted ? Theme.of(context).colorScheme.primary : null),
                   onPressed: () {
