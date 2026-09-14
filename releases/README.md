@@ -8,7 +8,7 @@
 | 应用名 | 小离Proxy |
 | 包名 | `com.lico.proxy` |
 | 版本 | `1.0.0`（versionCode 1） |
-| 大小 | 约 19 MB |
+| 大小 | 约 44 MB |
 | 支持 ABI | `arm64-v8a`、`armeabi-v7a`、`x86_64` |
 | minSdk / targetSdk | 24 / 36 |
 | 签名 | 正式签名（CN=Lico） |
@@ -16,7 +16,7 @@
 SHA-256：
 
 ```
-04fd500c7e33db6c182e5cb7c4325c907798da0952667f4cb6550949317aefc7
+3ff83a7af7b3c1c1992caf9ee95188fc5cf6dca2b6aa3d802c41255e49e1eb69
 ```
 
 ### 主要变更

@@ -1057,7 +1057,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get appUpdateDialogTitle => '有可用更新';
 
   @override
-  String get appUpdateUpdateMsg => 'ProxyPin 的新版本现已推出。您想现在更新吗？';
+  String get appUpdateUpdateMsg => '小离Proxy 的新版本现已推出。您想现在更新吗？';
 
   @override
   String get appUpdateCurrentVersionLbl => '当前版本';
@@ -2213,7 +2213,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get appUpdateDialogTitle => '有可用更新';
 
   @override
-  String get appUpdateUpdateMsg => 'ProxyPin 有新版本，現在更新嗎？';
+  String get appUpdateUpdateMsg => '小離Proxy 有新版本，現在更新嗎？';
 
   @override
   String get appUpdateCurrentVersionLbl => '目前版本';

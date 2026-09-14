@@ -1,11 +1,11 @@
 import 'dart:io';
 
 abstract class Constants {
-  static const githubUrl = "https://github.com/wanghongenpin/proxypin";
+  static const githubUrl = "https://github.com/HZY-520/xiaoli-Proxy";
   static const githubReleasesApiUrl =
-      "https://api.github.com/repos/wanghongenpin/proxypin/releases";
+      "https://api.github.com/repos/HZY-520/xiaoli-Proxy/releases";
   static const githubLatestReleaseUrl =
-      "https://github.com/wanghongenpin/proxypin/releases/latest";
+      "https://github.com/HZY-520/xiaoli-Proxy/releases/latest";
 
   static const String ignoreReleaseVersionKey = "ignored_release_version";
 
