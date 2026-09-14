@@ -6,6 +6,7 @@ import 'package:lico_proxy/l10n/app_localizations.dart';
 import 'package:lico_proxy/network/bin/configuration.dart';
 import 'package:lico_proxy/network/channel/host_port.dart';
 import 'package:lico_proxy/ui/component/widgets.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 class ExternalProxyDialog extends StatefulWidget {
   final Configuration configuration;
@@ -37,124 +38,124 @@ class _ExternalProxyDialogState extends State<ExternalProxyDialog> {
   Widget build(BuildContext context) {
     bool isCN = Localizations.localeOf(context) == const Locale.fromSubtags(languageCode: 'zh');
 
-    return AlertDialog(
-        scrollable: true,
-        title: Text(localizations.externalProxy, style: const TextStyle(fontSize: 15)),
-        actions: [
-          TextButton(onPressed: () => Navigator.of(context).pop(), child: Text(localizations.cancel)),
-          TextButton(
-              onPressed: () async {
-                if (!formKey.currentState!.validate()) {
-                  return;
-                }
-                submit();
-              },
-              child: Text(localizations.confirm))
-        ],
-        content: Form(
-            key: formKey,
-            child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
-              const SizedBox(height: 10),
-              Row(children: [
-                Expanded(flex: 2, child: Text("${localizations.enable}：")),
-                Expanded(
-                    child: SwitchWidget(
-                  value: externalProxy.enabled,
-                  scale: 0.85,
-                  onChanged: (val) {
-                    setState(() => externalProxy.enabled = val);
-                  },
-                ))
-              ]),
-              Row(children: [
-                Expanded(flex: 2, child: Text(localizations.mobileDisplayPacketCapture)),
-                Expanded(
-                    child: SwitchWidget(
-                  value: externalProxy.capturePacket,
-                  scale: 0.85,
-                  onChanged: (val) {
-                    setState(() => externalProxy.capturePacket = val);
-                  },
-                ))
-              ]),
-              const SizedBox(height: 3),
-              Text(localizations.externalProxyServer, style: const TextStyle(fontWeight: FontWeight.w500)),
-              const SizedBox(height: 10),
-              SizedBox(
-                  height: 36,
-                  child: Row(children: [
-                    Expanded(
-                        child: TextFormField(
-                      initialValue: externalProxy.host,
-                      validator: (val) => val == null || val.isEmpty ? localizations.cannotBeEmpty : null,
-                      onChanged: (val) => externalProxy.host = val,
-                      decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                        hintText: 'Host',
-                        hintStyle: TextStyle(color: Colors.grey),
-                        border: OutlineInputBorder(),
-                      ),
-                    )),
-                    const SizedBox(child: Text(' : ', style: TextStyle(fontSize: 22))),
-                    SizedBox(
-                        width: 68,
-                        child: TextFormField(
-                          initialValue: externalProxy.port?.toString() ?? '',
-                          keyboardType: TextInputType.datetime,
-                          inputFormatters: <TextInputFormatter>[
-                            LengthLimitingTextInputFormatter(5),
-                            FilteringTextInputFormatter.allow(RegExp("[0-9]"))
-                          ],
-                          onChanged: (val) => externalProxy.port = int.parse(val),
-                          validator: (val) => val == null || val.isEmpty ? localizations.cannotBeEmpty : null,
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                            hintText: 'Port',
-                            hintStyle: TextStyle(color: Colors.grey),
-                            border: OutlineInputBorder(),
-                          ),
-                        ))
-                  ])),
+    return ShadDialog(
+      title: Text(localizations.externalProxy, style: const TextStyle(fontSize: 15)),
+      actions: [
+        TextButton(onPressed: () => Navigator.of(context).pop(), child: Text(localizations.cancel)),
+        TextButton(
+            onPressed: () async {
+              if (!formKey.currentState!.validate()) {
+                return;
+              }
+              submit();
+            },
+            child: Text(localizations.confirm))
+      ],
+      child: Form(
+          key: formKey,
+          child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+            const SizedBox(height: 10),
+            Row(children: [
+              Expanded(flex: 2, child: Text("${localizations.enable}：")),
+              Expanded(
+                  child: SwitchWidget(
+                value: externalProxy.enabled,
+                scale: 0.85,
+                onChanged: (val) {
+                  setState(() => externalProxy.enabled = val);
+                },
+              ))
+            ]),
+            Row(children: [
+              Expanded(flex: 2, child: Text(localizations.mobileDisplayPacketCapture)),
+              Expanded(
+                  child: SwitchWidget(
+                value: externalProxy.capturePacket,
+                scale: 0.85,
+                onChanged: (val) {
+                  setState(() => externalProxy.capturePacket = val);
+                },
+              ))
+            ]),
+            const SizedBox(height: 3),
+            Text(localizations.externalProxyServer, style: const TextStyle(fontWeight: FontWeight.w500)),
+            const SizedBox(height: 10),
+            SizedBox(
+                height: 36,
+                child: Row(children: [
+                  Expanded(
+                      child: TextFormField(
+                    initialValue: externalProxy.host,
+                    validator: (val) => val == null || val.isEmpty ? localizations.cannotBeEmpty : null,
+                    onChanged: (val) => externalProxy.host = val,
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                      hintText: 'Host',
+                      hintStyle: TextStyle(color: Colors.grey),
+                      border: OutlineInputBorder(),
+                    ),
+                  )),
+                  const SizedBox(child: Text(' : ', style: TextStyle(fontSize: 22))),
+                  SizedBox(
+                      width: 68,
+                      child: TextFormField(
+                        initialValue: externalProxy.port?.toString() ?? '',
+                        keyboardType: TextInputType.datetime,
+                        inputFormatters: <TextInputFormatter>[
+                          LengthLimitingTextInputFormatter(5),
+                          FilteringTextInputFormatter.allow(RegExp("[0-9]"))
+                        ],
+                        onChanged: (val) => externalProxy.port = int.parse(val),
+                        validator: (val) => val == null || val.isEmpty ? localizations.cannotBeEmpty : null,
+                        decoration: const InputDecoration(
+                          contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                          hintText: 'Port',
+                          hintStyle: TextStyle(color: Colors.grey),
+                          border: OutlineInputBorder(),
+                        ),
+                      ))
+                ])),
 
-              //认证
-              const SizedBox(height: 15),
-              Text(localizations.externalProxyAuth, style: const TextStyle(fontWeight: FontWeight.w500)),
-              const SizedBox(height: 10),
-              SizedBox(
-                  height: 36,
-                  child: Row(children: [
-                    SizedBox(
-                        width: isCN ? 65 : 85,
-                        child: Text('${localizations.username}：', style: const TextStyle(fontWeight: FontWeight.w300))),
-                    Expanded(
-                        child: TextFormField(
-                      initialValue: externalProxy.username,
-                      onChanged: (val) => externalProxy.username = val,
-                      decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                        border: OutlineInputBorder(),
-                      ),
-                    ))
-                  ])),
-              const SizedBox(height: 10),
+            //认证
+            const SizedBox(height: 15),
+            Text(localizations.externalProxyAuth, style: const TextStyle(fontWeight: FontWeight.w500)),
+            const SizedBox(height: 10),
+            SizedBox(
+                height: 36,
+                child: Row(children: [
+                  SizedBox(
+                      width: isCN ? 65 : 85,
+                      child: Text('${localizations.username}：', style: const TextStyle(fontWeight: FontWeight.w300))),
+                  Expanded(
+                      child: TextFormField(
+                    initialValue: externalProxy.username,
+                    onChanged: (val) => externalProxy.username = val,
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                      border: OutlineInputBorder(),
+                    ),
+                  ))
+                ])),
+            const SizedBox(height: 10),
 
-              SizedBox(
-                  height: 36,
-                  child: Row(children: [
-                    SizedBox(
-                        width: isCN ? 65 : 85,
-                        child: Text('${localizations.password}：', style: const TextStyle(fontWeight: FontWeight.w300))),
-                    Expanded(
-                        child: TextFormField(
-                      initialValue: externalProxy.password,
-                      onChanged: (val) => externalProxy.password = val,
-                      decoration: const InputDecoration(
-                        contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                        border: OutlineInputBorder(),
-                      ),
-                    ))
-                  ])),
-            ])));
+            SizedBox(
+                height: 36,
+                child: Row(children: [
+                  SizedBox(
+                      width: isCN ? 65 : 85,
+                      child: Text('${localizations.password}：', style: const TextStyle(fontWeight: FontWeight.w300))),
+                  Expanded(
+                      child: TextFormField(
+                    initialValue: externalProxy.password,
+                    onChanged: (val) => externalProxy.password = val,
+                    decoration: const InputDecoration(
+                      contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                      border: OutlineInputBorder(),
+                    ),
+                  ))
+                ])),
+          ])),
+    );
   }
 
   submit() async {
@@ -168,9 +169,8 @@ class _ExternalProxyDialogState extends State<ExternalProxyDialog> {
         if (mounted) {
           await showDialog(
               context: context,
-              builder: (_) => AlertDialog(
+              builder: (_) => ShadDialog(
                     title: Text(localizations.externalProxyConnectFailure),
-                    content: Text(localizations.externalProxyFailureConfirm, style: const TextStyle(fontSize: 12)),
                     actions: [
                       TextButton(onPressed: () => Navigator.of(context).pop(), child: Text(localizations.cancel)),
                       TextButton(
@@ -180,6 +180,7 @@ class _ExternalProxyDialogState extends State<ExternalProxyDialog> {
                           },
                           child: Text(localizations.confirm))
                     ],
+                    child: Text(localizations.externalProxyFailureConfirm, style: const TextStyle(fontSize: 12)),
                   ));
         }
       }

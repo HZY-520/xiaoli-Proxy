@@ -17,6 +17,7 @@ import 'package:lico_proxy/ui/mobile/setting/report_servers.dart';
 import 'package:lico_proxy/ui/mobile/setting/ssl.dart';
 import 'package:lico_proxy/ui/mobile/widgets/highlight.dart';
 import 'package:lico_proxy/ui/mobile/widgets/remote_device.dart';
+import '../shad/shad_design.dart';
 
 /// 顶栏「更多」菜单
 class MoreMenu extends StatelessWidget {

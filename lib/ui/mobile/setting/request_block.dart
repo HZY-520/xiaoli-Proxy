@@ -112,42 +112,39 @@ class _RequestBlockState extends State<MobileRequestBlock> {
   showMenus(int index) {
     var list = widget.requestBlockManager.list;
 
-    showModalBottomSheet(
-        shape: RoundedRectangleBorder(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            side: BorderSide(color: ShadTheme.of(context).colorScheme.border.withValues(alpha: 0.6), width: 0.5)),
-        context: context,
-        isScrollControlled: true,
-        enableDrag: true,
-        builder: (ctx) {
-          return Wrap(children: [
-            BottomSheetItem(text: localizations.edit, onPressed: () => showEdit(index)),
-            const Divider(thickness: 0.5, height: 5),
-            BottomSheetItem(
-                text: list[index].enabled ? localizations.disabled : localizations.enable,
-                onPressed: () {
-                  list[index].enabled = !list[index].enabled;
-                  setState(() {
-                    widget.requestBlockManager.flushConfig();
-                  });
-                }),
-            const Divider(thickness: 0.5, height: 5),
-            BottomSheetItem(
-                text: localizations.delete,
-                onPressed: () async {
-                  await widget.requestBlockManager.removeBlockRequest(index);
-                  setState(() {});
-                }),
-            const SizedBox(height: 8),
-            ShadButton.outline(
-                width: double.infinity,
-                size: ShadButtonSize.lg,
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text(localizations.cancel)),
-          ]);
-        });
+    showLicoSheet(
+      context,
+      isScrollControlled: true,
+      builder: (ctx) {
+        return Wrap(children: [
+          BottomSheetItem(text: localizations.edit, onPressed: () => showEdit(index)),
+          const Divider(thickness: 0.5, height: 5),
+          BottomSheetItem(
+              text: list[index].enabled ? localizations.disabled : localizations.enable,
+              onPressed: () {
+                list[index].enabled = !list[index].enabled;
+                setState(() {
+                  widget.requestBlockManager.flushConfig();
+                });
+              }),
+          const Divider(thickness: 0.5, height: 5),
+          BottomSheetItem(
+              text: localizations.delete,
+              onPressed: () async {
+                await widget.requestBlockManager.removeBlockRequest(index);
+                setState(() {});
+              }),
+          const SizedBox(height: 8),
+          ShadButton.outline(
+              width: double.infinity,
+              size: ShadButtonSize.lg,
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text(localizations.cancel)),
+        ]);
+      },
+    );
   }
 
   showEdit([int? index]) {

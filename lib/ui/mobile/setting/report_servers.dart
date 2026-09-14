@@ -117,8 +117,7 @@ class _ReportServersPageMobileState extends State<ReportServersPageMobile> {
                   separatorBuilder: (_, __) => const Divider(height: 0, thickness: 0.3),
                   itemBuilder: (ctx, idx) {
                     final s = _servers[idx];
-                    return ListTile(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 0),
+                    return ShadTile(
                       leading: SizedBox(
                           width: 32,
                           child: Checkbox(
@@ -128,8 +127,8 @@ class _ReportServersPageMobileState extends State<ReportServersPageMobile> {
                                 await manager.toggleEnabled(idx, v == true);
                                 await _load();
                               })),
-                      title: Text(s.name.isEmpty ? '-' : s.name),
-                      subtitle: Text(s.serverUrl),
+                      titleWidget: Text(s.name.isEmpty ? '-' : s.name),
+                      subtitleWidget: Text(s.serverUrl),
                       trailing: Row(
                         mainAxisSize: MainAxisSize.min,
                         children: [

@@ -63,88 +63,96 @@ class _PreferenceState extends State<Preference> {
           padding: const EdgeInsets.all(12),
           children: [
             section([
-              ListTile(
-                title: Text(localizations.language),
+              ShadTile(
+                titleWidget: Text(localizations.language),
                 trailing: const Icon(LucideIcons.chevronRight, size: 16),
                 onTap: () => _language(context),
               ),
               Divider(height: 0, thickness: 0.5, color: dividerColor),
               MobileThemeSetting(appConfiguration: appConfiguration),
               Divider(height: 0, thickness: 0.5, color: dividerColor),
-              ListTile(title: Text(localizations.themeColor)),
+              ShadTile(
+                titleWidget: Text(localizations.themeColor),
+              ),
               Padding(padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8), child: themeColor(context)),
             ]),
             const SizedBox(height: 12),
             section([
-              ListTile(
-                  title: Text(localizations.autoStartup),
-                  subtitle: Text(localizations.autoStartupDescribe,
-                      style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
-                  trailing: SwitchWidget(
-                      value: proxyServer.configuration.startup,
-                      scale: 0.8,
-                      onChanged: (value) {
-                        configuration.startup = value;
-                        configuration.flushConfig();
-                      })),
+              ShadTile(
+                titleWidget: Text(localizations.autoStartup),
+                subtitleWidget: Text(localizations.autoStartupDescribe,
+                    style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
+                trailing: SwitchWidget(
+                    value: proxyServer.configuration.startup,
+                    scale: 0.8,
+                    onChanged: (value) {
+                      configuration.startup = value;
+                      configuration.flushConfig();
+                    }),
+              ),
               Divider(height: 0, thickness: 0.5, color: dividerColor),
               if (Platform.isAndroid) ...[
-                ListTile(
-                    title: Text(localizations.windowMode),
-                    subtitle: Text(localizations.windowModeSubTitle,
-                        style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
-                    trailing: SwitchWidget(
-                        value: appConfiguration.pipEnabled.value,
-                        scale: 0.8,
-                        onChanged: (value) {
-                          appConfiguration.pipEnabled.value = value;
-                          appConfiguration.flushConfig();
-                        })),
+                ShadTile(
+                  titleWidget: Text(localizations.windowMode),
+                  subtitleWidget: Text(localizations.windowModeSubTitle,
+                      style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
+                  trailing: SwitchWidget(
+                      value: appConfiguration.pipEnabled.value,
+                      scale: 0.8,
+                      onChanged: (value) {
+                        appConfiguration.pipEnabled.value = value;
+                        appConfiguration.flushConfig();
+                      }),
+                ),
                 Divider(height: 0, thickness: 0.5, color: dividerColor),
               ],
-              ListTile(
-                  title: Text(localizations.pipIcon),
-                  subtitle: Text(localizations.pipIconDescribe,
-                      style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
-                  trailing: SwitchWidget(
-                      value: appConfiguration.pipIcon.value,
-                      scale: 0.8,
-                      onChanged: (value) {
-                        appConfiguration.pipIcon.value = value;
-                        appConfiguration.flushConfig();
-                      })),
+              ShadTile(
+                titleWidget: Text(localizations.pipIcon),
+                subtitleWidget: Text(localizations.pipIconDescribe,
+                    style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
+                trailing: SwitchWidget(
+                    value: appConfiguration.pipIcon.value,
+                    scale: 0.8,
+                    onChanged: (value) {
+                      appConfiguration.pipIcon.value = value;
+                      appConfiguration.flushConfig();
+                    }),
+              ),
               Divider(height: 0, thickness: 0.5, color: dividerColor),
-              ListTile(
-                  title: Text(localizations.bottomNavigation),
-                  subtitle: Text(localizations.bottomNavigationSubtitle,
-                      style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
-                  trailing: SwitchWidget(
-                      value: appConfiguration.bottomNavigation,
-                      scale: 0.8,
-                      onChanged: (value) {
-                        appConfiguration.bottomNavigation = value;
-                        appConfiguration.flushConfig();
-                      })),
+              ShadTile(
+                titleWidget: Text(localizations.bottomNavigation),
+                subtitleWidget: Text(localizations.bottomNavigationSubtitle,
+                    style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
+                trailing: SwitchWidget(
+                    value: appConfiguration.bottomNavigation,
+                    scale: 0.8,
+                    onChanged: (value) {
+                      appConfiguration.bottomNavigation = value;
+                      appConfiguration.flushConfig();
+                    }),
+              ),
               Divider(height: 0, thickness: 0.5, color: dividerColor),
-              ListTile(
-                  title: Text(localizations.clearConfirm),
-                  subtitle: Text(localizations.clearConfirmSubtitle,
-                      style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
-                  trailing: SwitchWidget(
-                      value: appConfiguration.clearConfirm,
-                      scale: 0.8,
-                      onChanged: (value) {
-                        appConfiguration.clearConfirm = value;
-                        appConfiguration.flushConfig();
-                      })),
+              ShadTile(
+                titleWidget: Text(localizations.clearConfirm),
+                subtitleWidget: Text(localizations.clearConfirmSubtitle,
+                    style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
+                trailing: SwitchWidget(
+                    value: appConfiguration.clearConfirm,
+                    scale: 0.8,
+                    onChanged: (value) {
+                      appConfiguration.clearConfirm = value;
+                      appConfiguration.flushConfig();
+                    }),
+              ),
             ]),
             const SizedBox(height: 12),
             section([
-              ListTile(
-                  title: Text(localizations.memoryCleanup),
-                  subtitle: Text(localizations.memoryCleanupSubtitle,
-                      style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
-                  trailing: memoryCleanup(context, localizations)),
+              ShadTile(
+                titleWidget: Text(localizations.memoryCleanup),
+                subtitleWidget: Text(localizations.memoryCleanupSubtitle,
+                    style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
+                trailing: memoryCleanup(context, localizations),
+              ),
             ]),
             const SizedBox(height: 15),
           ],

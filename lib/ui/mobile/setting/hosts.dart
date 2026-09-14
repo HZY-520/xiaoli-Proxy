@@ -370,25 +370,8 @@ class FolderDialog extends StatelessWidget {
     bool enabled = folder?.enabled ?? true;
     String name = folder?.host ?? '';
 
-    return AlertDialog(
+    return ShadDialog(
       title: Text(localizations.newFolder, style: const TextStyle(fontSize: 16)),
-      content: Column(mainAxisSize: MainAxisSize.min, children: [
-        Row(children: [
-          SizedBox(width: 55, child: Text(localizations.enable)),
-          SwitchWidget(scale: 0.8, value: enabled, onChanged: (value) => enabled = value)
-        ]),
-        SizedBox(height: 10),
-        Row(children: [
-          SizedBox(width: 55, child: Text(localizations.name)),
-          Expanded(
-              child: TextFormField(
-                  minLines: 1,
-                  maxLines: 3,
-                  initialValue: name,
-                  onChanged: (val) => name = val,
-                  decoration: InputDecoration(border: OutlineInputBorder())))
-        ])
-      ]),
       actions: [
         TextButton(onPressed: () => Navigator.pop(context), child: Text(localizations.cancel)),
         TextButton(
@@ -406,6 +389,23 @@ class FolderDialog extends StatelessWidget {
             },
             child: Text(localizations.save)),
       ],
+      child: Column(mainAxisSize: MainAxisSize.min, children: [
+        Row(children: [
+          SizedBox(width: 55, child: Text(localizations.enable)),
+          SwitchWidget(scale: 0.8, value: enabled, onChanged: (value) => enabled = value)
+        ]),
+        SizedBox(height: 10),
+        Row(children: [
+          SizedBox(width: 55, child: Text(localizations.name)),
+          Expanded(
+              child: TextFormField(
+                  minLines: 1,
+                  maxLines: 3,
+                  initialValue: name,
+                  onChanged: (val) => name = val,
+                  decoration: InputDecoration(border: OutlineInputBorder())))
+        ])
+      ]),
     );
   }
 }
@@ -448,71 +448,71 @@ class _HostsEditDialogState extends State<HostsEditDialog> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
-        contentPadding: const EdgeInsets.only(left: 20, right: 20, top: 10),
-        actions: [
-          TextButton(onPressed: () => Navigator.pop(context), child: Text(localizations.cancel)),
-          TextButton(
-              onPressed: () {
-                if (!(formKey.currentState as FormState).validate()) {
-                  FlutterToastr.show(
-                      "${localizations.domain} ${localizations.toAddress} ${localizations.cannotBeEmpty}", context,
-                      position: FlutterToastr.center);
-                  return;
-                }
+    return ShadDialog(
+      actions: [
+        TextButton(onPressed: () => Navigator.pop(context), child: Text(localizations.cancel)),
+        TextButton(
+            onPressed: () {
+              if (!(formKey.currentState as FormState).validate()) {
+                FlutterToastr.show(
+                    "${localizations.domain} ${localizations.toAddress} ${localizations.cannotBeEmpty}", context,
+                    position: FlutterToastr.center);
+                return;
+              }
 
-                HostsItem? hostItem;
-                if (widget.item == null) {
-                  hostItem = HostsItem(
-                      enabled: enabled,
-                      parent: widget.parent?.id,
-                      host: hostController.text,
-                      toAddress: toAddressController.text);
-                  HostsManager.instance.then((it) => it.addHosts(hostItem!));
-                } else {
-                  widget.item!.enabled = enabled;
-                  widget.item!.host = hostController.text;
-                  widget.item!.toAddress = toAddressController.text;
-                  hostItem = widget.item;
-                }
+              HostsItem? hostItem;
+              if (widget.item == null) {
+                hostItem = HostsItem(
+                    enabled: enabled,
+                    parent: widget.parent?.id,
+                    host: hostController.text,
+                    toAddress: toAddressController.text);
+                HostsManager.instance.then((it) => it.addHosts(hostItem!));
+              } else {
+                widget.item!.enabled = enabled;
+                widget.item!.host = hostController.text;
+                widget.item!.toAddress = toAddressController.text;
+                hostItem = widget.item;
+              }
 
-                Navigator.pop(context, hostItem);
-              },
-              child: Text(localizations.save)),
-        ],
-        content: Form(
-            key: formKey,
-            child: Column(mainAxisSize: MainAxisSize.min, children: [
-              Row(children: [
-                SizedBox(width: 80, child: Text(localizations.enable)),
-                Expanded(child: SwitchWidget(scale: 0.8, value: enabled, onChanged: (value) => enabled = value)),
-              ]),
-              const SizedBox(height: 8),
-              Row(children: [
-                SizedBox(width: 80, child: Text(localizations.domain)),
-                Expanded(
-                    child: TextFormField(
-                        controller: hostController,
-                        validator: (val) => val == null || val.trim().isEmpty ? localizations.cannotBeEmpty : null,
-                        decoration: const InputDecoration(
-                            hintText: '*.example.com',
-                            hintStyle: TextStyle(color: Colors.grey),
-                            errorStyle: TextStyle(height: 0, fontSize: 0),
-                            border: OutlineInputBorder()))),
-              ]),
-              const SizedBox(height: 10),
-              Row(children: [
-                SizedBox(width: 80, child: Text(localizations.toAddress)),
-                Expanded(
-                    child: TextFormField(
-                        controller: toAddressController,
-                        validator: (val) => val == null || val.trim().isEmpty ? localizations.cannotBeEmpty : null,
-                        decoration: const InputDecoration(
-                            hintText: '202.108.22.5',
-                            errorStyle: TextStyle(height: 0, fontSize: 0),
-                            hintStyle: TextStyle(color: Colors.grey),
-                            border: OutlineInputBorder()))),
-              ]),
-            ])));
+              Navigator.pop(context, hostItem);
+            },
+            child: Text(localizations.save)),
+      ],
+      child: Form(
+          key: formKey,
+          child: Column(mainAxisSize: MainAxisSize.min, children: [
+            Row(children: [
+              SizedBox(width: 80, child: Text(localizations.enable)),
+              Expanded(child: SwitchWidget(scale: 0.8, value: enabled, onChanged: (value) => enabled = value)),
+            ]),
+            const SizedBox(height: 8),
+            Row(children: [
+              SizedBox(width: 80, child: Text(localizations.domain)),
+              Expanded(
+                  child: TextFormField(
+                      controller: hostController,
+                      validator: (val) => val == null || val.trim().isEmpty ? localizations.cannotBeEmpty : null,
+                      decoration: const InputDecoration(
+                          hintText: '*.example.com',
+                          hintStyle: TextStyle(color: Colors.grey),
+                          errorStyle: TextStyle(height: 0, fontSize: 0),
+                          border: OutlineInputBorder()))),
+            ]),
+            const SizedBox(height: 10),
+            Row(children: [
+              SizedBox(width: 80, child: Text(localizations.toAddress)),
+              Expanded(
+                  child: TextFormField(
+                      controller: toAddressController,
+                      validator: (val) => val == null || val.trim().isEmpty ? localizations.cannotBeEmpty : null,
+                      decoration: const InputDecoration(
+                          hintText: '202.108.22.5',
+                          errorStyle: TextStyle(height: 0, fontSize: 0),
+                          hintStyle: TextStyle(color: Colors.grey),
+                          border: OutlineInputBorder()))),
+            ]),
+          ])),
+    );
   }
 }

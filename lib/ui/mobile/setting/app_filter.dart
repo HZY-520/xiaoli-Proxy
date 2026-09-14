@@ -152,11 +152,11 @@ class _AppWhitelistState extends State<AppWhitelist> {
                           itemCount: appInfoList.length,
                           itemBuilder: (BuildContext context, int index) {
                             AppInfo appInfo = appInfoList[index];
-                            return ListTile(
+                            return ShadTile(
                               leading:
                                   appInfo.icon == null ? const Icon(Icons.question_mark) : Image.memory(appInfo.icon!),
-                              title: Text(appInfo.name ?? ""),
-                              subtitle: Text(appInfo.packageName ?? ""),
+                              titleWidget: Text(appInfo.name ?? ""),
+                              subtitleWidget: Text(appInfo.packageName ?? ""),
                               trailing: IconButton(
                                 icon: const Icon(Icons.delete),
                                 onPressed: () {
@@ -282,10 +282,10 @@ class _AppBlacklistState extends State<AppBlacklist> {
                   itemCount: appInfoList.length,
                   itemBuilder: (BuildContext context, int index) {
                     AppInfo appInfo = appInfoList[index];
-                    return ListTile(
+                    return ShadTile(
                       leading: appInfo.icon == null ? const Icon(Icons.question_mark) : Image.memory(appInfo.icon!),
-                      title: Text(appInfo.name ?? ""),
-                      subtitle: Text(appInfo.packageName ?? ""),
+                      titleWidget: Text(appInfo.name ?? ""),
+                      subtitleWidget: Text(appInfo.packageName ?? ""),
                       trailing: IconButton(
                         icon: const Icon(Icons.delete),
                         onPressed: () {
@@ -412,10 +412,10 @@ class _InstalledAppsWidgetState extends State<InstalledAppsWidget> {
         itemCount: appInfoList.length,
         itemBuilder: (BuildContext context, int index) {
           AppInfo appInfo = appInfoList[index];
-          return ListTile(
+          return ShadTile(
             leading: _buildAppIcon(appInfo),
-            title: Text(appInfo.name ?? ""),
-            subtitle: Text(appInfo.packageName ?? ""),
+            titleWidget: Text(appInfo.name ?? ""),
+            subtitleWidget: Text(appInfo.packageName ?? ""),
             onTap: () async {
               Navigator.of(context).pop(appInfo.packageName);
             },

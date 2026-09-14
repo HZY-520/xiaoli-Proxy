@@ -306,48 +306,47 @@ class _RequestRuleListState extends State<RequestRuleList> {
       selected.add(index);
     });
 
-    showModalBottomSheet(
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
-        context: context,
-        enableDrag: true,
-        builder: (ctx) {
-          return Wrap(alignment: WrapAlignment.center, children: [
-            BottomSheetItem(
-                text: localizations.multiple,
-                onPressed: () {
-                  setState(() => multiple = true);
-                }),
-            const Divider(thickness: 0.5, height: 5),
-            BottomSheetItem(text: localizations.edit, onPressed: () => showEdit(index)),
-            const Divider(thickness: 0.5, height: 5),
-            BottomSheetItem(text: localizations.share, onPressed: () => export(ctx, [index])),
-            const Divider(thickness: 0.5, height: 5),
-            BottomSheetItem(
-                text: rules[index].enabled ? localizations.disabled : localizations.enable,
-                onPressed: () {
-                  rules[index].enabled = !rules[index].enabled;
-                  changed = true;
-                }),
-            const Divider(thickness: 0.5, height: 5),
-            BottomSheetItem(
-                text: localizations.delete,
-                onPressed: () async {
-                  await widget.requestRewrites.removeIndex([index]);
-                  widget.requestRewrites.flushRequestRewriteConfig();
-                  if (mounted) FlutterToastr.show(localizations.deleteSuccess, context);
-                }),
-            Container(color: Theme.of(ctx).hoverColor, height: 8),
-            TextButton(
-                child: Container(
-                    height: 45,
-                    width: double.infinity,
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Text(localizations.cancel, textAlign: TextAlign.center)),
-                onPressed: () {
-                  Navigator.of(ctx).pop();
-                }),
-          ]);
-        }).then((value) {
+    showLicoSheet(
+      context,
+      builder: (ctx) {
+        return Wrap(alignment: WrapAlignment.center, children: [
+          BottomSheetItem(
+              text: localizations.multiple,
+              onPressed: () {
+                setState(() => multiple = true);
+              }),
+          const Divider(thickness: 0.5, height: 5),
+          BottomSheetItem(text: localizations.edit, onPressed: () => showEdit(index)),
+          const Divider(thickness: 0.5, height: 5),
+          BottomSheetItem(text: localizations.share, onPressed: () => export(ctx, [index])),
+          const Divider(thickness: 0.5, height: 5),
+          BottomSheetItem(
+              text: rules[index].enabled ? localizations.disabled : localizations.enable,
+              onPressed: () {
+                rules[index].enabled = !rules[index].enabled;
+                changed = true;
+              }),
+          const Divider(thickness: 0.5, height: 5),
+          BottomSheetItem(
+              text: localizations.delete,
+              onPressed: () async {
+                await widget.requestRewrites.removeIndex([index]);
+                widget.requestRewrites.flushRequestRewriteConfig();
+                if (mounted) FlutterToastr.show(localizations.deleteSuccess, context);
+              }),
+          Container(color: Theme.of(ctx).hoverColor, height: 8),
+          TextButton(
+              child: Container(
+                  height: 45,
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Text(localizations.cancel, textAlign: TextAlign.center)),
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              }),
+        ]);
+      },
+    ).then((value) {
       if (multiple) {
         return;
       }

@@ -516,50 +516,49 @@ class _UpdateListState extends State<UpdateList> {
       selected = index;
     });
 
-    showModalBottomSheet(
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
-        context: context,
-        enableDrag: true,
-        builder: (ctx) {
-          return Wrap(alignment: WrapAlignment.center, children: [
-            BottomSheetItem(
-                text: i18n.modify,
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (BuildContext context) => RewriteUpdateEdit(
-                              item: widget.items[index],
-                              ruleType: widget.ruleType,
-                              request: widget.request))).then((value) {
-                    if (value != null) {
-                      setState(() {});
-                    }
-                  });
-                }),
-            const Divider(thickness: 0.5),
-            BottomSheetItem(
-                text: widget.items[index].enabled ? i18n.disabled : i18n.enable,
-                onPressed: () => widget.items[index].enabled = !widget.items[index].enabled),
-            const Divider(thickness: 0.5),
-            BottomSheetItem(
-                text: i18n.delete,
-                onPressed: () async {
-                  widget.items.removeAt(index);
-                  if (mounted) FlutterToastr.show(i18n.deleteSuccess, context);
-                }),
-            Container(color: Theme.of(context).hoverColor, height: 8),
-            TextButton(
-                child: Container(
-                    height: 50,
-                    width: double.infinity,
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Text(i18n.cancel, textAlign: TextAlign.center)),
-                onPressed: () {
-                  Navigator.of(context).pop();
-                }),
-          ]);
-        }).then((value) {
+    showLicoSheet(
+      context,
+      builder: (ctx) {
+        return Wrap(alignment: WrapAlignment.center, children: [
+          BottomSheetItem(
+              text: i18n.modify,
+              onPressed: () {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (BuildContext context) => RewriteUpdateEdit(
+                            item: widget.items[index],
+                            ruleType: widget.ruleType,
+                            request: widget.request))).then((value) {
+                  if (value != null) {
+                    setState(() {});
+                  }
+                });
+              }),
+          const Divider(thickness: 0.5),
+          BottomSheetItem(
+              text: widget.items[index].enabled ? i18n.disabled : i18n.enable,
+              onPressed: () => widget.items[index].enabled = !widget.items[index].enabled),
+          const Divider(thickness: 0.5),
+          BottomSheetItem(
+              text: i18n.delete,
+              onPressed: () async {
+                widget.items.removeAt(index);
+                if (mounted) FlutterToastr.show(i18n.deleteSuccess, context);
+              }),
+          Container(color: Theme.of(context).hoverColor, height: 8),
+          TextButton(
+              child: Container(
+                  height: 50,
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Text(i18n.cancel, textAlign: TextAlign.center)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              }),
+        ]);
+      },
+    ).then((value) {
       setState(() {
         selected = -1;
       });

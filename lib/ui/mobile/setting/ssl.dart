@@ -113,66 +113,77 @@ class _MobileSslState extends State<MobileSslWidget> {
                   });
                 }),
             Divider(height: 0, thickness: 0.3, color: dividerColor),
-            ListTile(
-                title: Text(localizations.installRootCa),
-                trailing: const Icon(Icons.keyboard_arrow_right),
-                onTap: () async {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (_) => Platform.isIOS
-                              ? IosCaInstall(proxyServer: widget.proxyServer)
-                              : const AndroidCaInstall())).whenComplete(() {
-                    if (Platform.isIOS && !_trusted) _refreshStatus();
-                  });
-                }),
+            ShadTile(
+              titleWidget: Text(localizations.installRootCa),
+              trailing: const Icon(Icons.keyboard_arrow_right),
+              onTap: () async {
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (_) => Platform.isIOS
+                            ? IosCaInstall(proxyServer: widget.proxyServer)
+                            : const AndroidCaInstall())).whenComplete(() {
+                  if (Platform.isIOS && !_trusted) _refreshStatus();
+                });
+              },
+            ),
           ]),
           const SizedBox(height: 12),
           // Export options
           section([
-            ListTile(
-                title: Text(localizations.exportCA),
-                onTap: () async {
-                  final file = await CertificateManager.certificateFile();
-                  _exportFile("ProxyPinCA.crt", file: file);
-                }),
+            ShadTile(
+              titleWidget: Text(localizations.exportCA),
+              onTap: () async {
+                final file = await CertificateManager.certificateFile();
+                _exportFile("ProxyPinCA.crt", file: file);
+              },
+            ),
             Divider(height: 0, thickness: 0.3, color: dividerColor),
-            ListTile(title: Text(localizations.exportCaP12), onTap: exportP12),
+            ShadTile(
+              titleWidget: Text(localizations.exportCaP12),
+              onTap: exportP12,
+            ),
             Divider(height: 0, thickness: 0.3, color: dividerColor),
-            ListTile(
-                title: Text(localizations.exportPrivateKey),
-                onTap: () async {
-                  final file = await CertificateManager.privateKeyFile();
-                  _exportFile("ProxyPinKey.pem", file: file);
-                }),
+            ShadTile(
+              titleWidget: Text(localizations.exportPrivateKey),
+              onTap: () async {
+                final file = await CertificateManager.privateKeyFile();
+                _exportFile("ProxyPinKey.pem", file: file);
+              },
+            ),
           ]),
           const SizedBox(height: 12),
           // Import and generate/reset
           section([
-            ListTile(title: Text(localizations.importCaP12), onTap: importPk12),
+            ShadTile(
+              titleWidget: Text(localizations.importCaP12),
+              onTap: importPk12,
+            ),
             Divider(height: 0, thickness: 0.3, color: dividerColor),
-            ListTile(
-                title: Text(localizations.generateCA),
-                onTap: () async {
-                  showConfirmDialog(context, title: localizations.generateCA, content: localizations.generateCADescribe,
-                      onConfirm: () async {
-                    await CertificateManager.generateNewRootCA();
-                    if (context.mounted) FlutterToastr.show(localizations.success, context);
-                    if (Platform.isIOS) _refreshStatus();
-                  });
-                }),
+            ShadTile(
+              titleWidget: Text(localizations.generateCA),
+              onTap: () async {
+                showConfirmDialog(context, title: localizations.generateCA, content: localizations.generateCADescribe,
+                    onConfirm: () async {
+                  await CertificateManager.generateNewRootCA();
+                  if (context.mounted) FlutterToastr.show(localizations.success, context);
+                  if (Platform.isIOS) _refreshStatus();
+                });
+              },
+            ),
             Divider(height: 0, thickness: 0.3, color: dividerColor),
-            ListTile(
-                title: Text(localizations.resetDefaultCA),
-                onTap: () async {
-                  showConfirmDialog(context,
-                      title: localizations.resetDefaultCA,
-                      content: localizations.resetDefaultCADescribe, onConfirm: () async {
-                    await CertificateManager.resetDefaultRootCA();
-                    if (context.mounted) FlutterToastr.show(localizations.success, context);
-                    if (Platform.isIOS) _refreshStatus();
-                  });
-                }),
+            ShadTile(
+              titleWidget: Text(localizations.resetDefaultCA),
+              onTap: () async {
+                showConfirmDialog(context,
+                    title: localizations.resetDefaultCA,
+                    content: localizations.resetDefaultCADescribe, onConfirm: () async {
+                  await CertificateManager.resetDefaultRootCA();
+                  if (context.mounted) FlutterToastr.show(localizations.success, context);
+                  if (Platform.isIOS) _refreshStatus();
+                });
+              },
+            ),
           ]),
         ]));
   }
@@ -499,17 +510,7 @@ class IOSCertChecker {
           context: context,
           builder: (context) {
             final localizations = AppLocalizations.of(context)!;
-            return AlertDialog(
-              titlePadding: EdgeInsets.zero,
-              contentPadding: EdgeInsets.zero,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-              content: Container(
-                  constraints: const BoxConstraints(maxHeight: 185),
-                  child: CertStatusCard(
-                      installed: installed,
-                      trusted: trusted,
-                      margin: EdgeInsets.zero,
-                      proxyServer: ProxyServer.current!)),
+            return ShadDialog(
               actions: <Widget>[
                 TextButton(
                   onPressed: () {
@@ -523,6 +524,13 @@ class IOSCertChecker {
                   child: Text(localizations.cancel),
                 ),
               ],
+              child: Container(
+                  constraints: const BoxConstraints(maxHeight: 185),
+                  child: CertStatusCard(
+                      installed: installed,
+                      trusted: trusted,
+                      margin: EdgeInsets.zero,
+                      proxyServer: ProxyServer.current!)),
             );
           });
     }

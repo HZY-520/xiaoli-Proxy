@@ -127,30 +127,29 @@ class _RemoteDevicePageState extends State<RemoteDevicePage> {
             return <PopupMenuEntry>[
               CustomPopupMenuItem(
                   height: 32,
-                  child: ListTile(
-                      leading: const Icon(Icons.qr_code_scanner_outlined),
-                      dense: true,
-                      title: Text(localizations.scanCode),
-                      onTap: () {
-                        Navigator.maybePop(context);
-                        connectRemote();
-                      })),
+                  child: ShadTile(
+                    leading: const Icon(Icons.qr_code_scanner_outlined),
+                    titleWidget: Text(localizations.scanCode),
+                    onTap: () {
+                      Navigator.maybePop(context);
+                      connectRemote();
+                    },
+                  )),
               CustomPopupMenuItem(
                   height: 32,
-                  child: ListTile(
-                      leading: const Icon(Icons.edit_rounded),
-                      dense: true,
-                      title: Text(localizations.inputAddress),
-                      onTap: () async {
-                        Navigator.maybePop(context);
-                        inputAddress(await localIp());
-                      })),
+                  child: ShadTile(
+                    leading: const Icon(Icons.edit_rounded),
+                    titleWidget: Text(localizations.inputAddress),
+                    onTap: () async {
+                      Navigator.maybePop(context);
+                      inputAddress(await localIp());
+                    },
+                  )),
               PopupMenuItem(
                   height: 32,
-                  child: ListTile(
-                    dense: true,
+                  child: ShadTile(
                     leading: const Icon(Icons.phone_android),
-                    title: Text(localizations.myQRCode),
+                    titleWidget: Text(localizations.myQRCode),
                     onTap: () async {
                       Navigator.maybePop(context);
                       var ip = await localIp(readCache: false);
@@ -194,10 +193,9 @@ class _RemoteDevicePageState extends State<RemoteDevicePage> {
               setState(() {});
               if (mounted) FlutterToastr.show(localizations.deleteSuccess, context);
             },
-            child: ListTile(
-              contentPadding: const EdgeInsets.symmetric(horizontal: 5),
-              title: Text(remoteDevice.hostname ?? ''),
-              subtitle: Text('${remoteDevice.host}:${remoteDevice.port}'),
+            child: ShadTile(
+              titleWidget: Text(remoteDevice.hostname ?? ''),
+              subtitleWidget: Text('${remoteDevice.host}:${remoteDevice.port}'),
               trailing: getIcon(remoteDevice.os!),
               onTap: () {
                 doConnect(remoteDevice.host!, remoteDevice.port!, ipProxy: remoteDevice.ipProxy);
@@ -243,8 +241,10 @@ class _RemoteDevicePageState extends State<RemoteDevicePage> {
             Row(
               children: [
                 Expanded(
-                    child: ListTile(
-                        title: Text(localizations.ipLayerProxy), subtitle: Text(localizations.ipLayerProxyDesc))),
+                    child: ShadTile(
+                  titleWidget: Text(localizations.ipLayerProxy),
+                  subtitleWidget: Text(localizations.ipLayerProxyDesc),
+                )),
                 SwitchWidget(
                     value: widget.remoteDevice.value.ipProxy ?? false,
                     scale: 0.85,
@@ -317,26 +317,8 @@ class _RemoteDevicePageState extends State<RemoteDevicePage> {
     showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
+          return ShadDialog(
             title: Text(localizations.inputAddress),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                TextFormField(
-                  initialValue: host,
-                  decoration: const InputDecoration(hintText: 'Host'),
-                  keyboardType: TextInputType.url,
-                  onChanged: (value) => host = value,
-                ),
-                TextFormField(
-                    initialValue: port.toString(),
-                    decoration: const InputDecoration(hintText: 'Port'),
-                    keyboardType: TextInputType.number,
-                    onChanged: (value) {
-                      port = value.isEmpty ? null : int.tryParse(value);
-                    }),
-              ],
-            ),
             actions: [
               TextButton(
                   onPressed: () {
@@ -356,6 +338,24 @@ class _RemoteDevicePageState extends State<RemoteDevicePage> {
                   },
                   child: Text(localizations.connectRemote)),
             ],
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                TextFormField(
+                  initialValue: host,
+                  decoration: const InputDecoration(hintText: 'Host'),
+                  keyboardType: TextInputType.url,
+                  onChanged: (value) => host = value,
+                ),
+                TextFormField(
+                    initialValue: port.toString(),
+                    decoration: const InputDecoration(hintText: 'Port'),
+                    keyboardType: TextInputType.number,
+                    onChanged: (value) {
+                      port = value.isEmpty ? null : int.tryParse(value);
+                    }),
+              ],
+            ),
           );
         });
   }
@@ -446,11 +446,12 @@ class _RemoteDevicePageState extends State<RemoteDevicePage> {
     showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-            contentPadding: const EdgeInsets.all(15),
-            actionsPadding: const EdgeInsets.only(bottom: 10, right: 10),
+          return ShadDialog(
             title: Text(localizations.remoteConnectForward, style: const TextStyle(fontSize: 16)),
-            content: SizedBox(
+            actions: [
+              TextButton(onPressed: () => Navigator.of(context).pop(), child: Text(localizations.cancel)),
+            ],
+            child: SizedBox(
                 height: 280,
                 width: 300,
                 child: Column(
@@ -474,9 +475,6 @@ class _RemoteDevicePageState extends State<RemoteDevicePage> {
                     Text(localizations.mobileScan),
                   ],
                 )),
-            actions: [
-              TextButton(onPressed: () => Navigator.of(context).pop(), child: Text(localizations.cancel)),
-            ],
           );
         });
   }
@@ -523,45 +521,8 @@ class ConfigSyncState extends State<ConfigSyncWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return AlertDialog(
+    return ShadDialog(
       title: Text(localizations.syncConfig, style: const TextStyle(fontSize: 16)),
-      content: Wrap(children: [
-        SwitchWidget(
-            title: "${localizations.sync} ${localizations.domainWhitelist}",
-            value: syncWhiteList,
-            onChanged: (val) {
-              setState(() {
-                syncWhiteList = val;
-              });
-            }),
-        const SizedBox(height: 5),
-        SwitchWidget(
-            title: "${localizations.sync} ${localizations.domainBlacklist}",
-            value: syncBlackList,
-            onChanged: (val) {
-              setState(() {
-                syncBlackList = val;
-              });
-            }),
-        const SizedBox(height: 5),
-        SwitchWidget(
-            title: "${localizations.sync} ${localizations.requestRewrite}",
-            value: syncRewrite,
-            onChanged: (val) {
-              setState(() {
-                syncRewrite = val;
-              });
-            }),
-        const SizedBox(height: 5),
-        SwitchWidget(
-            title: "${localizations.sync} ${localizations.script}",
-            value: syncScript,
-            onChanged: (val) {
-              setState(() {
-                syncScript = val;
-              });
-            }),
-      ]),
       actions: [
         TextButton(
             child: Text(localizations.cancel),
@@ -601,6 +562,43 @@ class ConfigSyncState extends State<ConfigSyncWidget> {
               }
             }),
       ],
+      child: Wrap(children: [
+        SwitchWidget(
+            title: "${localizations.sync} ${localizations.domainWhitelist}",
+            value: syncWhiteList,
+            onChanged: (val) {
+              setState(() {
+                syncWhiteList = val;
+              });
+            }),
+        const SizedBox(height: 5),
+        SwitchWidget(
+            title: "${localizations.sync} ${localizations.domainBlacklist}",
+            value: syncBlackList,
+            onChanged: (val) {
+              setState(() {
+                syncBlackList = val;
+              });
+            }),
+        const SizedBox(height: 5),
+        SwitchWidget(
+            title: "${localizations.sync} ${localizations.requestRewrite}",
+            value: syncRewrite,
+            onChanged: (val) {
+              setState(() {
+                syncRewrite = val;
+              });
+            }),
+        const SizedBox(height: 5),
+        SwitchWidget(
+            title: "${localizations.sync} ${localizations.script}",
+            value: syncScript,
+            onChanged: (val) {
+              setState(() {
+                syncScript = val;
+              });
+            }),
+      ]),
     );
   }
 }

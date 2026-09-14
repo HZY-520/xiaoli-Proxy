@@ -701,11 +701,10 @@ class _MobileManageProfilesPageState extends State<_MobileManageProfilesPage> {
                     borderRadius: BorderRadius.circular(10),
                     side: BorderSide(color: theme.colorScheme.outlineVariant.withValues(alpha: 0.5)),
                   ),
-                  child: ListTile(
-                    contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-                    title:
+                  child: ShadTile(
+                    titleWidget:
                         Text(widget.profileLabel(p), style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
-                    subtitle: Padding(
+                    subtitleWidget: Padding(
                       padding: const EdgeInsets.only(top: 4),
                       child: Text(
                         widget.profileSummary(p),

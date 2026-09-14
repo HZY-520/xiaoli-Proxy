@@ -141,26 +141,27 @@ class RequestEditorState extends State<MobileRequestEditor> with SingleTickerPro
       showDialog(
         context: context,
         builder: (BuildContext context) {
-          return AlertDialog(
-              title: Text(localizations.prompt),
-              content: Text(localizations.curlSchemeRequest),
-              actions: [
-                TextButton(child: Text(localizations.cancel), onPressed: () => Navigator.of(context).pop()),
-                TextButton(
-                    child: Text(localizations.confirm),
-                    onPressed: () {
-                      try {
-                        setState(() {
-                          request = Curl.parse(text!);
-                          requestKey.currentState?.change(request!);
-                          requestLineKey.currentState?.change(request?.requestUrl, request?.method);
-                        });
-                      } catch (e) {
-                        FlutterToastr.show(localizations.fail, context);
-                      }
-                      Navigator.of(context).pop();
-                    }),
-              ]);
+          return ShadDialog(
+            title: Text(localizations.prompt),
+            actions: [
+              TextButton(child: Text(localizations.cancel), onPressed: () => Navigator.of(context).pop()),
+              TextButton(
+                  child: Text(localizations.confirm),
+                  onPressed: () {
+                    try {
+                      setState(() {
+                        request = Curl.parse(text!);
+                        requestKey.currentState?.change(request!);
+                        requestLineKey.currentState?.change(request?.requestUrl, request?.method);
+                      });
+                    } catch (e) {
+                      FlutterToastr.show(localizations.fail, context);
+                    }
+                    Navigator.of(context).pop();
+                  }),
+            ],
+            child: Text(localizations.curlSchemeRequest),
+          );
         },
       );
     }
@@ -1007,12 +1008,26 @@ class KeyValState extends State<KeyValWidget> with AutomaticKeepAliveClientMixin
         context: context,
         builder: (ctx) {
           return StatefulBuilder(builder: (context, setState) {
-            return AlertDialog(
-              titlePadding: const EdgeInsets.only(left: 25, top: 10),
-              actionsPadding: const EdgeInsets.only(right: 10, bottom: 10),
+            return ShadDialog(
               title: Text(widget.readOnly ? localizations.responseHeader : localizations.modifyRequestHeader,
                   style: const TextStyle(fontSize: 16)),
-              content: Wrap(
+              actions: [
+                TextButton(
+                    onPressed: () => Navigator.pop(ctx),
+                    child: Text(widget.readOnly ? localizations.close : localizations.cancel)),
+                if (!widget.readOnly)
+                  TextButton(
+                      onPressed: () {
+                        this.setState(() {
+                          keyVal.key = headerName;
+                          keyVal.value = val;
+                        });
+                        notifierChange();
+                        Navigator.pop(ctx);
+                      },
+                      child: Text(localizations.modify)),
+              ],
+              child: Wrap(
                 children: [
                   if (widget.suggestions != null && !widget.readOnly)
                     Autocomplete<String>(
@@ -1152,22 +1167,6 @@ class KeyValState extends State<KeyValWidget> with AutomaticKeepAliveClientMixin
                     )
                 ],
               ),
-              actions: [
-                TextButton(
-                    onPressed: () => Navigator.pop(ctx),
-                    child: Text(widget.readOnly ? localizations.close : localizations.cancel)),
-                if (!widget.readOnly)
-                  TextButton(
-                      onPressed: () {
-                        this.setState(() {
-                          keyVal.key = headerName;
-                          keyVal.value = val;
-                        });
-                        notifierChange();
-                        Navigator.pop(ctx);
-                      },
-                      child: Text(localizations.modify)),
-              ],
             );
           });
         });
@@ -1178,7 +1177,7 @@ class KeyValState extends State<KeyValWidget> with AutomaticKeepAliveClientMixin
     showDialog(
         context: context,
         builder: (ctx) {
-          return AlertDialog(
+          return ShadDialog(
             title: Text(localizations.deleteHeaderConfirm, style: const TextStyle(fontSize: 18)),
             actions: [
               TextButton(onPressed: () => Navigator.pop(ctx), child: Text(localizations.cancel)),

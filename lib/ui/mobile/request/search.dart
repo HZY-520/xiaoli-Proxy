@@ -18,6 +18,7 @@ import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:lico_proxy/ui/component/search_condition.dart';
 
 import '../../component/model/search_model.dart';
+import '../shad/shad_design.dart';
 
 class MobileSearch extends StatefulWidget {
   final Function(SearchModel searchModel)? onSearch;
@@ -88,32 +89,30 @@ class MobileSearchState extends State<MobileSearch> {
   }
 
   void showSearch() {
-    showModalBottomSheet(
-        shape: RoundedRectangleBorder(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            side: BorderSide(color: ShadTheme.of(context).colorScheme.border.withValues(alpha: 0.6), width: 0.5)),
-        isScrollControlled: true,
-        context: context,
-        builder: (context) {
-          if (!_searched) {
-            searchModel.searchOptions = {Option.url};
-          }
-          return Padding(
-              padding: MediaQuery.of(context).viewInsets,
-              child: Container(
-                  constraints: BoxConstraints(minHeight: 450, maxHeight: 480),
-                  child: SearchConditions(
-                    padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
-                    searchModel: searchModel,
-                    onSearch: (val) {
-                      setState(() {
-                        searchModel = val;
-                        _searched = searchModel.isNotEmpty;
-                        _keywordController.text = searchModel.keyword ?? '';
-                        widget.onSearch?.call(searchModel);
-                      });
-                    },
-                  )));
-        });
+    showLicoSheet(
+      context,
+      isScrollControlled: true,
+      builder: (context) {
+        if (!_searched) {
+          searchModel.searchOptions = {Option.url};
+        }
+        return Padding(
+            padding: MediaQuery.of(context).viewInsets,
+            child: Container(
+                constraints: BoxConstraints(minHeight: 450, maxHeight: 480),
+                child: SearchConditions(
+                  padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
+                  searchModel: searchModel,
+                  onSearch: (val) {
+                    setState(() {
+                      searchModel = val;
+                      _searched = searchModel.isNotEmpty;
+                      _keywordController.text = searchModel.keyword ?? '';
+                      widget.onSearch?.call(searchModel);
+                    });
+                  },
+                )));
+      },
+    );
   }
 }

@@ -64,16 +64,17 @@ class _RequestMapPageState extends State<MobileRequestMapPage> {
                 (data) => Column(children: [
                       Row(children: [
                         Expanded(
-                            child: ListTile(
-                                title: Text("${localizations.enable} ${localizations.requestMap}"),
-                                subtitle: Text(localizations.requestMapDescribe, style: const TextStyle(fontSize: 12)),
-                                trailing: SwitchWidget(
-                                    value: data.enabled,
-                                    scale: 0.8,
-                                    onChanged: (value) {
-                                      data.enabled = value;
-                                      _refreshConfig();
-                                    }))),
+                            child: ShadTile(
+                          titleWidget: Text("${localizations.enable} ${localizations.requestMap}"),
+                          subtitleWidget: Text(localizations.requestMapDescribe, style: const TextStyle(fontSize: 12)),
+                          trailing: SwitchWidget(
+                              value: data.enabled,
+                              scale: 0.8,
+                              onChanged: (value) {
+                                data.enabled = value;
+                                _refreshConfig();
+                              }),
+                        )),
                       ]),
                       Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                         const SizedBox(width: 10),
@@ -288,38 +289,37 @@ class _RequestMapListState extends State<RequestMapList> {
       selected.add(index);
     });
 
-    showModalBottomSheet(
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
-        context: context,
-        enableDrag: true,
-        builder: (ctx) {
-          return Wrap(alignment: WrapAlignment.center, children: [
-            BottomSheetItem(
-                text: localizations.multiple,
-                onPressed: () {
-                  setState(() => multiple = true);
-                }),
-            const Divider(thickness: 0.5, height: 5),
-            BottomSheetItem(text: localizations.edit, onPressed: () => showEdit(index)),
-            const Divider(thickness: 0.5, height: 5),
-            BottomSheetItem(text: localizations.export, onPressed: () => export([index])),
-            const Divider(thickness: 0.5, height: 5),
-            BottomSheetItem(
-                text: widget.list[index].enabled ? localizations.disabled : localizations.enable,
-                onPressed: () {
-                  widget.list[index].enabled = !widget.list[index].enabled;
-                  _refreshConfig();
-                }),
-            const Divider(thickness: 0.5, height: 5),
-            BottomSheetItem(
-                text: localizations.delete,
-                onPressed: () async {
-                  var manager = await RequestMapManager.instance;
-                  await manager.deleteRule(index);
-                  _refreshConfig();
-                }),
-          ]);
-        }).then((value) {
+    showLicoSheet(
+      context,
+      builder: (ctx) {
+        return Wrap(alignment: WrapAlignment.center, children: [
+          BottomSheetItem(
+              text: localizations.multiple,
+              onPressed: () {
+                setState(() => multiple = true);
+              }),
+          const Divider(thickness: 0.5, height: 5),
+          BottomSheetItem(text: localizations.edit, onPressed: () => showEdit(index)),
+          const Divider(thickness: 0.5, height: 5),
+          BottomSheetItem(text: localizations.export, onPressed: () => export([index])),
+          const Divider(thickness: 0.5, height: 5),
+          BottomSheetItem(
+              text: widget.list[index].enabled ? localizations.disabled : localizations.enable,
+              onPressed: () {
+                widget.list[index].enabled = !widget.list[index].enabled;
+                _refreshConfig();
+              }),
+          const Divider(thickness: 0.5, height: 5),
+          BottomSheetItem(
+              text: localizations.delete,
+              onPressed: () async {
+                var manager = await RequestMapManager.instance;
+                await manager.deleteRule(index);
+                _refreshConfig();
+              }),
+        ]);
+      },
+    ).then((value) {
       if (multiple) {
         return;
       }

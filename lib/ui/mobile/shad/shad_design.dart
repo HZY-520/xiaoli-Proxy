@@ -8,6 +8,7 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:lico_proxy/ui/configuration.dart';
+import './shad_design.dart';
 
 /// 全局 shadcn 主题构建器。
 ///
@@ -116,7 +117,12 @@ class ShadTile extends StatelessWidget {
 
   /// 自定义标题组件（优先于 [title]，用于需要在标题旁挂徽标等场景）
   final Widget? titleWidget;
+
+  /// 副标题文本
   final String? subtitle;
+
+  /// 自定义副标题组件（优先于 [subtitle]，用于需要富文本/Markdown 等场景）
+  final Widget? subtitleWidget;
   final Widget? trailing;
   final VoidCallback? onTap;
   final VoidCallback? onLongPress;
@@ -131,6 +137,7 @@ class ShadTile extends StatelessWidget {
     this.title,
     this.titleWidget,
     this.subtitle,
+    this.subtitleWidget,
     this.trailing,
     this.onTap,
     this.onLongPress,
@@ -168,7 +175,13 @@ class ShadTile extends StatelessWidget {
                         style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500, color: titleColor),
                         child: titleWidget ?? Text(title!),
                       ),
-                      if (subtitle != null) ...[
+                      if (subtitleWidget != null) ...[
+                        const SizedBox(height: 2),
+                        DefaultTextStyle.merge(
+                          style: TextStyle(fontSize: 12, color: scheme.mutedForeground),
+                          child: subtitleWidget!,
+                        ),
+                      ] else if (subtitle != null) ...[
                         const SizedBox(height: 2),
                         Text(subtitle!,
                             style: TextStyle(fontSize: 12, color: scheme.mutedForeground),
@@ -186,6 +199,99 @@ class ShadTile extends StatelessWidget {
         if (showDivider)
           Divider(height: 0, thickness: 0.5, indent: 16, endIndent: 16, color: scheme.border.withValues(alpha: 0.5)),
       ],
+    );
+  }
+}
+
+/// shadcn 风格的底部操作弹层（替代 showModalBottomSheet）。
+///
+/// 顶部带一个居中的拖拽指示条，整体圆角 16、细边框，与 shadcn 的
+/// Popover/Dialog 观感一致。[builder] 返回弹层主体内容。
+Future<T?> showLicoSheet<T>(
+  BuildContext context, {
+  required WidgetBuilder builder,
+  bool isScrollControlled = true,
+}) {
+  return showModalBottomSheet<T>(
+    context: context,
+    isScrollControlled: isScrollControlled,
+    backgroundColor: ShadTheme.of(context).colorScheme.background,
+    barrierColor: Colors.black.withValues(alpha: 0.4),
+    shape: const RoundedRectangleBorder(
+      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+    ),
+    builder: (ctx) {
+      final scheme = ShadTheme.of(ctx).colorScheme;
+      return SafeArea(
+        child: Container(
+          decoration: BoxDecoration(
+            border: Border(
+              top: BorderSide(color: scheme.border.withValues(alpha: 0.6), width: 0.5),
+            ),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // 拖拽指示条
+              Container(
+                margin: const EdgeInsets.only(top: 10, bottom: 6),
+                width: 38,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: scheme.border,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              builder(ctx),
+              const SizedBox(height: 6),
+            ],
+          ),
+        ),
+      );
+    },
+  );
+}
+
+/// 底部弹层中的一行操作项（shadcn 菜单项观感）。
+class ShadSheetItem extends StatelessWidget {
+  final IconData? icon;
+  final String text;
+  final VoidCallback onPressed;
+  final bool danger;
+
+  const ShadSheetItem({
+    super.key,
+    this.icon,
+    required this.text,
+    required this.onPressed,
+    this.danger = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = ShadTheme.of(context).colorScheme;
+    final color = danger ? scheme.destructive : null;
+    return InkWell(
+      onTap: onPressed,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 15),
+        child: Row(
+          children: [
+            if (icon != null) ...[
+              Icon(icon, size: 19, color: color ?? scheme.mutedForeground),
+              const SizedBox(width: 12),
+            ],
+            Expanded(
+              child: Text(text,
+                  style: TextStyle(
+                    fontSize: 15,
+                    fontWeight: FontWeight.w500,
+                    color: color ?? scheme.foreground,
+                  )),
+            ),
+          ],
+        ),
+      ),
     );
   }
 }

@@ -79,16 +79,17 @@ class _MobileScriptState extends State<MobileScript> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           SizedBox(
-                              child: ListTile(
-                                  title: Text(localizations.enableScript),
-                                  subtitle: Text(localizations.scriptUseDescribe),
-                                  trailing: SwitchWidget(
-                                    value: data.enabled,
-                                    onChanged: (value) {
-                                      data.enabled = value;
-                                      _refreshScript();
-                                    },
-                                  ))),
+                              child: ShadTile(
+                            titleWidget: Text(localizations.enableScript),
+                            subtitleWidget: Text(localizations.scriptUseDescribe),
+                            trailing: SwitchWidget(
+                              value: data.enabled,
+                              onChanged: (value) {
+                                data.enabled = value;
+                                _refreshScript();
+                              },
+                            ),
+                          )),
                           const SizedBox(height: 8),
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
@@ -960,52 +961,51 @@ class _ScriptListState extends State<ScriptList> {
       selected.add(index);
     });
 
-    showModalBottomSheet(
-        context: context,
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
-        enableDrag: true,
-        builder: (context) {
-          return Wrap(
-            alignment: WrapAlignment.center,
-            children: [
-              BottomSheetItem(
-                  text: localizations.multiple,
-                  onPressed: () {
-                    setState(() => multiple = true);
-                  }),
-              const Divider(thickness: 0.5, height: 1),
-              BottomSheetItem(text: localizations.edit, onPressed: () => showEdit(index)),
-              const Divider(thickness: 0.5, height: 1),
-              BottomSheetItem(text: localizations.share, onPressed: () => export(context, [index])),
-              const Divider(thickness: 0.5, height: 1),
-              BottomSheetItem(
-                  text: widget.scripts[index].enabled ? localizations.disabled : localizations.enable,
-                  onPressed: () {
-                    widget.scripts[index].enabled = !widget.scripts[index].enabled;
-                    _refreshScript();
-                  }),
-              const Divider(thickness: 0.5, height: 1),
-              BottomSheetItem(
-                  text: localizations.delete,
-                  onPressed: () async {
-                    await (await ScriptManager.instance).removeScript(index);
-                    _refreshScript(force: true);
-                    if (context.mounted) FlutterToastr.show(localizations.importSuccess, context);
-                  }),
-              Container(color: Theme.of(context).hoverColor, height: 8),
-              TextButton(
-                child: Container(
-                    height: 45,
-                    width: double.infinity,
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Text(localizations.cancel, textAlign: TextAlign.center)),
+    showLicoSheet(
+      context,
+      builder: (context) {
+        return Wrap(
+          alignment: WrapAlignment.center,
+          children: [
+            BottomSheetItem(
+                text: localizations.multiple,
                 onPressed: () {
-                  Navigator.of(context).pop();
-                },
-              ),
-            ],
-          );
-        }).then((value) {
+                  setState(() => multiple = true);
+                }),
+            const Divider(thickness: 0.5, height: 1),
+            BottomSheetItem(text: localizations.edit, onPressed: () => showEdit(index)),
+            const Divider(thickness: 0.5, height: 1),
+            BottomSheetItem(text: localizations.share, onPressed: () => export(context, [index])),
+            const Divider(thickness: 0.5, height: 1),
+            BottomSheetItem(
+                text: widget.scripts[index].enabled ? localizations.disabled : localizations.enable,
+                onPressed: () {
+                  widget.scripts[index].enabled = !widget.scripts[index].enabled;
+                  _refreshScript();
+                }),
+            const Divider(thickness: 0.5, height: 1),
+            BottomSheetItem(
+                text: localizations.delete,
+                onPressed: () async {
+                  await (await ScriptManager.instance).removeScript(index);
+                  _refreshScript(force: true);
+                  if (context.mounted) FlutterToastr.show(localizations.importSuccess, context);
+                }),
+            Container(color: Theme.of(context).hoverColor, height: 8),
+            TextButton(
+              child: Container(
+                  height: 45,
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Text(localizations.cancel, textAlign: TextAlign.center)),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    ).then((value) {
       if (multiple) {
         return;
       }

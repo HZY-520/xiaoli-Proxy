@@ -258,89 +258,86 @@ class DomainListState extends State<DomainList> with AutomaticKeepAliveClientMix
   void menu(int index) {
     var hostAndPort = view.elementAt(index);
 
-    showModalBottomSheet(
-        shape: RoundedRectangleBorder(
-            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
-            side: BorderSide(color: ShadTheme.of(context).colorScheme.border.withValues(alpha: 0.6), width: 0.5)),
-        context: context,
-        enableDrag: true,
-        builder: (ctx) {
-          return Wrap(
-            alignment: WrapAlignment.center,
-            children: [
-              BottomSheetItem(
-                  text: localizations.copyHost,
-                  onPressed: () {
-                    Clipboard.setData(ClipboardData(text: hostAndPort.host));
-                    FlutterToastr.show(localizations.copied, context);
-                  }),
-              const Divider(thickness: 0.5, height: 5),
-              BottomSheetItem(
-                  text: localizations.addBlacklist,
-                  onPressed: () {
-                    HostFilter.blacklist.add(hostAndPort.host);
-                    configuration.flushConfig();
-                    FlutterToastr.show(localizations.addSuccess, context);
-                  }),
-              const Divider(thickness: 0.5, height: 5),
-              BottomSheetItem(
-                  text: localizations.addWhitelist,
-                  onPressed: () {
-                    HostFilter.whitelist.add(hostAndPort.host);
-                    configuration.flushConfig();
-                    FlutterToastr.show(localizations.addSuccess, context);
-                  }),
-              const Divider(thickness: 0.5, height: 5),
-              BottomSheetItem(
-                  text: localizations.deleteWhitelist,
-                  onPressed: () {
-                    HostFilter.whitelist.remove(hostAndPort.host);
-                    configuration.flushConfig();
-                    FlutterToastr.show(localizations.deleteSuccess, context);
-                  }),
-              const Divider(thickness: 0.5, height: 5),
-              BottomSheetItem(
-                  text: localizations.repeatDomainRequests,
-                  onPressed: () {
-                    repeatDomainRequests(hostAndPort);
-                  }),
-              const Divider(thickness: 0.5, height: 5),
-              BottomSheetItem(
-                  text: localizations.exportDomainHar,
-                  onPressed: () {
-                    exportDomainHar(hostAndPort);
-                  }),
-              const Divider(thickness: 0.5, height: 5),
-              BottomSheetItem(
-                  text: localizations.delete,
-                  onPressed: () {
-                    setState(() {
-                      var requests = containerMap.remove(hostAndPort);
-                      domainList.remove(hostAndPort);
-                      view.removeAt(index);
-                      if (requests != null) {
-                        widget.onRemove?.call(requests);
-                      }
-                      FlutterToastr.show(localizations.deleteSuccess, context);
-                    });
-                  }),
-              Container(
-                color: Theme.of(context).hoverColor,
-                height: 8,
-              ),
-              TextButton(
-                child: Container(
-                    height: 45,
-                    width: double.infinity,
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Text(localizations.cancel, textAlign: TextAlign.center)),
+    showLicoSheet(
+      context,
+      builder: (ctx) {
+        return Wrap(
+          alignment: WrapAlignment.center,
+          children: [
+            BottomSheetItem(
+                text: localizations.copyHost,
                 onPressed: () {
-                  Navigator.of(ctx).pop();
-                },
-              ),
-            ],
-          );
-        });
+                  Clipboard.setData(ClipboardData(text: hostAndPort.host));
+                  FlutterToastr.show(localizations.copied, context);
+                }),
+            const Divider(thickness: 0.5, height: 5),
+            BottomSheetItem(
+                text: localizations.addBlacklist,
+                onPressed: () {
+                  HostFilter.blacklist.add(hostAndPort.host);
+                  configuration.flushConfig();
+                  FlutterToastr.show(localizations.addSuccess, context);
+                }),
+            const Divider(thickness: 0.5, height: 5),
+            BottomSheetItem(
+                text: localizations.addWhitelist,
+                onPressed: () {
+                  HostFilter.whitelist.add(hostAndPort.host);
+                  configuration.flushConfig();
+                  FlutterToastr.show(localizations.addSuccess, context);
+                }),
+            const Divider(thickness: 0.5, height: 5),
+            BottomSheetItem(
+                text: localizations.deleteWhitelist,
+                onPressed: () {
+                  HostFilter.whitelist.remove(hostAndPort.host);
+                  configuration.flushConfig();
+                  FlutterToastr.show(localizations.deleteSuccess, context);
+                }),
+            const Divider(thickness: 0.5, height: 5),
+            BottomSheetItem(
+                text: localizations.repeatDomainRequests,
+                onPressed: () {
+                  repeatDomainRequests(hostAndPort);
+                }),
+            const Divider(thickness: 0.5, height: 5),
+            BottomSheetItem(
+                text: localizations.exportDomainHar,
+                onPressed: () {
+                  exportDomainHar(hostAndPort);
+                }),
+            const Divider(thickness: 0.5, height: 5),
+            BottomSheetItem(
+                text: localizations.delete,
+                onPressed: () {
+                  setState(() {
+                    var requests = containerMap.remove(hostAndPort);
+                    domainList.remove(hostAndPort);
+                    view.removeAt(index);
+                    if (requests != null) {
+                      widget.onRemove?.call(requests);
+                    }
+                    FlutterToastr.show(localizations.deleteSuccess, context);
+                  });
+                }),
+            Container(
+              color: Theme.of(context).hoverColor,
+              height: 8,
+            ),
+            TextButton(
+              child: Container(
+                  height: 45,
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Text(localizations.cancel, textAlign: TextAlign.center)),
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   //重复域名下请求

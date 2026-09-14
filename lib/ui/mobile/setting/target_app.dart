@@ -103,8 +103,8 @@ class _TargetAppPageState extends State<TargetAppPage> {
   }
 
   void _showActions(AppInfo appInfo) {
-    showModalBottomSheet(
-      context: context,
+    showLicoSheet(
+      context,
       builder: (ctx) {
         final scheme = ShadTheme.of(ctx).colorScheme;
         return SafeArea(
@@ -167,8 +167,7 @@ class _TargetAppPageState extends State<TargetAppPage> {
                       indent: 76),
                   itemBuilder: (BuildContext context, int index) {
                     AppInfo appInfo = appInfoList[index];
-                    return ListTile(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                    return ShadTile(
                       leading: appInfo.icon == null
                           ? Container(
                               width: 48,
@@ -188,11 +187,11 @@ class _TargetAppPageState extends State<TargetAppPage> {
                                 fit: BoxFit.cover,
                               ),
                             ),
-                      title: Text(
+                      titleWidget: Text(
                         appInfo.name ?? appInfo.packageName ?? '',
                         style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
                       ),
-                      subtitle: Padding(
+                      subtitleWidget: Padding(
                         padding: const EdgeInsets.only(top: 2),
                         child: Text(
                           appInfo.packageName ?? '',

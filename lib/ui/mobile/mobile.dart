@@ -329,18 +329,18 @@ class MobileHomeState extends State<MobileHomePage> implements EventListener, Li
         context: context,
         barrierDismissible: false,
         builder: (context) {
-          return AlertDialog(
-              scrollable: true,
-              actions: [
-                TextButton(
-                    onPressed: () {
-                      onClose.call();
-                      Navigator.pop(context);
-                    },
-                    child: Text(localizations.close))
-              ],
-              title: Text(title, style: const TextStyle(fontSize: 18)),
-              content: SelectableText(content));
+          return ShadDialog(
+            actions: [
+              TextButton(
+                  onPressed: () {
+                    onClose.call();
+                    Navigator.pop(context);
+                  },
+                  child: Text(localizations.close))
+            ],
+            title: Text(title, style: const TextStyle(fontSize: 18)),
+            child: SelectableText(content),
+          );
         });
   }
 }
@@ -590,7 +590,7 @@ class _MobileAppBarState extends State<_MobileAppBar> {
     // HttpCanary 风格：清空抓包记录前始终二次确认
     bool? shouldClear = await showDialog<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
+      builder: (ctx) => ShadDialog(
         title: const Text('确定要清除当前的抓包记录吗？', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         actions: [
           TextButton(

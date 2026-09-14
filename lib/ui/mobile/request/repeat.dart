@@ -266,8 +266,8 @@ class _CustomRepeatState extends State<MobileCustomRepeat> {
       temp = now;
     }
 
-    DateTime? selected = await showModalBottomSheet<DateTime>(
-      context: context,
+    DateTime? selected = await showLicoSheet<DateTime>(
+      context,
       builder: (BuildContext context) {
         DateTime current = temp;
         return SafeArea(

@@ -16,6 +16,8 @@
 import 'package:flutter/material.dart';
 import 'package:lico_proxy/l10n/app_localizations.dart';
 import 'package:lico_proxy/ui/configuration.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
+import '../shad/shad_design.dart';
 
 class MobileThemeSetting extends StatelessWidget {
   final AppConfiguration appConfiguration;
@@ -46,20 +48,27 @@ class MobileThemeSetting extends StatelessWidget {
                       title: const Text("Material3"),
                     ))),
             PopupMenuItem(
-                child:
-                    ListTile(trailing: const Icon(Icons.cached), dense: true, title: Text(localizations.followSystem)),
+                child: ShadTile(
+                  trailing: const Icon(Icons.cached),
+                  titleWidget: Text(localizations.followSystem),
+                ),
                 onTap: () => appConfiguration.themeMode = ThemeMode.system),
             PopupMenuItem(
-                child: ListTile(trailing: const Icon(Icons.sunny), dense: true, title: Text(localizations.themeLight)),
+                child: ShadTile(
+                  trailing: const Icon(Icons.sunny),
+                  titleWidget: Text(localizations.themeLight),
+                ),
                 onTap: () => appConfiguration.themeMode = ThemeMode.light),
             PopupMenuItem(
-                child: ListTile(
-                    trailing: const Icon(Icons.nightlight_outlined), dense: true, title: Text(localizations.themeDark)),
+                child: ShadTile(
+                  trailing: const Icon(Icons.nightlight_outlined),
+                  titleWidget: Text(localizations.themeDark),
+                ),
                 onTap: () => appConfiguration.themeMode = ThemeMode.dark),
           ];
         },
-        child: ListTile(
-          title: Text(localizations.theme),
+        child: ShadTile(
+          titleWidget: Text(localizations.theme),
           trailing: getIcon(),
         ));
   }

@@ -113,7 +113,10 @@ class _DomainFilterState extends State<DomainFilter> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ListTile(title: Text(widget.title), subtitle: Text(widget.subtitle, style: const TextStyle(fontSize: 12))),
+        ShadTile(
+          titleWidget: Text(widget.title),
+          subtitleWidget: Text(widget.subtitle, style: const TextStyle(fontSize: 12)),
+        ),
         ValueListenableBuilder(
             valueListenable: widget.hostEnableNotifier,
             builder: (_, bool enable, __) {

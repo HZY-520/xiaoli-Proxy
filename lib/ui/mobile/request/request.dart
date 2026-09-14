@@ -46,6 +46,8 @@ import 'package:lico_proxy/utils/keyword_highlight.dart';
 import 'package:lico_proxy/utils/lang.dart';
 import 'package:lico_proxy/utils/navigator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
+import '../shad/shad_design.dart';
 
 ///请求行
 class RequestRow extends StatefulWidget {
@@ -171,15 +173,9 @@ class RequestRowState extends State<RequestRow> {
 
     return GestureDetector(
         onLongPressStart: menu,
-        child: ListTile(
-          visualDensity: const VisualDensity(vertical: -4),
-          minLeadingWidth: 44,
-          selected: selected ||
-              (widget.selectionController.isSelectionMode && widget.selectionController.contains(request.requestId)),
-          textColor: highlightColor,
-          selectedColor: highlightColor,
+        child: ShadTile(
           leading: rowLeading(),
-          title: Column(
+          titleWidget: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               // 第一行：[未读蓝点] + 应用名(撑满) + 灰色圆形序号 + 时间(贴右)
@@ -232,10 +228,8 @@ class RequestRowState extends State<RequestRow> {
               ]),
             ],
           ),
-          subtitle: null,
+          subtitleWidget: null,
           trailing: null,
-          contentPadding:
-              Platform.isIOS ? const EdgeInsets.symmetric(horizontal: 8) : const EdgeInsets.only(left: 3, right: 0),
           onTap: () {
             if (widget.selectionController.isSelectionMode) {
               widget.selectionController.toggle(request.requestId);

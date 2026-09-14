@@ -250,52 +250,51 @@ class _MobileRequestCryptoPageState extends State<MobileRequestCryptoPage> {
     setState(() {
       selected.add(index);
     });
-    showModalBottomSheet(
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
-        context: context,
-        enableDrag: true,
-        builder: (ctx) {
-          return Wrap(children: [
-            BottomSheetItem(
-                text: l10n.multiple,
-                onPressed: () {
-                  setState(() => selectionMode = true);
-                }),
-            const Divider(thickness: 0.5, height: 5),
-            BottomSheetItem(
-                text: l10n.edit,
-                onPressed: () {
-                  _editRule(manager, index);
-                }),
-            const Divider(thickness: 0.5, height: 5),
-            BottomSheetItem(text: l10n.export, onPressed: () => _export(manager, indexes: [index])),
-            const Divider(thickness: 0.5, height: 5),
-            BottomSheetItem(
-                text: manager.rules[index].enabled ? l10n.disabled : l10n.enable,
-                onPressed: () {
-                  manager.rules[index].enabled = !manager.rules[index].enabled;
-                  changed = true;
-                  setState(() {});
-                  _refreshConfig();
-                }),
-            const Divider(thickness: 0.5, height: 5),
-            BottomSheetItem(
-                text: l10n.delete,
-                onPressed: () {
-                  _removeRule(manager, index);
-                }),
-            Container(color: Theme.of(ctx).hoverColor, height: 8),
-            TextButton(
-                child: Container(
-                    height: 45,
-                    width: double.infinity,
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Text(l10n.cancel, textAlign: TextAlign.center)),
-                onPressed: () {
-                  Navigator.of(ctx).pop();
-                }),
-          ]);
-        }).then((value) {
+    showLicoSheet(
+      context,
+      builder: (ctx) {
+        return Wrap(children: [
+          BottomSheetItem(
+              text: l10n.multiple,
+              onPressed: () {
+                setState(() => selectionMode = true);
+              }),
+          const Divider(thickness: 0.5, height: 5),
+          BottomSheetItem(
+              text: l10n.edit,
+              onPressed: () {
+                _editRule(manager, index);
+              }),
+          const Divider(thickness: 0.5, height: 5),
+          BottomSheetItem(text: l10n.export, onPressed: () => _export(manager, indexes: [index])),
+          const Divider(thickness: 0.5, height: 5),
+          BottomSheetItem(
+              text: manager.rules[index].enabled ? l10n.disabled : l10n.enable,
+              onPressed: () {
+                manager.rules[index].enabled = !manager.rules[index].enabled;
+                changed = true;
+                setState(() {});
+                _refreshConfig();
+              }),
+          const Divider(thickness: 0.5, height: 5),
+          BottomSheetItem(
+              text: l10n.delete,
+              onPressed: () {
+                _removeRule(manager, index);
+              }),
+          Container(color: Theme.of(ctx).hoverColor, height: 8),
+          TextButton(
+              child: Container(
+                  height: 45,
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Text(l10n.cancel, textAlign: TextAlign.center)),
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              }),
+        ]);
+      },
+    ).then((value) {
       if (selectionMode) {
         return;
       }

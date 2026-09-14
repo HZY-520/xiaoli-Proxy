@@ -189,22 +189,22 @@ class _MobileHistoryState extends State<MobileHistory> {
   Widget buildSaveSession(HistoryStorage storage) {
     var name = formatDate(DateTime.now(), [mm, '-', d, ' ', HH, ':', nn, ':', ss]);
 
-    return ListTile(
-        dense: true,
-        title: Text(name),
-        subtitle: Text(localizations.historyUnSave),
-        trailing: TextButton.icon(
-          icon: const Icon(Icons.save),
-          label: Text(localizations.save),
-          onPressed: () async {
-            setState(() {
-              widget.container.addListener(widget.historyTask);
-              widget.historyTask.startTask();
-              _sessionSaved = true;
-            });
-          },
-        ),
-        onTap: () {});
+    return ShadTile(
+      titleWidget: Text(name),
+      subtitleWidget: Text(localizations.historyUnSave),
+      trailing: TextButton.icon(
+        icon: const Icon(Icons.save),
+        label: Text(localizations.save),
+        onPressed: () async {
+          setState(() {
+            widget.container.addListener(widget.historyTask);
+            widget.historyTask.startTask();
+            _sessionSaved = true;
+          });
+        },
+      ),
+      onTap: () {},
+    );
   }
 
   //导入har
@@ -273,11 +273,9 @@ class _MobileHistoryState extends State<MobileHistory> {
             });
           });
         },
-        child: ListTile(
-          dense: true,
-          selected: selectIndex == index,
-          title: Text(item.name),
-          subtitle: Text(localizations.historySubtitle(item.requestLength, item.size)),
+        child: ShadTile(
+          titleWidget: Text(item.name),
+          subtitleWidget: Text(localizations.historySubtitle(item.requestLength, item.size)),
           onTap: () => toRequestsView(item, storage),
         ));
   }

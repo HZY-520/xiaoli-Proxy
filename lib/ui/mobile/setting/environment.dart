@@ -93,17 +93,17 @@ class _MobileEnvironmentPageState extends State<MobileEnvironmentPage> {
     final controller = TextEditingController(text: initial);
     return showDialog<String>(
       context: context,
-      builder: (ctx) => AlertDialog(
+      builder: (ctx) => ShadDialog(
         title: Text(title, style: const TextStyle(fontSize: 15)),
-        content: TextField(
-          controller: controller,
-          autofocus: true,
-          decoration: InputDecoration(hintText: hint, isDense: true, border: const OutlineInputBorder()),
-        ),
         actions: [
           TextButton(onPressed: () => Navigator.of(ctx).pop(), child: Text(localizations.cancel)),
           TextButton(onPressed: () => Navigator.of(ctx).pop(controller.text), child: Text(localizations.confirm)),
         ],
+        child: TextField(
+          controller: controller,
+          autofocus: true,
+          decoration: InputDecoration(hintText: hint, isDense: true, border: const OutlineInputBorder()),
+        ),
       ),
     );
   }
@@ -275,18 +275,18 @@ class _MobileEnvironmentPageState extends State<MobileEnvironmentPage> {
 
   /// 长按命名环境弹菜单:重命名 / 删除
   Future<void> _showEnvMenu(Environment env) async {
-    final action = await showModalBottomSheet<String>(
-      context: context,
+    final action = await showLicoSheet<String>(
+      context,
       builder: (ctx) => SafeArea(
         child: Column(mainAxisSize: MainAxisSize.min, children: [
-          ListTile(
+          ShadTile(
             leading: const Icon(Icons.edit_outlined),
-            title: Text(localizations.edit),
+            titleWidget: Text(localizations.edit),
             onTap: () => Navigator.of(ctx).pop('rename'),
           ),
-          ListTile(
+          ShadTile(
             leading: const Icon(Icons.delete_outline, color: Colors.red),
-            title: Text(localizations.delete, style: const TextStyle(color: Colors.red)),
+            titleWidget: Text(localizations.delete, style: const TextStyle(color: Colors.red)),
             onTap: () => Navigator.of(ctx).pop('delete'),
           ),
         ]),

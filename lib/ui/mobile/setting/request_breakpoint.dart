@@ -64,19 +64,19 @@ class _RequestBreakpointPageState extends State<MobileRequestBreakpointPage> {
                   Row(children: [
                     SizedBox(
                         width: !isCN ? 230 : 160,
-                        child: ListTile(
-                            title: Text("${localizations.enable} ${localizations.breakpoint}"),
-                            contentPadding: const EdgeInsets.only(left: 2),
-                            trailing: SwitchWidget(
-                                value: enabled,
-                                scale: 0.8,
-                                onChanged: (val) async {
-                                  manager.enabled = val;
-                                  await _save();
-                                  setState(() {
-                                    enabled = val;
-                                  });
-                                }))),
+                        child: ShadTile(
+                          titleWidget: Text("${localizations.enable} ${localizations.breakpoint}"),
+                          trailing: SwitchWidget(
+                              value: enabled,
+                              scale: 0.8,
+                              onChanged: (val) async {
+                                manager.enabled = val;
+                                await _save();
+                                setState(() {
+                                  enabled = val;
+                                });
+                              }),
+                        )),
                     const SizedBox(width: 10),
                     Expanded(
                         child: Row(mainAxisAlignment: MainAxisAlignment.end, children: [
@@ -275,51 +275,50 @@ class _RequestBreakpointPageState extends State<MobileRequestBreakpointPage> {
     setState(() {
       selected.add(index);
     });
-    showModalBottomSheet(
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
-        context: context,
-        enableDrag: true,
-        builder: (ctx) {
-          return Wrap(children: [
-            BottomSheetItem(
-                text: l10n.multiple,
-                onPressed: () {
-                  setState(() => selectionMode = true);
-                }),
-            const Divider(thickness: 0.5, height: 5),
-            BottomSheetItem(
-                text: l10n.edit,
-                onPressed: () {
-                  _editRule(rule: rules[index]);
-                }),
-            const Divider(thickness: 0.5, height: 5),
-            BottomSheetItem(text: l10n.export, onPressed: () => _export(manager, indexes: [index])),
-            const Divider(thickness: 0.5, height: 5),
-            BottomSheetItem(
-                text: rules[index].enabled ? l10n.disabled : l10n.enable,
-                onPressed: () {
-                  rules[index].enabled = !rules[index].enabled;
-                  setState(() {});
-                  _save();
-                }),
-            const Divider(thickness: 0.5, height: 5),
-            BottomSheetItem(
-                text: l10n.delete,
-                onPressed: () {
-                  _removeRule(index);
-                }),
-            Container(color: Theme.of(ctx).hoverColor, height: 8),
-            TextButton(
-                child: Container(
-                    height: 45,
-                    width: double.infinity,
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Text(l10n.cancel, textAlign: TextAlign.center)),
-                onPressed: () {
-                  Navigator.of(ctx).pop();
-                }),
-          ]);
-        }).then((value) {
+    showLicoSheet(
+      context,
+      builder: (ctx) {
+        return Wrap(children: [
+          BottomSheetItem(
+              text: l10n.multiple,
+              onPressed: () {
+                setState(() => selectionMode = true);
+              }),
+          const Divider(thickness: 0.5, height: 5),
+          BottomSheetItem(
+              text: l10n.edit,
+              onPressed: () {
+                _editRule(rule: rules[index]);
+              }),
+          const Divider(thickness: 0.5, height: 5),
+          BottomSheetItem(text: l10n.export, onPressed: () => _export(manager, indexes: [index])),
+          const Divider(thickness: 0.5, height: 5),
+          BottomSheetItem(
+              text: rules[index].enabled ? l10n.disabled : l10n.enable,
+              onPressed: () {
+                rules[index].enabled = !rules[index].enabled;
+                setState(() {});
+                _save();
+              }),
+          const Divider(thickness: 0.5, height: 5),
+          BottomSheetItem(
+              text: l10n.delete,
+              onPressed: () {
+                _removeRule(index);
+              }),
+          Container(color: Theme.of(ctx).hoverColor, height: 8),
+          TextButton(
+              child: Container(
+                  height: 45,
+                  width: double.infinity,
+                  padding: const EdgeInsets.only(top: 10),
+                  child: Text(l10n.cancel, textAlign: TextAlign.center)),
+              onPressed: () {
+                Navigator.of(ctx).pop();
+              }),
+        ]);
+      },
+    ).then((value) {
       if (selectionMode) {
         return;
       }
@@ -333,7 +332,7 @@ class _RequestBreakpointPageState extends State<MobileRequestBreakpointPage> {
     showDialog(
         context: context,
         builder: (ctx) {
-          return AlertDialog(
+          return ShadDialog(
             title: Text(localizations.deleteHeaderConfirm, style: const TextStyle(fontSize: 18)),
             actions: [
               TextButton(onPressed: () => Navigator.pop(ctx), child: Text(localizations.cancel)),
@@ -355,7 +354,7 @@ class _RequestBreakpointPageState extends State<MobileRequestBreakpointPage> {
     showDialog(
         context: context,
         builder: (ctx) {
-          return AlertDialog(
+          return ShadDialog(
             title: Text(localizations.deleteHeaderConfirm, style: const TextStyle(fontSize: 18)),
             actions: [
               TextButton(onPressed: () => Navigator.pop(ctx), child: Text(localizations.cancel)),

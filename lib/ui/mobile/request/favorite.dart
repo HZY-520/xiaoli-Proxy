@@ -204,31 +204,27 @@ class _FavoriteItemState extends State<_FavoriteItem> {
 
     return GestureDetector(
         onLongPressStart: menu,
-        child: ListTile(
-            selected: selected,
-            selectedTileColor: ShadTheme.of(context).colorScheme.primary.withValues(alpha: 0.06),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            minLeadingWidth: 25,
-            leading: getIcon(response),
-            title: title,
-            trailing: request.isWebSocket
-                ? Text(
-                    'WS',
-                    style: TextStyle(
-                      fontSize: 10,
-                      fontWeight: FontWeight.w600,
-                      color: Theme.of(context).colorScheme.primary,
-                    ),
-                  )
-                : null,
-            subtitle: Text.rich(
-                maxLines: 1,
-                TextSpan(children: [
-                  TextSpan(text: '#${widget.index} ', style: const TextStyle(fontSize: 12, color: Colors.teal)),
-                  TextSpan(text: subtitle, style: const TextStyle(fontSize: 12)),
-                ])),
-            dense: true,
-            onTap: onClick));
+        child: ShadTile(
+          leading: getIcon(response),
+          titleWidget: title,
+          trailing: request.isWebSocket
+              ? Text(
+                  'WS',
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).colorScheme.primary,
+                  ),
+                )
+              : null,
+          subtitleWidget: Text.rich(
+              maxLines: 1,
+              TextSpan(children: [
+                TextSpan(text: '#${widget.index} ', style: const TextStyle(fontSize: 12, color: Colors.teal)),
+                TextSpan(text: subtitle, style: const TextStyle(fontSize: 12)),
+              ])),
+          onTap: onClick,
+        ));
   }
 
   ///右键菜单
