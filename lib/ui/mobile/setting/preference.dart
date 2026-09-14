@@ -201,54 +201,61 @@ class _PreferenceState extends State<Preference> {
             child: Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                TextButton(
-                    onPressed: () {
-                      appConfiguration.language = null;
-                      Navigator.of(context).pop();
-                    },
-                    child: Text(localizations.followSystem)),
+                ShadButton.ghost(
+                  onPressed: () {
+                    appConfiguration.language = null;
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(localizations.followSystem),
+                ),
                 const Divider(thickness: 0.5, height: 0),
-                TextButton(
-                    onPressed: () {
-                      appConfiguration.language = const Locale.fromSubtags(languageCode: 'zh');
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text("简体中文")),
+                ShadButton.ghost(
+                  onPressed: () {
+                    appConfiguration.language = const Locale.fromSubtags(languageCode: 'zh');
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("简体中文"),
+                ),
                 const Divider(thickness: 0.5, height: 0),
-                TextButton(
-                    onPressed: () {
-                      appConfiguration.language = const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant');
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text("繁體中文")),
+                ShadButton.ghost(
+                  onPressed: () {
+                    appConfiguration.language = const Locale.fromSubtags(languageCode: 'zh', scriptCode: 'Hant');
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("繁體中文"),
+                ),
                 const Divider(thickness: 0.5, height: 0),
-                TextButton(
-                    onPressed: () {
-                      appConfiguration.language = const Locale.fromSubtags(languageCode: 'vi');
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text("Tiếng Việt")),
+                ShadButton.ghost(
+                  onPressed: () {
+                    appConfiguration.language = const Locale.fromSubtags(languageCode: 'vi');
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("Tiếng Việt"),
+                ),
                 const Divider(thickness: 0.5, height: 0),
-                TextButton(
-                    onPressed: () {
-                      appConfiguration.language = const Locale.fromSubtags(languageCode: 'th');
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text("ไทย")),
+                ShadButton.ghost(
+                  onPressed: () {
+                    appConfiguration.language = const Locale.fromSubtags(languageCode: 'th');
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("ไทย"),
+                ),
                 const Divider(thickness: 0.5, height: 0),
-                TextButton(
-                    onPressed: () {
-                      appConfiguration.language = const Locale.fromSubtags(languageCode: 'es');
-                      Navigator.of(context).pop();
-                    },
-                    child: const Text("Español")),
+                ShadButton.ghost(
+                  onPressed: () {
+                    appConfiguration.language = const Locale.fromSubtags(languageCode: 'es');
+                    Navigator.of(context).pop();
+                  },
+                  child: const Text("Español"),
+                ),
                 const Divider(thickness: 0.5, height: 0),
-                TextButton(
-                    child: const Text("English"),
-                    onPressed: () {
-                      appConfiguration.language = const Locale.fromSubtags(languageCode: 'en');
-                      Navigator.of(context).pop();
-                    }),
+                ShadButton.ghost(
+                  child: const Text("English"),
+                  onPressed: () {
+                    appConfiguration.language = const Locale.fromSubtags(languageCode: 'en');
+                    Navigator.of(context).pop();
+                  },
+                ),
                 const Divider(thickness: 0.5),
               ],
             ),

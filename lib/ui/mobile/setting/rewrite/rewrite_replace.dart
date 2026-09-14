@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2023 Hongen Wang All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,6 +26,7 @@ import 'package:lico_proxy/ui/component/state_component.dart';
 import 'package:lico_proxy/ui/component/widgets.dart';
 import 'package:lico_proxy/utils/lang.dart';
 import 'package:re_highlight/languages/json.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 /// 重写替换
 /// @author wanghongen
@@ -529,7 +530,7 @@ class HeadersState extends State<Headers> with AutomaticKeepAliveClientMixin {
                 index == list.length ? const SizedBox() : const Divider(thickness: 0.2),
             itemBuilder: (context, index) => index < list.length
                 ? list[index]
-                : TextButton(
+                : ShadButton.ghost(
                     child: Text("${localizations.add}Header", textAlign: TextAlign.center),
                     onPressed: () {
                       setState(() {

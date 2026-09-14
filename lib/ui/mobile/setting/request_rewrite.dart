@@ -76,13 +76,21 @@ class _MobileRequestRewriteState extends State<MobileRequestRewrite> {
                   ],
                 ),
                 Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  TextButton.icon(
-                      icon: const Icon(Icons.add, size: 20), onPressed: add, label: Text(localizations.add)),
+                  ShadButton.ghost(
+                    onPressed: add,
+                    child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [const Icon(Icons.add, size: 20), const SizedBox(width: 6), Text(localizations.add)]),
+                  ),
                   const SizedBox(width: 5),
-                  TextButton.icon(
-                      icon: const Icon(Icons.input_rounded, size: 20),
-                      onPressed: import,
-                      label: Text(localizations.import)),
+                  ShadButton.ghost(
+                    onPressed: import,
+                    child: Row(mainAxisSize: MainAxisSize.min, children: [
+                      const Icon(Icons.input_rounded, size: 20),
+                      const SizedBox(width: 6),
+                      Text(localizations.import)
+                    ]),
+                  ),
                 ]),
                 const SizedBox(height: 10),
                 Expanded(child: RequestRuleList(widget.requestRewrites)),
@@ -201,33 +209,34 @@ class _RequestRuleListState extends State<RequestRuleList> {
           left: 0,
           right: 0,
           child: Center(
-              child: TextButton(
-                  onPressed: () {},
-                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                    TextButton.icon(
-                        onPressed: () {
-                          export(context, selected.toList());
-                          setState(() {
-                            selected.clear();
-                            multiple = false;
-                          });
-                        },
-                        icon: const Icon(Icons.share, size: 18),
-                        label: Text(localizations.export, style: const TextStyle(fontSize: 14))),
-                    TextButton.icon(
-                        onPressed: () => removeRewrite(),
-                        icon: const Icon(Icons.delete, size: 18),
-                        label: Text(localizations.delete, style: const TextStyle(fontSize: 14))),
-                    TextButton.icon(
-                        onPressed: () {
-                          setState(() {
-                            multiple = false;
-                            selected.clear();
-                          });
-                        },
-                        icon: const Icon(Icons.cancel, size: 18),
-                        label: Text(localizations.cancel, style: const TextStyle(fontSize: 14))),
-                  ]))))
+              child: ShadButton.ghost(
+            onPressed: () {},
+            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              TextButton.icon(
+                  onPressed: () {
+                    export(context, selected.toList());
+                    setState(() {
+                      selected.clear();
+                      multiple = false;
+                    });
+                  },
+                  icon: const Icon(Icons.share, size: 18),
+                  label: Text(localizations.export, style: const TextStyle(fontSize: 14))),
+              TextButton.icon(
+                  onPressed: () => removeRewrite(),
+                  icon: const Icon(Icons.delete, size: 18),
+                  label: Text(localizations.delete, style: const TextStyle(fontSize: 14))),
+              TextButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      multiple = false;
+                      selected.clear();
+                    });
+                  },
+                  icon: const Icon(Icons.cancel, size: 18),
+                  label: Text(localizations.cancel, style: const TextStyle(fontSize: 14))),
+            ]),
+          )))
     ]);
   }
 
@@ -335,15 +344,16 @@ class _RequestRuleListState extends State<RequestRuleList> {
                 if (mounted) FlutterToastr.show(localizations.deleteSuccess, context);
               }),
           Container(color: Theme.of(ctx).hoverColor, height: 8),
-          TextButton(
-              child: Container(
-                  height: 45,
-                  width: double.infinity,
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Text(localizations.cancel, textAlign: TextAlign.center)),
-              onPressed: () {
-                Navigator.of(ctx).pop();
-              }),
+          ShadButton.ghost(
+            child: Container(
+                height: 45,
+                width: double.infinity,
+                padding: const EdgeInsets.only(top: 10),
+                child: Text(localizations.cancel, textAlign: TextAlign.center)),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          ),
         ]);
       },
     ).then((value) {
@@ -458,33 +468,34 @@ class _RewriteRuleState extends State<RewriteRule> {
 
     return Scaffold(
         appBar: ShadHeader(title: localizations.requestRewrite, actions: [
-          TextButton(
-              child: Text(localizations.save),
-              onPressed: () async {
-                if (!(formKey.currentState as FormState).validate()) {
-                  FlutterToastr.show(localizations.cannotBeEmpty, context, position: FlutterToastr.center);
-                  return;
-                }
+          ShadButton.ghost(
+            child: Text(localizations.save),
+            onPressed: () async {
+              if (!(formKey.currentState as FormState).validate()) {
+                FlutterToastr.show(localizations.cannotBeEmpty, context, position: FlutterToastr.center);
+                return;
+              }
 
-                (formKey.currentState as FormState).save();
-                rule.name = nameInput.text;
-                rule.url = urlInput.text;
-                items = rewriteReplaceKey.currentState?.getItems() ?? rewriteUpdateKey.currentState?.getItems();
+              (formKey.currentState as FormState).save();
+              rule.name = nameInput.text;
+              rule.url = urlInput.text;
+              items = rewriteReplaceKey.currentState?.getItems() ?? rewriteUpdateKey.currentState?.getItems();
 
-                var requestRewrites = await RequestRewriteManager.instance;
-                var index = requestRewrites.rules.indexOf(rule);
+              var requestRewrites = await RequestRewriteManager.instance;
+              var index = requestRewrites.rules.indexOf(rule);
 
-                if (index >= 0) {
-                  await requestRewrites.updateRule(index, rule, items);
-                } else {
-                  await requestRewrites.addRule(rule, items!);
-                }
-                requestRewrites.flushRequestRewriteConfig();
-                if (mounted) {
-                  FlutterToastr.show(localizations.saveSuccess, this.context);
-                  Navigator.of(this.context).pop(rule);
-                }
-              })
+              if (index >= 0) {
+                await requestRewrites.updateRule(index, rule, items);
+              } else {
+                await requestRewrites.addRule(rule, items!);
+              }
+              requestRewrites.flushRequestRewriteConfig();
+              if (mounted) {
+                FlutterToastr.show(localizations.saveSuccess, this.context);
+                Navigator.of(this.context).pop(rule);
+              }
+            },
+          )
         ]),
         body: Padding(
           padding: const EdgeInsets.all(15),

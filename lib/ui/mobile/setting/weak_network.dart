@@ -148,18 +148,12 @@ class _MobileWeakNetworkState extends State<MobileWeakNetwork> {
         final p = m.findProfile(r.profileId) ?? m.defaultProfile;
         final isActive = r.enabled && m.enabled;
 
-        return Card(
-          margin: EdgeInsets.zero,
-          elevation: 0,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-            side: BorderSide(
+        return ShadCard(
+          border: ShadBorder.all(
               color: isActive
                   ? theme.colorScheme.primary.withValues(alpha: 0.4)
                   : theme.colorScheme.outlineVariant.withValues(alpha: 0.4),
-              width: 1,
-            ),
-          ),
+              width: 1),
           child: InkWell(
             borderRadius: BorderRadius.circular(12),
             onTap: () => _editUrl(index),
@@ -381,11 +375,7 @@ class _MobileRuleEditPageState extends State<_MobileRuleEditPage> {
       bottomNavigationBar: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: const Size.fromHeight(48),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            ),
+          child: ShadButton(
             onPressed: () {
               if (!formKey.currentState!.validate()) return;
               final r = widget.rule;
@@ -564,11 +554,7 @@ class _MobileProfileEditPageState extends State<_MobileProfileEditPage> {
       bottomNavigationBar: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: ElevatedButton(
-            style: ElevatedButton.styleFrom(
-              minimumSize: const Size.fromHeight(48),
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            ),
+          child: ShadButton(
             onPressed: () {
               if (!formKey.currentState!.validate()) return;
               final p = widget.profile;
@@ -694,13 +680,8 @@ class _MobileManageProfilesPageState extends State<_MobileManageProfilesPage> {
               separatorBuilder: (_, __) => const SizedBox(height: 8),
               itemBuilder: (context, index) {
                 final p = customProfiles[index];
-                return Card(
-                  margin: EdgeInsets.zero,
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                    side: BorderSide(color: theme.colorScheme.outlineVariant.withValues(alpha: 0.5)),
-                  ),
+                return ShadCard(
+                  border: ShadBorder.all(color: theme.colorScheme.outlineVariant.withValues(alpha: 0.5)),
                   child: ShadTile(
                     titleWidget:
                         Text(widget.profileLabel(p), style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),

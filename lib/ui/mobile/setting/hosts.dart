@@ -86,16 +86,30 @@ class _HostsPageState extends State<HostsPage> {
                       }),
                 ]),
                 Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  TextButton.icon(
-                      icon: const Icon(Icons.add, size: 18), onPressed: showEdit, label: Text(localizations.newBuilt)),
-                  TextButton.icon(
-                      icon: const Icon(Icons.folder_outlined, size: 18),
-                      onPressed: newFolder,
-                      label: Text(localizations.newFolder)),
-                  TextButton.icon(
-                      icon: const Icon(Icons.input_rounded, size: 18),
-                      onPressed: import,
-                      label: Text(localizations.import)),
+                  ShadButton.ghost(
+                    onPressed: showEdit,
+                    child: Row(mainAxisSize: MainAxisSize.min, children: [
+                      const Icon(Icons.add, size: 18),
+                      const SizedBox(width: 6),
+                      Text(localizations.newBuilt)
+                    ]),
+                  ),
+                  ShadButton.ghost(
+                    onPressed: newFolder,
+                    child: Row(mainAxisSize: MainAxisSize.min, children: [
+                      const Icon(Icons.folder_outlined, size: 18),
+                      const SizedBox(width: 6),
+                      Text(localizations.newFolder)
+                    ]),
+                  ),
+                  ShadButton.ghost(
+                    onPressed: import,
+                    child: Row(mainAxisSize: MainAxisSize.min, children: [
+                      const Icon(Icons.input_rounded, size: 18),
+                      const SizedBox(width: 6),
+                      Text(localizations.import)
+                    ]),
+                  ),
                   SizedBox(width: 3),
                 ]),
                 const SizedBox(height: 8),
@@ -217,33 +231,34 @@ class _HostsPageState extends State<HostsPage> {
           left: 0,
           right: 0,
           child: Center(
-              child: TextButton(
-                  onPressed: () {},
-                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                    TextButton.icon(
-                        onPressed: () {
-                          export(selected);
-                          setState(() {
-                            selected.clear();
-                            multiple = false;
-                          });
-                        },
-                        icon: const Icon(Icons.share, size: 18),
-                        label: Text(localizations.export, style: const TextStyle(fontSize: 14))),
-                    TextButton.icon(
-                        onPressed: () => removeHosts(selected),
-                        icon: const Icon(Icons.delete, size: 18),
-                        label: Text(localizations.delete, style: const TextStyle(fontSize: 14))),
-                    TextButton.icon(
-                        onPressed: () {
-                          setState(() {
-                            multiple = false;
-                            selected.clear();
-                          });
-                        },
-                        icon: const Icon(Icons.cancel, size: 18),
-                        label: Text(localizations.cancel, style: const TextStyle(fontSize: 14))),
-                  ]))))
+              child: ShadButton.ghost(
+            onPressed: () {},
+            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              TextButton.icon(
+                  onPressed: () {
+                    export(selected);
+                    setState(() {
+                      selected.clear();
+                      multiple = false;
+                    });
+                  },
+                  icon: const Icon(Icons.share, size: 18),
+                  label: Text(localizations.export, style: const TextStyle(fontSize: 14))),
+              TextButton.icon(
+                  onPressed: () => removeHosts(selected),
+                  icon: const Icon(Icons.delete, size: 18),
+                  label: Text(localizations.delete, style: const TextStyle(fontSize: 14))),
+              TextButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      multiple = false;
+                      selected.clear();
+                    });
+                  },
+                  icon: const Icon(Icons.cancel, size: 18),
+                  label: Text(localizations.cancel, style: const TextStyle(fontSize: 14))),
+            ]),
+          )))
     ]);
   }
 
@@ -373,21 +388,25 @@ class FolderDialog extends StatelessWidget {
     return ShadDialog(
       title: Text(localizations.newFolder, style: const TextStyle(fontSize: 16)),
       actions: [
-        TextButton(onPressed: () => Navigator.pop(context), child: Text(localizations.cancel)),
-        TextButton(
-            onPressed: () {
-              HostsItem item;
-              if (folder == null) {
-                item = HostsItem(isFolder: true, host: name, enabled: enabled);
-                hostsManager.addHosts(item);
-              } else {
-                folder!.enabled = enabled;
-                folder!.host = name;
-                item = folder!;
-              }
-              Navigator.pop(context, item);
-            },
-            child: Text(localizations.save)),
+        ShadButton.ghost(
+          onPressed: () => Navigator.pop(context),
+          child: Text(localizations.cancel),
+        ),
+        ShadButton.ghost(
+          onPressed: () {
+            HostsItem item;
+            if (folder == null) {
+              item = HostsItem(isFolder: true, host: name, enabled: enabled);
+              hostsManager.addHosts(item);
+            } else {
+              folder!.enabled = enabled;
+              folder!.host = name;
+              item = folder!;
+            }
+            Navigator.pop(context, item);
+          },
+          child: Text(localizations.save),
+        ),
       ],
       child: Column(mainAxisSize: MainAxisSize.min, children: [
         Row(children: [
@@ -450,34 +469,38 @@ class _HostsEditDialogState extends State<HostsEditDialog> {
   Widget build(BuildContext context) {
     return ShadDialog(
       actions: [
-        TextButton(onPressed: () => Navigator.pop(context), child: Text(localizations.cancel)),
-        TextButton(
-            onPressed: () {
-              if (!(formKey.currentState as FormState).validate()) {
-                FlutterToastr.show(
-                    "${localizations.domain} ${localizations.toAddress} ${localizations.cannotBeEmpty}", context,
-                    position: FlutterToastr.center);
-                return;
-              }
+        ShadButton.ghost(
+          onPressed: () => Navigator.pop(context),
+          child: Text(localizations.cancel),
+        ),
+        ShadButton.ghost(
+          onPressed: () {
+            if (!(formKey.currentState as FormState).validate()) {
+              FlutterToastr.show(
+                  "${localizations.domain} ${localizations.toAddress} ${localizations.cannotBeEmpty}", context,
+                  position: FlutterToastr.center);
+              return;
+            }
 
-              HostsItem? hostItem;
-              if (widget.item == null) {
-                hostItem = HostsItem(
-                    enabled: enabled,
-                    parent: widget.parent?.id,
-                    host: hostController.text,
-                    toAddress: toAddressController.text);
-                HostsManager.instance.then((it) => it.addHosts(hostItem!));
-              } else {
-                widget.item!.enabled = enabled;
-                widget.item!.host = hostController.text;
-                widget.item!.toAddress = toAddressController.text;
-                hostItem = widget.item;
-              }
+            HostsItem? hostItem;
+            if (widget.item == null) {
+              hostItem = HostsItem(
+                  enabled: enabled,
+                  parent: widget.parent?.id,
+                  host: hostController.text,
+                  toAddress: toAddressController.text);
+              HostsManager.instance.then((it) => it.addHosts(hostItem!));
+            } else {
+              widget.item!.enabled = enabled;
+              widget.item!.host = hostController.text;
+              widget.item!.toAddress = toAddressController.text;
+              hostItem = widget.item;
+            }
 
-              Navigator.pop(context, hostItem);
-            },
-            child: Text(localizations.save)),
+            Navigator.pop(context, hostItem);
+          },
+          child: Text(localizations.save),
+        ),
       ],
       child: Form(
           key: formKey,

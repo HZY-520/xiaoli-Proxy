@@ -24,6 +24,7 @@ import 'package:lico_proxy/network/components/manager/rewrite_rule.dart';
 import 'package:lico_proxy/ui/component/state_component.dart';
 
 import '../../../component/utils.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
 /// 重写替换
 /// @author wanghongen
@@ -343,7 +344,7 @@ class HeadersState extends State<Headers> with AutomaticKeepAliveClientMixin {
                       index == list.length ? const SizedBox() : const Divider(thickness: 0.2),
                   itemBuilder: (context, index) => list[index],
                   itemCount: list.length))),
-      TextButton(
+      ShadButton.ghost(
         child: Text("${localizations.add}Header", textAlign: TextAlign.center),
         onPressed: () {
           setState(() {

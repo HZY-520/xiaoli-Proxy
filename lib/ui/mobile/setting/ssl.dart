@@ -208,8 +208,11 @@ class _MobileSslState extends State<MobileSslWidget> {
               ),
             ),
             Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              TextButton(onPressed: () => Navigator.pop(context), child: Text(localizations.cancel)),
-              TextButton(
+              ShadButton.ghost(
+                onPressed: () => Navigator.pop(context),
+                child: Text(localizations.cancel),
+              ),
+              ShadButton.ghost(
                 onPressed: () async {
                   var bytes = await result.files.single.xFile.readAsBytes();
                   try {
@@ -249,8 +252,11 @@ class _MobileSslState extends State<MobileSslWidget> {
               ),
             ),
             Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-              TextButton(onPressed: () => Navigator.pop(context), child: Text(localizations.cancel)),
-              TextButton(
+              ShadButton.ghost(
+                onPressed: () => Navigator.pop(context),
+                child: Text(localizations.cancel),
+              ),
+              ShadButton.ghost(
                 onPressed: () async {
                   var p12Bytes =
                       await CertificateManager.generatePkcs12(password?.isNotEmpty == true ? password : null);
@@ -331,11 +337,12 @@ class _AndroidCaInstallState extends State<AndroidCaInstall> with SingleTickerPr
     bool isCN = localizations.localeName == 'zh';
     return ListView(padding: const EdgeInsets.all(10), children: [
       Text(localizations.androidRootMagisk),
-      TextButton(
-          child: Text("https://${isCN ? 'gitee' : 'github'}.com/wanghongenpin/Magisk-ProxyPinCA/releases"),
-          onPressed: () {
-            launchUrl(Uri.parse("https://${isCN ? 'gitee' : 'github'}.com/wanghongenpin/Magisk-ProxyPinCA/releases"));
-          }),
+      ShadButton.ghost(
+        child: Text("https://${isCN ? 'gitee' : 'github'}.com/wanghongenpin/Magisk-ProxyPinCA/releases"),
+        onPressed: () {
+          launchUrl(Uri.parse("https://${isCN ? 'gitee' : 'github'}.com/wanghongenpin/Magisk-ProxyPinCA/releases"));
+        },
+      ),
       const SizedBox(height: 15),
       futureWidget(
           CertificateManager.systemCertificateName(),
@@ -380,21 +387,24 @@ class _AndroidCaInstallState extends State<AndroidCaInstall> with SingleTickerPr
     return ListView(padding: const EdgeInsets.all(10), children: [
       Text(localizations.androidUserCATips, style: const TextStyle(fontWeight: FontWeight.w500)),
       const SizedBox(height: 5),
-      TextButton(
-        style: const ButtonStyle(alignment: Alignment.centerLeft),
+      ShadButton.ghost(
         onPressed: () {},
         child: Text("1. ${localizations.downloadRootCa} ", textAlign: TextAlign.left),
       ),
       FilledButton(onPressed: () => _downloadCert('ProxyPinCA.crt'), child: Text(localizations.downloadRootCa)),
       const SizedBox(height: 5),
-      TextButton(onPressed: () {}, child: Text("2. ${localizations.androidUserCAInstall}")),
-      TextButton(
-          onPressed: () {
-            launchUrl(Uri.parse(isCN
-                ? "https://gitee.com/wanghongenpin/proxypin/wikis/%E5%AE%89%E5%8D%93%E6%97%A0ROOT%E4%BD%BF%E7%94%A8Xposed%E6%A8%A1%E5%9D%97%E6%8A%93%E5%8C%85"
-                : "https://github.com/wanghongenpin/proxypin/wiki/Android-without-ROOT-uses-Xposed-module-to-capture-packets"));
-          },
-          child: Text(localizations.androidUserXposed)),
+      ShadButton.ghost(
+        onPressed: () {},
+        child: Text("2. ${localizations.androidUserCAInstall}"),
+      ),
+      ShadButton.ghost(
+        onPressed: () {
+          launchUrl(Uri.parse(isCN
+              ? "https://gitee.com/wanghongenpin/proxypin/wikis/%E5%AE%89%E5%8D%93%E6%97%A0ROOT%E4%BD%BF%E7%94%A8Xposed%E6%A8%A1%E5%9D%97%E6%8A%93%E5%8C%85"
+              : "https://github.com/wanghongenpin/proxypin/wiki/Android-without-ROOT-uses-Xposed-module-to-capture-packets"));
+        },
+        child: Text(localizations.androidUserXposed),
+      ),
       ClipRRect(
           child: Align(
               alignment: Alignment.topCenter,
@@ -512,14 +522,14 @@ class IOSCertChecker {
             final localizations = AppLocalizations.of(context)!;
             return ShadDialog(
               actions: <Widget>[
-                TextButton(
+                ShadButton.ghost(
                   onPressed: () {
                     LocalStorage.setBool(SharedPreferenceKeys.CERT_INSTALL_SKIP, true);
                     Navigator.pop(context);
                   },
                   child: Text(localizations.appUpdateIgnoreBtnTxt),
                 ),
-                TextButton(
+                ShadButton.ghost(
                   onPressed: () => Navigator.pop(context),
                   child: Text(localizations.cancel),
                 ),
@@ -573,9 +583,7 @@ class CertStatusCard extends StatelessWidget {
       return SizedBox();
     }
 
-    return Card(
-      margin: margin,
-      elevation: 2,
+    return ShadCard(
       child: Padding(
         padding: const EdgeInsets.only(top: 16, left: 16, right: 16, bottom: 6),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -584,11 +592,12 @@ class CertStatusCard extends StatelessWidget {
             const SizedBox(width: 8),
             Expanded(child: Text(title, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600, color: color))),
           ]),
-          TextButton(
-              onPressed: () {
-                navigator(context, IosCaInstall(proxyServer: proxyServer));
-              },
-              child: Text(subtitle)),
+          ShadButton.ghost(
+            onPressed: () {
+              navigator(context, IosCaInstall(proxyServer: proxyServer));
+            },
+            child: Text(subtitle),
+          ),
         ]),
       ),
     );
@@ -778,15 +787,30 @@ class _IosCaInstallState extends State<IosCaInstall> {
     return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
       Text(isCN ? '指引' : 'Guide', style: const TextStyle(fontWeight: FontWeight.w600)),
       const SizedBox(height: 6),
-      TextButton(onPressed: () => _downloadCert(), child: Text("1. ${localizations.downloadRootCa}")),
-      TextButton(onPressed: _copyProxyLink, child: Text(localizations.downloadRootCaNote)),
-      TextButton(onPressed: () {}, child: Text("2. ${localizations.installRootCa} -> ${localizations.trustCa}")),
-      TextButton(onPressed: () {}, child: Text("2.1 ${localizations.installCaDescribe}")),
+      ShadButton.ghost(
+        onPressed: () => _downloadCert(),
+        child: Text("1. ${localizations.downloadRootCa}"),
+      ),
+      ShadButton.ghost(
+        onPressed: _copyProxyLink,
+        child: Text(localizations.downloadRootCaNote),
+      ),
+      ShadButton.ghost(
+        onPressed: () {},
+        child: Text("2. ${localizations.installRootCa} -> ${localizations.trustCa}"),
+      ),
+      ShadButton.ghost(
+        onPressed: () {},
+        child: Text("2.1 ${localizations.installCaDescribe}"),
+      ),
       Padding(
           padding: const EdgeInsets.only(left: 15),
           child:
               Image.network("https://foruda.gitee.com/images/1689346516243774963/c56bc546_1073801.png", height: 400)),
-      TextButton(onPressed: () {}, child: Text("2.2 ${localizations.trustCaDescribe}")),
+      ShadButton.ghost(
+        onPressed: () {},
+        child: Text("2.2 ${localizations.trustCaDescribe}"),
+      ),
       Padding(
           padding: const EdgeInsets.only(left: 15),
           child:

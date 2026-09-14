@@ -78,13 +78,22 @@ class _RequestMapPageState extends State<MobileRequestMapPage> {
                       ]),
                       Row(mainAxisAlignment: MainAxisAlignment.end, children: [
                         const SizedBox(width: 10),
-                        TextButton.icon(
-                            icon: const Icon(Icons.add, size: 18), onPressed: showEdit, label: Text(localizations.add)),
+                        ShadButton.ghost(
+                          onPressed: showEdit,
+                          child: Row(mainAxisSize: MainAxisSize.min, children: [
+                            const Icon(Icons.add, size: 18),
+                            const SizedBox(width: 6),
+                            Text(localizations.add)
+                          ]),
+                        ),
                         const SizedBox(width: 10),
-                        TextButton.icon(
-                          icon: const Icon(Icons.input_rounded, size: 18),
+                        ShadButton.ghost(
                           onPressed: import,
-                          label: Text(localizations.import),
+                          child: Row(mainAxisSize: MainAxisSize.min, children: [
+                            const Icon(Icons.input_rounded, size: 18),
+                            const SizedBox(width: 6),
+                            Text(localizations.import)
+                          ]),
                         ),
                         const SizedBox(width: 10),
                       ]),
@@ -253,33 +262,34 @@ class _RequestMapListState extends State<RequestMapList> {
           left: 0,
           right: 0,
           child: Center(
-              child: TextButton(
-                  onPressed: () {},
-                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                    TextButton.icon(
-                        onPressed: () {
-                          export(selected.toList());
-                          setState(() {
-                            selected.clear();
-                            multiple = false;
-                          });
-                        },
-                        icon: const Icon(Icons.share, size: 18),
-                        label: Text(localizations.export, style: const TextStyle(fontSize: 14))),
-                    TextButton.icon(
-                        onPressed: () => remove(selected.toList()),
-                        icon: const Icon(Icons.delete, size: 18),
-                        label: Text(localizations.delete, style: const TextStyle(fontSize: 14))),
-                    TextButton.icon(
-                        onPressed: () {
-                          setState(() {
-                            multiple = false;
-                            selected.clear();
-                          });
-                        },
-                        icon: const Icon(Icons.cancel, size: 18),
-                        label: Text(localizations.cancel, style: const TextStyle(fontSize: 14))),
-                  ]))))
+              child: ShadButton.ghost(
+            onPressed: () {},
+            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              TextButton.icon(
+                  onPressed: () {
+                    export(selected.toList());
+                    setState(() {
+                      selected.clear();
+                      multiple = false;
+                    });
+                  },
+                  icon: const Icon(Icons.share, size: 18),
+                  label: Text(localizations.export, style: const TextStyle(fontSize: 14))),
+              TextButton.icon(
+                  onPressed: () => remove(selected.toList()),
+                  icon: const Icon(Icons.delete, size: 18),
+                  label: Text(localizations.delete, style: const TextStyle(fontSize: 14))),
+              TextButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      multiple = false;
+                      selected.clear();
+                    });
+                  },
+                  icon: const Icon(Icons.cancel, size: 18),
+                  label: Text(localizations.cancel, style: const TextStyle(fontSize: 14))),
+            ]),
+          )))
     ]);
   }
 
@@ -454,40 +464,40 @@ class _RequestMapEditState extends State<MobileRequestMapEdit> {
 
     return Scaffold(
         appBar: ShadHeader(title: localizations.requestMap, actions: [
-          TextButton(
-              style: TextButton.styleFrom(foregroundColor: Colors.white),
-              child: Text(localizations.save, style: const TextStyle(color: Colors.white, fontSize: 15)),
-              onPressed: () async {
-                if (!(formKey.currentState as FormState).validate()) {
-                  FlutterToastr.show(localizations.cannotBeEmpty, context, position: FlutterToastr.center);
-                  return;
-                }
+          ShadButton.ghost(
+            child: Text(localizations.save, style: const TextStyle(color: Colors.white, fontSize: 15)),
+            onPressed: () async {
+              if (!(formKey.currentState as FormState).validate()) {
+                FlutterToastr.show(localizations.cannotBeEmpty, context, position: FlutterToastr.center);
+                return;
+              }
 
-                (formKey.currentState as FormState).save();
-                rule.name = nameInput.text;
-                rule.url = urlInput.text;
-                rule.type = mapType;
-                RequestMapItem item;
-                if (mapType == RequestMapType.local) {
-                  item = mapLocalKey.currentState!.getRequestMapItem();
-                } else {
-                  String? scriptCode = mapScriptKey.currentState?.getScriptCode();
-                  item = widget.item ?? RequestMapItem();
-                  item.script = scriptCode;
-                }
+              (formKey.currentState as FormState).save();
+              rule.name = nameInput.text;
+              rule.url = urlInput.text;
+              rule.type = mapType;
+              RequestMapItem item;
+              if (mapType == RequestMapType.local) {
+                item = mapLocalKey.currentState!.getRequestMapItem();
+              } else {
+                String? scriptCode = mapScriptKey.currentState?.getScriptCode();
+                item = widget.item ?? RequestMapItem();
+                item.script = scriptCode;
+              }
 
-                var requestMapManager = await RequestMapManager.instance;
-                var index = requestMapManager.rules.indexOf(rule);
-                if (index >= 0) {
-                  await requestMapManager.updateRule(rule, item);
-                } else {
-                  await requestMapManager.addRule(rule, item);
-                }
+              var requestMapManager = await RequestMapManager.instance;
+              var index = requestMapManager.rules.indexOf(rule);
+              if (index >= 0) {
+                await requestMapManager.updateRule(rule, item);
+              } else {
+                await requestMapManager.addRule(rule, item);
+              }
 
-                if (mounted) {
-                  Navigator.of(this.context).pop(rule);
-                }
-              })
+              if (mounted) {
+                Navigator.of(this.context).pop(rule);
+              }
+            },
+          )
         ]),
         body: Container(
           padding: const EdgeInsets.all(15),

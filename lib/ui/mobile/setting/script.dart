@@ -94,21 +94,31 @@ class _MobileScriptState extends State<MobileScript> {
                           Row(
                             mainAxisAlignment: MainAxisAlignment.end,
                             children: [
-                              TextButton.icon(
-                                  icon: const Icon(Icons.add, size: 18),
-                                  onPressed: scriptEdit,
-                                  label: Text(localizations.add)),
-                              const SizedBox(width: 5),
-                              TextButton.icon(
-                                icon: const Icon(Icons.input_rounded, size: 18),
-                                onPressed: import,
-                                label: Text(localizations.import),
+                              ShadButton.ghost(
+                                onPressed: scriptEdit,
+                                child: Row(mainAxisSize: MainAxisSize.min, children: [
+                                  const Icon(Icons.add, size: 18),
+                                  const SizedBox(width: 6),
+                                  Text(localizations.add)
+                                ]),
                               ),
                               const SizedBox(width: 5),
-                              TextButton.icon(
-                                icon: const Icon(Icons.terminal, size: 18),
+                              ShadButton.ghost(
+                                onPressed: import,
+                                child: Row(mainAxisSize: MainAxisSize.min, children: [
+                                  const Icon(Icons.input_rounded, size: 18),
+                                  const SizedBox(width: 6),
+                                  Text(localizations.import)
+                                ]),
+                              ),
+                              const SizedBox(width: 5),
+                              ShadButton.ghost(
                                 onPressed: consoleLog,
-                                label: Text(localizations.logger),
+                                child: Row(mainAxisSize: MainAxisSize.min, children: [
+                                  const Icon(Icons.terminal, size: 18),
+                                  const SizedBox(width: 6),
+                                  Text(localizations.logger)
+                                ]),
                               ),
                             ],
                           ),
@@ -488,48 +498,49 @@ class _ScriptEditState extends State<ScriptEdit> {
 
     return Scaffold(
         appBar: ShadHeader(title: localizations.scriptEdit, actions: [
-          TextButton(
-              onPressed: () async {
-                if (!(formKey.currentState as FormState).validate()) {
-                  FlutterToastr.show("${localizations.name} URL ${localizations.cannotBeEmpty}", context,
-                      position: FlutterToastr.top);
-                  return;
-                }
-                // 收集所有非空、去重的 url
-                final urls = urlControllers.map((c) => c.text.trim()).where((u) => u.isNotEmpty).toSet().toList();
-                if (urls.isEmpty) {
-                  FlutterToastr.show("URL ${localizations.cannotBeEmpty}", context, position: FlutterToastr.top);
-                  return;
-                }
+          ShadButton.ghost(
+            onPressed: () async {
+              if (!(formKey.currentState as FormState).validate()) {
+                FlutterToastr.show("${localizations.name} URL ${localizations.cannotBeEmpty}", context,
+                    position: FlutterToastr.top);
+                return;
+              }
+              // 收集所有非空、去重的 url
+              final urls = urlControllers.map((c) => c.text.trim()).where((u) => u.isNotEmpty).toSet().toList();
+              if (urls.isEmpty) {
+                FlutterToastr.show("URL ${localizations.cannotBeEmpty}", context, position: FlutterToastr.top);
+                return;
+              }
 
-                // Only persist remoteUrl when remote mode is enabled.
-                final remoteUrl = _useRemote ? remoteUrlController.text.trim() : '';
-                final hasRemote = remoteUrl.isNotEmpty;
-                if (_useRemote && !hasRemote) {
-                  FlutterToastr.show("Remote URL ${localizations.cannotBeEmpty}", context, position: FlutterToastr.top);
-                  return;
-                }
+              // Only persist remoteUrl when remote mode is enabled.
+              final remoteUrl = _useRemote ? remoteUrlController.text.trim() : '';
+              final hasRemote = remoteUrl.isNotEmpty;
+              if (_useRemote && !hasRemote) {
+                FlutterToastr.show("Remote URL ${localizations.cannotBeEmpty}", context, position: FlutterToastr.top);
+                return;
+              }
 
-                var scriptManager = await ScriptManager.instance;
-                if (widget.scriptItem == null) {
-                  var scriptItem = ScriptItem(true, nameController.text, urls);
-                  scriptItem.remoteUrl = _useRemote ? remoteUrl : null;
-                  await scriptManager.addScript(scriptItem, script.text);
-                } else {
-                  widget.scriptItem?.name = nameController.text;
-                  widget.scriptItem?.urls = urls;
-                  widget.scriptItem?.urlRegs = null;
-                  widget.scriptItem?.remoteUrl = _useRemote ? remoteUrl : null;
-                  await scriptManager.updateScript(widget.scriptItem!, script.text);
-                }
+              var scriptManager = await ScriptManager.instance;
+              if (widget.scriptItem == null) {
+                var scriptItem = ScriptItem(true, nameController.text, urls);
+                scriptItem.remoteUrl = _useRemote ? remoteUrl : null;
+                await scriptManager.addScript(scriptItem, script.text);
+              } else {
+                widget.scriptItem?.name = nameController.text;
+                widget.scriptItem?.urls = urls;
+                widget.scriptItem?.urlRegs = null;
+                widget.scriptItem?.remoteUrl = _useRemote ? remoteUrl : null;
+                await scriptManager.updateScript(widget.scriptItem!, script.text);
+              }
 
-                _refreshScript(force: true);
-                if (context.mounted) {
-                  FlutterToastr.show(localizations.saveSuccess, context);
-                  Navigator.of(context).maybePop(true);
-                }
-              },
-              child: Text(localizations.save)),
+              _refreshScript(force: true);
+              if (context.mounted) {
+                FlutterToastr.show(localizations.saveSuccess, context);
+                Navigator.of(context).maybePop(true);
+              }
+            },
+            child: Text(localizations.save),
+          ),
         ]),
         body: Form(
             key: formKey,
@@ -537,256 +548,241 @@ class _ScriptEditState extends State<ScriptEdit> {
               padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
               children: [
                 // Name section
-                Card(
-                    color: Theme.of(context).colorScheme.surfaceContainerLow.withValues(alpha: 0.5),
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                        side: BorderSide(color: Theme.of(context).dividerColor.withValues(alpha: 0.4)),
-                        borderRadius: BorderRadius.circular(8)),
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                        child: textField("${localizations.name}:", nameController, localizations.pleaseEnter))),
+                ShadCard(
+                  border: ShadBorder.all(color: Theme.of(context).dividerColor.withValues(alpha: 0.4)),
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                      child: textField("${localizations.name}:", nameController, localizations.pleaseEnter)),
+                ),
 
                 // URLs section
-                Card(
-                    color: Theme.of(context).colorScheme.surfaceContainerLow.withValues(alpha: 0.5),
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                        side: BorderSide(color: Theme.of(context).dividerColor.withValues(alpha: 0.4)),
-                        borderRadius: BorderRadius.circular(8)),
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                          Row(children: [
-                            const Text("URL(s):"),
-                            const SizedBox(width: 8),
-                            IconButton(
-                                icon: const Icon(Icons.add_outlined, size: 20),
-                                tooltip: localizations.add,
-                                onPressed: () => setState(() => urlControllers.add(TextEditingController()))),
-                            const Spacer(),
-                            Text("${urlControllers.length}", style: const TextStyle(fontSize: 12, color: Colors.grey))
-                          ]),
-                          const SizedBox(height: 6),
-                          ...List.generate(
-                              urlControllers.length,
-                              (i) => Padding(
-                                  padding: const EdgeInsets.only(bottom: 8),
-                                  child: Row(children: [
-                                    Expanded(
-                                        child: TextFormField(
-                                      controller: urlControllers[i],
-                                      validator: (val) => val?.isNotEmpty == true ? null : "",
-                                      keyboardType: TextInputType.url,
-                                      decoration: InputDecoration(
-                                        hintText: "github.com/api/*",
-                                        hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
-                                        contentPadding: const EdgeInsets.all(10),
-                                        errorStyle: const TextStyle(height: 0, fontSize: 0),
-                                        focusedBorder: focusedBorder(),
-                                        isDense: true,
-                                        border: const OutlineInputBorder(),
-                                      ),
-                                    )),
-                                    if (urlControllers.length > 1)
-                                      IconButton(
-                                          icon: const Icon(Icons.remove_circle_outline, color: Colors.red),
-                                          tooltip: localizations.delete,
-                                          onPressed: () {
-                                            setState(() {
-                                              urlControllers[i].dispose();
-                                              urlControllers.removeAt(i);
-                                            });
-                                          }),
-                                  ])))
-                        ]))),
+                ShadCard(
+                  border: ShadBorder.all(color: Theme.of(context).dividerColor.withValues(alpha: 0.4)),
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                        Row(children: [
+                          const Text("URL(s):"),
+                          const SizedBox(width: 8),
+                          IconButton(
+                              icon: const Icon(Icons.add_outlined, size: 20),
+                              tooltip: localizations.add,
+                              onPressed: () => setState(() => urlControllers.add(TextEditingController()))),
+                          const Spacer(),
+                          Text("${urlControllers.length}", style: const TextStyle(fontSize: 12, color: Colors.grey))
+                        ]),
+                        const SizedBox(height: 6),
+                        ...List.generate(
+                            urlControllers.length,
+                            (i) => Padding(
+                                padding: const EdgeInsets.only(bottom: 8),
+                                child: Row(children: [
+                                  Expanded(
+                                      child: TextFormField(
+                                    controller: urlControllers[i],
+                                    validator: (val) => val?.isNotEmpty == true ? null : "",
+                                    keyboardType: TextInputType.url,
+                                    decoration: InputDecoration(
+                                      hintText: "github.com/api/*",
+                                      hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
+                                      contentPadding: const EdgeInsets.all(10),
+                                      errorStyle: const TextStyle(height: 0, fontSize: 0),
+                                      focusedBorder: focusedBorder(),
+                                      isDense: true,
+                                      border: const OutlineInputBorder(),
+                                    ),
+                                  )),
+                                  if (urlControllers.length > 1)
+                                    IconButton(
+                                        icon: const Icon(Icons.remove_circle_outline, color: Colors.red),
+                                        tooltip: localizations.delete,
+                                        onPressed: () {
+                                          setState(() {
+                                            urlControllers[i].dispose();
+                                            urlControllers.removeAt(i);
+                                          });
+                                        }),
+                                ])))
+                      ])),
+                ),
 
                 // Source section
-                Card(
-                    color: Theme.of(context).colorScheme.surfaceContainerLow.withValues(alpha: 0.5),
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                        side: BorderSide(color: Theme.of(context).dividerColor.withValues(alpha: 0.4)),
-                        borderRadius: BorderRadius.circular(8)),
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                        child: Row(children: [
-                          SizedBox(width: 55, child: Text('${localizations.type}:')),
-                          Expanded(
-                              child: DropdownButtonFormField<bool>(
-                            initialValue: _useRemote,
-                            items: [
-                              DropdownMenuItem(value: false, child: Text(localizations.local)),
-                              DropdownMenuItem(value: true, child: Text(localizations.remoteUrl)),
-                            ],
-                            onChanged: (val) {
-                              if (val == null) return;
-                              setState(() {
-                                _useRemote = val;
-                              });
-                            },
-                            decoration: InputDecoration(
-                              contentPadding: const EdgeInsets.all(10),
-                              focusedBorder: focusedBorder(),
-                              isDense: true,
-                              border: const OutlineInputBorder(),
-                            ),
-                          ))
-                        ]))),
+                ShadCard(
+                  border: ShadBorder.all(color: Theme.of(context).dividerColor.withValues(alpha: 0.4)),
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                      child: Row(children: [
+                        SizedBox(width: 55, child: Text('${localizations.type}:')),
+                        Expanded(
+                            child: DropdownButtonFormField<bool>(
+                          initialValue: _useRemote,
+                          items: [
+                            DropdownMenuItem(value: false, child: Text(localizations.local)),
+                            DropdownMenuItem(value: true, child: Text(localizations.remoteUrl)),
+                          ],
+                          onChanged: (val) {
+                            if (val == null) return;
+                            setState(() {
+                              _useRemote = val;
+                            });
+                          },
+                          decoration: InputDecoration(
+                            contentPadding: const EdgeInsets.all(10),
+                            focusedBorder: focusedBorder(),
+                            isDense: true,
+                            border: const OutlineInputBorder(),
+                          ),
+                        ))
+                      ])),
+                ),
 
                 // Remote URL section
                 if (_useRemote)
-                  Card(
-                      color: Theme.of(context).colorScheme.surfaceContainerLow.withValues(alpha: 0.5),
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                          side: BorderSide(color: Theme.of(context).dividerColor.withValues(alpha: 0.4)),
-                          borderRadius: BorderRadius.circular(8)),
-                      child: Padding(
-                          padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                          child: Row(children: [
-                            SizedBox(width: 65, child: Text('${localizations.remoteUrl}:')),
-                            Expanded(
-                              child: SizedBox(
-                                height: 34,
-                                child: TextFormField(
-                                  controller: remoteUrlController,
-                                  keyboardType: TextInputType.url,
-                                  decoration: InputDecoration(
-                                    hintText: 'https://example.com/script.js',
-                                    hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
-                                    contentPadding: const EdgeInsets.all(10),
-                                    focusedBorder: focusedBorder(),
-                                    isDense: true,
-                                    border: const OutlineInputBorder(),
-                                  ),
-                                  onFieldSubmitted: (_) => _fetchRemoteScript(),
+                  ShadCard(
+                    border: ShadBorder.all(color: Theme.of(context).dividerColor.withValues(alpha: 0.4)),
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                        child: Row(children: [
+                          SizedBox(width: 65, child: Text('${localizations.remoteUrl}:')),
+                          Expanded(
+                            child: SizedBox(
+                              height: 34,
+                              child: TextFormField(
+                                controller: remoteUrlController,
+                                keyboardType: TextInputType.url,
+                                decoration: InputDecoration(
+                                  hintText: 'https://example.com/script.js',
+                                  hintStyle: const TextStyle(fontSize: 14, color: Colors.grey),
+                                  contentPadding: const EdgeInsets.all(10),
+                                  focusedBorder: focusedBorder(),
+                                  isDense: true,
+                                  border: const OutlineInputBorder(),
                                 ),
+                                onFieldSubmitted: (_) => _fetchRemoteScript(),
                               ),
                             ),
-                            const SizedBox(width: 3),
-                            Obx(() {
-                              // Keep the button visually aligned with the text field by fixing the height
-                              // and using a compact FilledButton (with icon when idle and spinner when fetching).
-                              return SizedBox(
-                                height: 34,
-                                child: Tooltip(
-                                  message: localizations.view,
-                                  child: FilledButton.tonal(
-                                    onPressed: _fetchRemoteScript,
-                                    style: FilledButton.styleFrom(
-                                        minimumSize: const Size(44, 34),
-                                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6))),
-                                    child: _fetchingRemoteScript.value
-                                        ? const SizedBox(
-                                            width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
-                                        : const Icon(Icons.cloud_download, size: 18),
-                                  ),
+                          ),
+                          const SizedBox(width: 3),
+                          Obx(() {
+                            // Keep the button visually aligned with the text field by fixing the height
+                            // and using a compact FilledButton (with icon when idle and spinner when fetching).
+                            return SizedBox(
+                              height: 34,
+                              child: Tooltip(
+                                message: localizations.view,
+                                child: FilledButton.tonal(
+                                  onPressed: _fetchRemoteScript,
+                                  style: FilledButton.styleFrom(
+                                      minimumSize: const Size(44, 34),
+                                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(6))),
+                                  child: _fetchingRemoteScript.value
+                                      ? const SizedBox(
+                                          width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+                                      : const Icon(Icons.cloud_download, size: 18),
                                 ),
-                              );
-                            }),
-                          ]))),
+                              ),
+                            );
+                          }),
+                        ])),
+                  ),
 
                 // Script section
-                Card(
-                    color: Theme.of(context).colorScheme.surfaceContainerLow.withValues(alpha: 0.5),
-                    elevation: 0,
-                    shape: RoundedRectangleBorder(
-                        side: BorderSide(color: Theme.of(context).dividerColor.withValues(alpha: 0.4)),
-                        borderRadius: BorderRadius.circular(8)),
-                    child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 10),
-                        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                          Row(children: [
-                            Text("${localizations.script}:", style: const TextStyle(fontWeight: FontWeight.w500)),
-                            if (_useRemote)
-                              Container(
-                                  margin: const EdgeInsets.only(left: 8),
-                                  padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
-                                  decoration: BoxDecoration(
-                                      color: Theme.of(context).colorScheme.outlineVariant.withValues(alpha: 0.35),
-                                      borderRadius: BorderRadius.circular(4)),
-                                  child: const Text('Read-only', style: TextStyle(fontSize: 11))),
-                            const Spacer(),
-                            Tooltip(
-                                message: localizations.copy,
-                                child: IconButton(
-                                    icon: const Icon(Icons.copy_all_outlined, size: 20),
-                                    onPressed: () {
-                                      Clipboard.setData(ClipboardData(text: script.text));
-                                      FlutterToastr.show(localizations.copied, context, position: FlutterToastr.top);
-                                    })),
-                            Tooltip(
-                                message: 'Reset',
-                                child: IconButton(
-                                    icon: const Icon(Icons.settings_backup_restore, size: 22),
-                                    onPressed: _useRemote ? null : _resetScript)),
-                            Tooltip(
-                                message: localizations.clear,
-                                child: IconButton(
-                                    icon: const Icon(Icons.delete_sweep_outlined, size: 22),
-                                    onPressed: _useRemote
-                                        ? null
-                                        : () {
-                                            script.text = '';
-                                            setState(() {});
-                                          }))
-                          ]),
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(6),
-                            child: Container(
-                              decoration: BoxDecoration(
-                                color: Colors.grey.shade900,
-                                border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
-                              ),
-                              child: Stack(
-                                children: [
-                                  SizedBox(
-                                      height: 360,
-                                      child: CodeForge(
-                                        controller: script,
-                                        language: langJavascript,
-                                        editorTheme: monokaiSublimeTheme,
-                                        readOnly: _useRemote,
-                                        enableGuideLines: false,
-                                        textStyle: const TextStyle(fontSize: 13, color: Colors.white),
-                                      )),
-                                  if (_useRemote && script.text.trim().isEmpty)
-                                    Positioned.fill(
-                                      child: Center(
-                                        child: Container(
-                                          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                                          decoration: BoxDecoration(
-                                            color: Colors.black.withValues(alpha: 0.28),
-                                            borderRadius: BorderRadius.circular(8),
-                                          ),
-                                          child: RichText(
-                                            text: TextSpan(
-                                              style: const TextStyle(fontSize: 12, color: Colors.white70),
-                                              children: [
-                                                TextSpan(text: '${localizations.click} “'),
-                                                TextSpan(
-                                                  text: localizations.preview,
-                                                  style: const TextStyle(
-                                                    color: Colors.blue,
-                                                    fontSize: 12,
-                                                    decoration: TextDecoration.underline,
-                                                  ),
-                                                  recognizer: TapGestureRecognizer()..onTap = _fetchRemoteScript,
+                ShadCard(
+                  border: ShadBorder.all(color: Theme.of(context).dividerColor.withValues(alpha: 0.4)),
+                  child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                        Row(children: [
+                          Text("${localizations.script}:", style: const TextStyle(fontWeight: FontWeight.w500)),
+                          if (_useRemote)
+                            Container(
+                                margin: const EdgeInsets.only(left: 8),
+                                padding: const EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                decoration: BoxDecoration(
+                                    color: Theme.of(context).colorScheme.outlineVariant.withValues(alpha: 0.35),
+                                    borderRadius: BorderRadius.circular(4)),
+                                child: const Text('Read-only', style: TextStyle(fontSize: 11))),
+                          const Spacer(),
+                          Tooltip(
+                              message: localizations.copy,
+                              child: IconButton(
+                                  icon: const Icon(Icons.copy_all_outlined, size: 20),
+                                  onPressed: () {
+                                    Clipboard.setData(ClipboardData(text: script.text));
+                                    FlutterToastr.show(localizations.copied, context, position: FlutterToastr.top);
+                                  })),
+                          Tooltip(
+                              message: 'Reset',
+                              child: IconButton(
+                                  icon: const Icon(Icons.settings_backup_restore, size: 22),
+                                  onPressed: _useRemote ? null : _resetScript)),
+                          Tooltip(
+                              message: localizations.clear,
+                              child: IconButton(
+                                  icon: const Icon(Icons.delete_sweep_outlined, size: 22),
+                                  onPressed: _useRemote
+                                      ? null
+                                      : () {
+                                          script.text = '';
+                                          setState(() {});
+                                        }))
+                        ]),
+                        ClipRRect(
+                          borderRadius: BorderRadius.circular(6),
+                          child: Container(
+                            decoration: BoxDecoration(
+                              color: Colors.grey.shade900,
+                              border: Border.all(color: Colors.grey.withValues(alpha: 0.2)),
+                            ),
+                            child: Stack(
+                              children: [
+                                SizedBox(
+                                    height: 360,
+                                    child: CodeForge(
+                                      controller: script,
+                                      language: langJavascript,
+                                      editorTheme: monokaiSublimeTheme,
+                                      readOnly: _useRemote,
+                                      enableGuideLines: false,
+                                      textStyle: const TextStyle(fontSize: 13, color: Colors.white),
+                                    )),
+                                if (_useRemote && script.text.trim().isEmpty)
+                                  Positioned.fill(
+                                    child: Center(
+                                      child: Container(
+                                        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                                        decoration: BoxDecoration(
+                                          color: Colors.black.withValues(alpha: 0.28),
+                                          borderRadius: BorderRadius.circular(8),
+                                        ),
+                                        child: RichText(
+                                          text: TextSpan(
+                                            style: const TextStyle(fontSize: 12, color: Colors.white70),
+                                            children: [
+                                              TextSpan(text: '${localizations.click} “'),
+                                              TextSpan(
+                                                text: localizations.preview,
+                                                style: const TextStyle(
+                                                  color: Colors.blue,
+                                                  fontSize: 12,
+                                                  decoration: TextDecoration.underline,
                                                 ),
-                                                TextSpan(text: '” ${localizations.loadRemoteScript}'),
-                                              ],
-                                            ),
+                                                recognizer: TapGestureRecognizer()..onTap = _fetchRemoteScript,
+                                              ),
+                                              TextSpan(text: '” ${localizations.loadRemoteScript}'),
+                                            ],
                                           ),
                                         ),
                                       ),
                                     ),
-                                ],
-                              ),
+                                  ),
+                              ],
                             ),
                           ),
-                        ]))),
+                        ),
+                      ])),
+                ),
               ],
             )));
   }
@@ -867,33 +863,34 @@ class _ScriptListState extends State<ScriptList> {
           left: 0,
           right: 0,
           child: Center(
-              child: TextButton(
-                  onPressed: () {},
-                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                    TextButton.icon(
-                        onPressed: () {
-                          export(context, selected.toList());
-                          setState(() {
-                            selected.clear();
-                            multiple = false;
-                          });
-                        },
-                        icon: const Icon(Icons.share, size: 18),
-                        label: Text(localizations.export, style: const TextStyle(fontSize: 14))),
-                    TextButton.icon(
-                        onPressed: () => removeScripts(selected.toList()),
-                        icon: const Icon(Icons.delete, size: 18),
-                        label: Text(localizations.delete, style: const TextStyle(fontSize: 14))),
-                    TextButton.icon(
-                        onPressed: () {
-                          setState(() {
-                            multiple = false;
-                            selected.clear();
-                          });
-                        },
-                        icon: const Icon(Icons.cancel, size: 18),
-                        label: Text(localizations.cancel, style: const TextStyle(fontSize: 14))),
-                  ]))))
+              child: ShadButton.ghost(
+            onPressed: () {},
+            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              TextButton.icon(
+                  onPressed: () {
+                    export(context, selected.toList());
+                    setState(() {
+                      selected.clear();
+                      multiple = false;
+                    });
+                  },
+                  icon: const Icon(Icons.share, size: 18),
+                  label: Text(localizations.export, style: const TextStyle(fontSize: 14))),
+              TextButton.icon(
+                  onPressed: () => removeScripts(selected.toList()),
+                  icon: const Icon(Icons.delete, size: 18),
+                  label: Text(localizations.delete, style: const TextStyle(fontSize: 14))),
+              TextButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      multiple = false;
+                      selected.clear();
+                    });
+                  },
+                  icon: const Icon(Icons.cancel, size: 18),
+                  label: Text(localizations.cancel, style: const TextStyle(fontSize: 14))),
+            ]),
+          )))
     ]);
   }
 
@@ -992,7 +989,7 @@ class _ScriptListState extends State<ScriptList> {
                   if (context.mounted) FlutterToastr.show(localizations.importSuccess, context);
                 }),
             Container(color: Theme.of(context).hoverColor, height: 8),
-            TextButton(
+            ShadButton.ghost(
               child: Container(
                   height: 45,
                   width: double.infinity,

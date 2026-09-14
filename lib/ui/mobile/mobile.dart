@@ -331,12 +331,13 @@ class MobileHomeState extends State<MobileHomePage> implements EventListener, Li
         builder: (context) {
           return ShadDialog(
             actions: [
-              TextButton(
-                  onPressed: () {
-                    onClose.call();
-                    Navigator.pop(context);
-                  },
-                  child: Text(localizations.close))
+              ShadButton.ghost(
+                onPressed: () {
+                  onClose.call();
+                  Navigator.pop(context);
+                },
+                child: Text(localizations.close),
+              )
             ],
             title: Text(title, style: const TextStyle(fontSize: 18)),
             child: SelectableText(content),
@@ -456,10 +457,7 @@ class RequestPageState extends State<RequestPage> {
         margin: const EdgeInsets.only(top: 5, bottom: 5),
         height: 56,
         width: double.infinity,
-        child: ElevatedButton(
-          style: ButtonStyle(
-              shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)))),
+        child: ShadButton(
           onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (BuildContext context) {
             return RemoteDevicePage(remoteDevice: remoteDevice, proxyServer: proxyServer);
           })),
@@ -593,11 +591,11 @@ class _MobileAppBarState extends State<_MobileAppBar> {
       builder: (ctx) => ShadDialog(
         title: const Text('确定要清除当前的抓包记录吗？', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         actions: [
-          TextButton(
+          ShadButton.ghost(
             onPressed: () => Navigator.of(ctx).pop(false),
             child: const Text('取消'),
           ),
-          TextButton(
+          ShadButton.ghost(
             onPressed: () => Navigator.of(ctx).pop(true),
             child: const Text('清除'),
           ),

@@ -109,14 +109,9 @@ class _McpServerPageState extends State<McpServerPage> {
   Widget _buildStatusCard(ThemeData theme, bool isDark) {
     final isRunning = _mcpServer.isRunning;
 
-    return Card(
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: BorderSide(
-          color: isRunning ? Colors.green.withValues(alpha: 0.3) : theme.dividerColor.withValues(alpha: 0.3),
-        ),
-      ),
+    return ShadCard(
+      border: ShadBorder.all(
+          color: isRunning ? Colors.green.withValues(alpha: 0.3) : theme.dividerColor.withValues(alpha: 0.3)),
       child: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(
@@ -275,12 +270,8 @@ class _McpServerPageState extends State<McpServerPage> {
   }
 }''';
 
-    return Card(
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: Colors.blue.withValues(alpha: 0.3)),
-      ),
+    return ShadCard(
+      border: ShadBorder.all(color: Colors.blue.withValues(alpha: 0.3)),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
@@ -382,12 +373,8 @@ class _McpServerPageState extends State<McpServerPage> {
 
   /// AI 配置指南
   Widget _buildConfigGuide(ThemeData theme, bool isDark) {
-    return Card(
-      elevation: 0,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12),
-        side: BorderSide(color: theme.dividerColor.withValues(alpha: 0.3)),
-      ),
+    return ShadCard(
+      border: ShadBorder.all(color: theme.dividerColor.withValues(alpha: 0.3)),
       child: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(

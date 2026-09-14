@@ -130,10 +130,21 @@ class _DomainFilterState extends State<DomainFilter> {
                   });
             }),
         Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-          TextButton.icon(icon: const Icon(Icons.add, size: 20), onPressed: add, label: Text(localizations.add)),
+          ShadButton.ghost(
+            onPressed: add,
+            child: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [const Icon(Icons.add, size: 20), const SizedBox(width: 6), Text(localizations.add)]),
+          ),
           const SizedBox(width: 10),
-          TextButton.icon(
-              icon: const Icon(Icons.input_rounded, size: 20), onPressed: import, label: Text(localizations.import)),
+          ShadButton.ghost(
+            onPressed: import,
+            child: Row(mainAxisSize: MainAxisSize.min, children: [
+              const Icon(Icons.input_rounded, size: 20),
+              const SizedBox(width: 6),
+              Text(localizations.import)
+            ]),
+          ),
           const SizedBox(width: 5),
         ]),
         Expanded(child: DomainList(widget.hostList, onChange: () => changed = true))
@@ -237,33 +248,34 @@ class _DomainListState extends State<DomainList> {
           left: 0,
           right: 0,
           child: Center(
-              child: TextButton(
-                  onPressed: () {},
-                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                    TextButton.icon(
-                        onPressed: () {
-                          export(selected.toList());
-                          setState(() {
-                            selected.clear();
-                            multiple = false;
-                          });
-                        },
-                        icon: const Icon(Icons.share, size: 18),
-                        label: Text(localizations.export, style: const TextStyle(fontSize: 14))),
-                    TextButton.icon(
-                        onPressed: () => remove(),
-                        icon: const Icon(Icons.delete, size: 18),
-                        label: Text(localizations.delete, style: const TextStyle(fontSize: 14))),
-                    TextButton.icon(
-                        onPressed: () {
-                          setState(() {
-                            multiple = false;
-                            selected.clear();
-                          });
-                        },
-                        icon: const Icon(Icons.cancel, size: 18),
-                        label: Text(localizations.cancel, style: const TextStyle(fontSize: 14))),
-                  ]))))
+              child: ShadButton.ghost(
+            onPressed: () {},
+            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              TextButton.icon(
+                  onPressed: () {
+                    export(selected.toList());
+                    setState(() {
+                      selected.clear();
+                      multiple = false;
+                    });
+                  },
+                  icon: const Icon(Icons.share, size: 18),
+                  label: Text(localizations.export, style: const TextStyle(fontSize: 14))),
+              TextButton.icon(
+                  onPressed: () => remove(),
+                  icon: const Icon(Icons.delete, size: 18),
+                  label: Text(localizations.delete, style: const TextStyle(fontSize: 14))),
+              TextButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      multiple = false;
+                      selected.clear();
+                    });
+                  },
+                  icon: const Icon(Icons.cancel, size: 18),
+                  label: Text(localizations.cancel, style: const TextStyle(fontSize: 14))),
+            ]),
+          )))
     ]);
   }
 

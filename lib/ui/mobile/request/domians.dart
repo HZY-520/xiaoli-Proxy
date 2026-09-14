@@ -324,7 +324,7 @@ class DomainListState extends State<DomainList> with AutomaticKeepAliveClientMix
               color: Theme.of(context).hoverColor,
               height: 8,
             ),
-            TextButton(
+            ShadButton.ghost(
               child: Container(
                   height: 45,
                   width: double.infinity,

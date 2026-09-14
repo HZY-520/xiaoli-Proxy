@@ -274,25 +274,22 @@ class _RemoteDevicePageState extends State<RemoteDevicePage> {
               style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
           const SizedBox(height: 6),
           Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-            TextButton.icon(
-              style: ButtonStyle(
-                  shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                      RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0)))),
+            ShadButton.ghost(
               onPressed: pullConfig,
-              icon: const Icon(Icons.sync),
-              label: Text(localizations.syncConfig),
+              child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [const Icon(Icons.sync), const SizedBox(width: 6), Text(localizations.syncConfig)]),
             ),
-            TextButton.icon(
-              label: Text(localizations.disconnect),
-              style: ButtonStyle(
-                shape: WidgetStateProperty.all<RoundedRectangleBorder>(
-                    RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.0))),
-              ),
-              icon: const Icon(Icons.cancel_outlined),
+            ShadButton.ghost(
               onPressed: () {
                 widget.remoteDevice.value = RemoteModel(connect: false);
                 setState(() {});
               },
+              child: Row(mainAxisSize: MainAxisSize.min, children: [
+                const Icon(Icons.cancel_outlined),
+                const SizedBox(width: 6),
+                Text(localizations.disconnect)
+              ]),
             ),
           ])
         ],
@@ -320,23 +317,25 @@ class _RemoteDevicePageState extends State<RemoteDevicePage> {
           return ShadDialog(
             title: Text(localizations.inputAddress),
             actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  child: Text(localizations.cancel)),
-              TextButton(
-                  onPressed: () async {
-                    if (host.isEmpty || port == null) {
-                      FlutterToastr.show(localizations.cannotBeEmpty, context);
-                      return;
-                    }
+              ShadButton.ghost(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text(localizations.cancel),
+              ),
+              ShadButton.ghost(
+                onPressed: () async {
+                  if (host.isEmpty || port == null) {
+                    FlutterToastr.show(localizations.cannotBeEmpty, context);
+                    return;
+                  }
 
-                    if ((await doConnect(host, port!)) && context.mounted) {
-                      Navigator.pop(context);
-                    }
-                  },
-                  child: Text(localizations.connectRemote)),
+                  if ((await doConnect(host, port!)) && context.mounted) {
+                    Navigator.pop(context);
+                  }
+                },
+                child: Text(localizations.connectRemote),
+              ),
             ],
             child: Column(
               mainAxisSize: MainAxisSize.min,
@@ -449,7 +448,10 @@ class _RemoteDevicePageState extends State<RemoteDevicePage> {
           return ShadDialog(
             title: Text(localizations.remoteConnectForward, style: const TextStyle(fontSize: 16)),
             actions: [
-              TextButton(onPressed: () => Navigator.of(context).pop(), child: Text(localizations.cancel)),
+              ShadButton.ghost(
+                onPressed: () => Navigator.of(context).pop(),
+                child: Text(localizations.cancel),
+              ),
             ],
             child: SizedBox(
                 height: 280,
@@ -524,43 +526,45 @@ class ConfigSyncState extends State<ConfigSyncWidget> {
     return ShadDialog(
       title: Text(localizations.syncConfig, style: const TextStyle(fontSize: 16)),
       actions: [
-        TextButton(
-            child: Text(localizations.cancel),
-            onPressed: () {
-              Navigator.pop(context);
-            }),
-        TextButton(
-            child: Text('${localizations.start} ${localizations.sync}'),
-            onPressed: () async {
-              if (syncWhiteList) {
-                HostFilter.whitelist.load(widget.config['whitelist']);
-              }
-              if (syncBlackList) {
-                HostFilter.blacklist.load(widget.config['blacklist']);
-              }
-              widget.configuration.flushConfig();
+        ShadButton.ghost(
+          child: Text(localizations.cancel),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+        ),
+        ShadButton.ghost(
+          child: Text('${localizations.start} ${localizations.sync}'),
+          onPressed: () async {
+            if (syncWhiteList) {
+              HostFilter.whitelist.load(widget.config['whitelist']);
+            }
+            if (syncBlackList) {
+              HostFilter.blacklist.load(widget.config['blacklist']);
+            }
+            widget.configuration.flushConfig();
 
-              if (syncRewrite) {
-                var requestRewrites = await RequestRewriteManager.instance;
-                await requestRewrites.syncConfig(widget.config['requestRewrites']);
-              }
+            if (syncRewrite) {
+              var requestRewrites = await RequestRewriteManager.instance;
+              await requestRewrites.syncConfig(widget.config['requestRewrites']);
+            }
 
-              if (syncScript) {
-                var scriptManager = await ScriptManager.instance;
-                await scriptManager.clean();
-                scriptManager.list.clear();
-                for (var item in widget.config['scripts']) {
-                  await scriptManager.addScript(ScriptItem.fromJson(item), item['script']);
-                }
-                await scriptManager.flushConfig();
+            if (syncScript) {
+              var scriptManager = await ScriptManager.instance;
+              await scriptManager.clean();
+              scriptManager.list.clear();
+              for (var item in widget.config['scripts']) {
+                await scriptManager.addScript(ScriptItem.fromJson(item), item['script']);
               }
+              await scriptManager.flushConfig();
+            }
 
-              if (mounted) {
-                Navigator.pop(this.context);
-                ScaffoldMessenger.of(this.context)
-                    .showSnackBar(SnackBar(content: Text('${localizations.sync}${localizations.success}')));
-              }
-            }),
+            if (mounted) {
+              Navigator.pop(this.context);
+              ScaffoldMessenger.of(this.context)
+                  .showSnackBar(SnackBar(content: Text('${localizations.sync}${localizations.success}')));
+            }
+          },
+        ),
       ],
       child: Wrap(children: [
         SwitchWidget(

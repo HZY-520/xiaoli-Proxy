@@ -187,21 +187,21 @@ class _RewriteUpdateAddState extends State<RewriteUpdateEdit> {
     bool isCN = Localizations.localeOf(context).languageCode == "zh";
     return Scaffold(
         appBar: ShadHeader(title: i18n.requestRewriteRule, actions: [
-          TextButton(
-              style: TextButton.styleFrom(foregroundColor: Colors.white),
-              onPressed: () {
-                if (!(formKey.currentState as FormState).validate()) {
-                  FlutterToastr.show(i18n.cannotBeEmpty, context, position: FlutterToastr.center);
-                  return;
-                }
-                (formKey.currentState as FormState).save();
-                rewriteItem.key = keyController.text;
-                rewriteItem.value = valueController.text;
-                rewriteItem.type = rewriteType;
-                rewriteItem.useRegex = useRegex;
-                Navigator.of(context).pop(rewriteItem);
-              },
-              child: Text(i18n.confirm)),
+          ShadButton.ghost(
+            onPressed: () {
+              if (!(formKey.currentState as FormState).validate()) {
+                FlutterToastr.show(i18n.cannotBeEmpty, context, position: FlutterToastr.center);
+                return;
+              }
+              (formKey.currentState as FormState).save();
+              rewriteItem.key = keyController.text;
+              rewriteItem.value = valueController.text;
+              rewriteItem.type = rewriteType;
+              rewriteItem.useRegex = useRegex;
+              Navigator.of(context).pop(rewriteItem);
+            },
+            child: Text(i18n.confirm),
+          ),
           SizedBox(width: 5)
         ]),
         body: Form(
@@ -547,15 +547,16 @@ class _UpdateListState extends State<UpdateList> {
                 if (mounted) FlutterToastr.show(i18n.deleteSuccess, context);
               }),
           Container(color: Theme.of(context).hoverColor, height: 8),
-          TextButton(
-              child: Container(
-                  height: 50,
-                  width: double.infinity,
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Text(i18n.cancel, textAlign: TextAlign.center)),
-              onPressed: () {
-                Navigator.of(context).pop();
-              }),
+          ShadButton.ghost(
+            child: Container(
+                height: 50,
+                width: double.infinity,
+                padding: const EdgeInsets.only(top: 10),
+                child: Text(i18n.cancel, textAlign: TextAlign.center)),
+            onPressed: () {
+              Navigator.of(context).pop();
+            },
+          ),
         ]);
       },
     ).then((value) {

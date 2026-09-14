@@ -236,37 +236,38 @@ class _RequestBreakpointPageState extends State<MobileRequestBreakpointPage> {
           left: 0,
           right: 0,
           child: Center(
-              child: TextButton(
-                  onPressed: () {},
-                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                    TextButton.icon(
-                        onPressed: selected.isEmpty
-                            ? null
-                            : () async {
-                                // export selected only
-                                final m = await RequestBreakpointManager.instance;
-                                await _export(m, indexes: selected.toList());
-                                setState(() {
-                                  selected.clear();
-                                  selectionMode = false;
-                                });
-                              },
-                        icon: const Icon(Icons.share, size: 18),
-                        label: Text(l10n.export, style: const TextStyle(fontSize: 14))),
-                    TextButton.icon(
-                        onPressed: selected.isEmpty ? null : () => _removeSelected(),
-                        icon: const Icon(Icons.delete, size: 18),
-                        label: Text(l10n.delete, style: const TextStyle(fontSize: 14))),
-                    TextButton.icon(
-                        onPressed: () {
+              child: ShadButton.ghost(
+            onPressed: () {},
+            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              TextButton.icon(
+                  onPressed: selected.isEmpty
+                      ? null
+                      : () async {
+                          // export selected only
+                          final m = await RequestBreakpointManager.instance;
+                          await _export(m, indexes: selected.toList());
                           setState(() {
-                            selectionMode = false;
                             selected.clear();
+                            selectionMode = false;
                           });
                         },
-                        icon: const Icon(Icons.cancel, size: 18),
-                        label: Text(l10n.cancel, style: const TextStyle(fontSize: 14))),
-                  ]))))
+                  icon: const Icon(Icons.share, size: 18),
+                  label: Text(l10n.export, style: const TextStyle(fontSize: 14))),
+              TextButton.icon(
+                  onPressed: selected.isEmpty ? null : () => _removeSelected(),
+                  icon: const Icon(Icons.delete, size: 18),
+                  label: Text(l10n.delete, style: const TextStyle(fontSize: 14))),
+              TextButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      selectionMode = false;
+                      selected.clear();
+                    });
+                  },
+                  icon: const Icon(Icons.cancel, size: 18),
+                  label: Text(l10n.cancel, style: const TextStyle(fontSize: 14))),
+            ]),
+          )))
     ]);
   }
 
@@ -307,15 +308,16 @@ class _RequestBreakpointPageState extends State<MobileRequestBreakpointPage> {
                 _removeRule(index);
               }),
           Container(color: Theme.of(ctx).hoverColor, height: 8),
-          TextButton(
-              child: Container(
-                  height: 45,
-                  width: double.infinity,
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Text(l10n.cancel, textAlign: TextAlign.center)),
-              onPressed: () {
-                Navigator.of(ctx).pop();
-              }),
+          ShadButton.ghost(
+            child: Container(
+                height: 45,
+                width: double.infinity,
+                padding: const EdgeInsets.only(top: 10),
+                child: Text(l10n.cancel, textAlign: TextAlign.center)),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          ),
         ]);
       },
     ).then((value) {
@@ -335,16 +337,20 @@ class _RequestBreakpointPageState extends State<MobileRequestBreakpointPage> {
           return ShadDialog(
             title: Text(localizations.deleteHeaderConfirm, style: const TextStyle(fontSize: 18)),
             actions: [
-              TextButton(onPressed: () => Navigator.pop(ctx), child: Text(localizations.cancel)),
-              TextButton(
-                  onPressed: () async {
-                    setState(() {
-                      rules.removeAt(index);
-                    });
-                    await _save();
-                    if (context.mounted) Navigator.pop(ctx);
-                  },
-                  child: Text(localizations.delete)),
+              ShadButton.ghost(
+                onPressed: () => Navigator.pop(ctx),
+                child: Text(localizations.cancel),
+              ),
+              ShadButton.ghost(
+                onPressed: () async {
+                  setState(() {
+                    rules.removeAt(index);
+                  });
+                  await _save();
+                  if (context.mounted) Navigator.pop(ctx);
+                },
+                child: Text(localizations.delete),
+              ),
             ],
           );
         });
@@ -357,22 +363,26 @@ class _RequestBreakpointPageState extends State<MobileRequestBreakpointPage> {
           return ShadDialog(
             title: Text(localizations.deleteHeaderConfirm, style: const TextStyle(fontSize: 18)),
             actions: [
-              TextButton(onPressed: () => Navigator.pop(ctx), child: Text(localizations.cancel)),
-              TextButton(
-                  onPressed: () async {
-                    var list = selected.toList();
-                    list.sort((a, b) => b.compareTo(a));
-                    for (var i in list) {
-                      rules.removeAt(i);
-                    }
-                    setState(() {
-                      selected.clear();
-                      selectionMode = false;
-                    });
-                    await _save();
-                    if (context.mounted) Navigator.pop(ctx);
-                  },
-                  child: Text(localizations.delete)),
+              ShadButton.ghost(
+                onPressed: () => Navigator.pop(ctx),
+                child: Text(localizations.cancel),
+              ),
+              ShadButton.ghost(
+                onPressed: () async {
+                  var list = selected.toList();
+                  list.sort((a, b) => b.compareTo(a));
+                  for (var i in list) {
+                    rules.removeAt(i);
+                  }
+                  setState(() {
+                    selected.clear();
+                    selectionMode = false;
+                  });
+                  await _save();
+                  if (context.mounted) Navigator.pop(ctx);
+                },
+                child: Text(localizations.delete),
+              ),
             ],
           );
         });
@@ -439,20 +449,21 @@ class _MobileBreakpointRuleEditorState extends State<MobileBreakpointRuleEditor>
                 ? "${localizations.add} ${localizations.breakpointRule}"
                 : "${localizations.edit} ${localizations.breakpointRule}",
             actions: [
-              TextButton(
-                  onPressed: () {
-                    if (!(_formKey.currentState?.validate() ?? false)) {
-                      return;
-                    }
-                    rule.name = nameInput.text;
-                    rule.url = urlInput.text;
-                    rule.method = _method;
-                    rule.interceptRequest = _interceptRequest;
-                    rule.interceptResponse = _interceptResponse;
-                    rule.enabled = true;
-                    Navigator.pop(context, rule);
-                  },
-                  child: Text(localizations.save))
+              ShadButton.ghost(
+                onPressed: () {
+                  if (!(_formKey.currentState?.validate() ?? false)) {
+                    return;
+                  }
+                  rule.name = nameInput.text;
+                  rule.url = urlInput.text;
+                  rule.method = _method;
+                  rule.interceptRequest = _interceptRequest;
+                  rule.interceptResponse = _interceptResponse;
+                  rule.enabled = true;
+                  Navigator.pop(context, rule);
+                },
+                child: Text(localizations.save),
+              )
             ]),
         body: Padding(
             padding: const EdgeInsets.all(15),

@@ -41,15 +41,19 @@ class _ExternalProxyDialogState extends State<ExternalProxyDialog> {
     return ShadDialog(
       title: Text(localizations.externalProxy, style: const TextStyle(fontSize: 15)),
       actions: [
-        TextButton(onPressed: () => Navigator.of(context).pop(), child: Text(localizations.cancel)),
-        TextButton(
-            onPressed: () async {
-              if (!formKey.currentState!.validate()) {
-                return;
-              }
-              submit();
-            },
-            child: Text(localizations.confirm))
+        ShadButton.ghost(
+          onPressed: () => Navigator.of(context).pop(),
+          child: Text(localizations.cancel),
+        ),
+        ShadButton.ghost(
+          onPressed: () async {
+            if (!formKey.currentState!.validate()) {
+              return;
+            }
+            submit();
+          },
+          child: Text(localizations.confirm),
+        )
       ],
       child: Form(
           key: formKey,
@@ -172,13 +176,17 @@ class _ExternalProxyDialogState extends State<ExternalProxyDialog> {
               builder: (_) => ShadDialog(
                     title: Text(localizations.externalProxyConnectFailure),
                     actions: [
-                      TextButton(onPressed: () => Navigator.of(context).pop(), child: Text(localizations.cancel)),
-                      TextButton(
-                          onPressed: () {
-                            setting = true;
-                            Navigator.of(context).pop();
-                          },
-                          child: Text(localizations.confirm))
+                      ShadButton.ghost(
+                        onPressed: () => Navigator.of(context).pop(),
+                        child: Text(localizations.cancel),
+                      ),
+                      ShadButton.ghost(
+                        onPressed: () {
+                          setting = true;
+                          Navigator.of(context).pop();
+                        },
+                        child: Text(localizations.confirm),
+                      )
                     ],
                     child: Text(localizations.externalProxyFailureConfirm, style: const TextStyle(fontSize: 12)),
                   ));

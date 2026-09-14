@@ -144,21 +144,25 @@ class RequestEditorState extends State<MobileRequestEditor> with SingleTickerPro
           return ShadDialog(
             title: Text(localizations.prompt),
             actions: [
-              TextButton(child: Text(localizations.cancel), onPressed: () => Navigator.of(context).pop()),
-              TextButton(
-                  child: Text(localizations.confirm),
-                  onPressed: () {
-                    try {
-                      setState(() {
-                        request = Curl.parse(text!);
-                        requestKey.currentState?.change(request!);
-                        requestLineKey.currentState?.change(request?.requestUrl, request?.method);
-                      });
-                    } catch (e) {
-                      FlutterToastr.show(localizations.fail, context);
-                    }
-                    Navigator.of(context).pop();
-                  }),
+              ShadButton.ghost(
+                child: Text(localizations.cancel),
+                onPressed: () => Navigator.of(context).pop(),
+              ),
+              ShadButton.ghost(
+                child: Text(localizations.confirm),
+                onPressed: () {
+                  try {
+                    setState(() {
+                      request = Curl.parse(text!);
+                      requestKey.currentState?.change(request!);
+                      requestLineKey.currentState?.change(request?.requestUrl, request?.method);
+                    });
+                  } catch (e) {
+                    FlutterToastr.show(localizations.fail, context);
+                  }
+                  Navigator.of(context).pop();
+                },
+              ),
             ],
             child: Text(localizations.curlSchemeRequest),
           );
@@ -188,23 +192,26 @@ class RequestEditorState extends State<MobileRequestEditor> with SingleTickerPro
     return Scaffold(
         appBar: ShadHeader(
             title: localizations.httpRequest,
-            leading: TextButton(
-                style: TextButton.styleFrom(foregroundColor: Colors.white),
-                onPressed: () => Navigator.pop(context),
-                child: Text(localizations.cancel,
-                    style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w500))),
+            leading: ShadButton.ghost(
+              onPressed: () => Navigator.pop(context),
+              child: Text(localizations.cancel,
+                  style: const TextStyle(color: Colors.white, fontSize: 15, fontWeight: FontWeight.w500)),
+            ),
             actions: [
-              TextButton.icon(
-                  style: TextButton.styleFrom(foregroundColor: Colors.white),
-                  icon: Icon(icon),
-                  label: Text(buttonText, style: const TextStyle(color: Colors.white, fontSize: 15)),
-                  onPressed: () {
-                    if (widget.source == RequestEditorSource.editor) {
-                      sendRequest();
-                    } else {
-                      executeBreakpoint();
-                    }
-                  })
+              ShadButton.ghost(
+                onPressed: () {
+                  if (widget.source == RequestEditorSource.editor) {
+                    sendRequest();
+                  } else {
+                    executeBreakpoint();
+                  }
+                },
+                child: Row(mainAxisSize: MainAxisSize.min, children: [
+                  Icon(icon),
+                  const SizedBox(width: 6),
+                  Text(buttonText, style: const TextStyle(color: Colors.white, fontSize: 15))
+                ]),
+              )
             ],
             bottom: TabBar(
                 controller: tabController,
@@ -947,13 +954,14 @@ class KeyValState extends State<KeyValWidget> with AutomaticKeepAliveClientMixin
         ? const SizedBox()
         : Container(
             alignment: Alignment.center,
-            child: TextButton(
-                onPressed: () {
-                  var keyVal = KeyVal("", "");
-                  _params.add(keyVal);
-                  modifyParam(keyVal);
-                },
-                child: Text(localizations.add, textAlign: TextAlign.center))); //添加按钮
+            child: ShadButton.ghost(
+              onPressed: () {
+                var keyVal = KeyVal("", "");
+                _params.add(keyVal);
+                modifyParam(keyVal);
+              },
+              child: Text(localizations.add, textAlign: TextAlign.center),
+            )); //添加按钮
 
     if (!widget.showTitle) {
       return Column(
@@ -1012,20 +1020,22 @@ class KeyValState extends State<KeyValWidget> with AutomaticKeepAliveClientMixin
               title: Text(widget.readOnly ? localizations.responseHeader : localizations.modifyRequestHeader,
                   style: const TextStyle(fontSize: 16)),
               actions: [
-                TextButton(
-                    onPressed: () => Navigator.pop(ctx),
-                    child: Text(widget.readOnly ? localizations.close : localizations.cancel)),
+                ShadButton.ghost(
+                  onPressed: () => Navigator.pop(ctx),
+                  child: Text(widget.readOnly ? localizations.close : localizations.cancel),
+                ),
                 if (!widget.readOnly)
-                  TextButton(
-                      onPressed: () {
-                        this.setState(() {
-                          keyVal.key = headerName;
-                          keyVal.value = val;
-                        });
-                        notifierChange();
-                        Navigator.pop(ctx);
-                      },
-                      child: Text(localizations.modify)),
+                  ShadButton.ghost(
+                    onPressed: () {
+                      this.setState(() {
+                        keyVal.key = headerName;
+                        keyVal.value = val;
+                      });
+                      notifierChange();
+                      Navigator.pop(ctx);
+                    },
+                    child: Text(localizations.modify),
+                  ),
               ],
               child: Wrap(
                 children: [
@@ -1180,14 +1190,18 @@ class KeyValState extends State<KeyValWidget> with AutomaticKeepAliveClientMixin
           return ShadDialog(
             title: Text(localizations.deleteHeaderConfirm, style: const TextStyle(fontSize: 18)),
             actions: [
-              TextButton(onPressed: () => Navigator.pop(ctx), child: Text(localizations.cancel)),
-              TextButton(
-                  onPressed: () {
-                    setState(() => _params.remove(keyVal));
-                    notifierChange();
-                    Navigator.pop(ctx);
-                  },
-                  child: Text(localizations.delete)),
+              ShadButton.ghost(
+                onPressed: () => Navigator.pop(ctx),
+                child: Text(localizations.cancel),
+              ),
+              ShadButton.ghost(
+                onPressed: () {
+                  setState(() => _params.remove(keyVal));
+                  notifierChange();
+                  Navigator.pop(ctx);
+                },
+                child: Text(localizations.delete),
+              ),
             ],
           );
         });
@@ -1196,14 +1210,15 @@ class KeyValState extends State<KeyValWidget> with AutomaticKeepAliveClientMixin
   Widget row(KeyVal keyVal) {
     return Row(children: [
       if (!widget.readOnly)
-        Checkbox(
-            value: keyVal.enabled,
-            onChanged: (val) {
-              setState(() {
-                keyVal.enabled = val!;
-              });
-              notifierChange();
-            }),
+        ShadCheckbox(
+          value: keyVal.enabled,
+          onChanged: (val) {
+            setState(() {
+              keyVal.enabled = val!;
+            });
+            notifierChange();
+          },
+        ),
       Expanded(flex: 4, child: Text(keyVal.key, style: const TextStyle(fontSize: 13, fontWeight: FontWeight.w500))),
       const Text(":", style: TextStyle(color: Colors.orange, fontWeight: FontWeight.w600)),
       const SizedBox(width: 8),

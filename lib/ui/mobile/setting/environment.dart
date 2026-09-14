@@ -96,8 +96,14 @@ class _MobileEnvironmentPageState extends State<MobileEnvironmentPage> {
       builder: (ctx) => ShadDialog(
         title: Text(title, style: const TextStyle(fontSize: 15)),
         actions: [
-          TextButton(onPressed: () => Navigator.of(ctx).pop(), child: Text(localizations.cancel)),
-          TextButton(onPressed: () => Navigator.of(ctx).pop(controller.text), child: Text(localizations.confirm)),
+          ShadButton.ghost(
+            onPressed: () => Navigator.of(ctx).pop(),
+            child: Text(localizations.cancel),
+          ),
+          ShadButton.ghost(
+            onPressed: () => Navigator.of(ctx).pop(controller.text),
+            child: Text(localizations.confirm),
+          ),
         ],
         child: TextField(
           controller: controller,
@@ -179,7 +185,7 @@ class _MobileEnvironmentPageState extends State<MobileEnvironmentPage> {
             onPressed: _openGuide,
             icon: const Icon(Icons.help_outline, size: 20),
           ),
-          TextButton(
+          ShadButton.ghost(
             onPressed: _save,
             child: Text(localizations.save, style: const TextStyle(fontSize: 14)),
           ),
@@ -318,15 +324,18 @@ class _VariableListState extends State<_VariableList> {
         Text(widget.env.isGlobal ? localizations.envGlobal : widget.env.name,
             style: const TextStyle(fontSize: 13, color: Colors.grey)),
         const Spacer(),
-        TextButton.icon(
+        ShadButton.ghost(
           onPressed: () {
             setState(() {
               vars.add(EnvironmentVariable(key: '', value: ''));
               widget.onChanged();
             });
           },
-          icon: const Icon(Icons.add, size: 18),
-          label: Text(localizations.add, style: const TextStyle(fontSize: 12)),
+          child: Row(mainAxisSize: MainAxisSize.min, children: [
+            const Icon(Icons.add, size: 18),
+            const SizedBox(width: 6),
+            Text(localizations.add, style: const TextStyle(fontSize: 12))
+          ]),
         ),
       ]),
       // 表头
@@ -400,9 +409,7 @@ class _VarRowState extends State<_VarRow> {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 4),
       child: Row(children: [
-        Checkbox(
-          visualDensity: VisualDensity.compact,
-          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+        ShadCheckbox(
           value: widget.v.enabled,
           onChanged: (v) => setState(() {
             widget.v.enabled = v ?? false;

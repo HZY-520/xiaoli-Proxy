@@ -80,16 +80,20 @@ class _MobileRequestCryptoPageState extends State<MobileRequestCryptoPage> {
                   ],
                 ),
                 Row(mainAxisAlignment: MainAxisAlignment.end, children: [
-                  TextButton.icon(
-                    icon: const Icon(Icons.add, size: 20),
+                  ShadButton.ghost(
                     onPressed: () => _addRule(manager),
-                    label: Text(l10n.add),
+                    child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [const Icon(Icons.add, size: 20), const SizedBox(width: 6), Text(l10n.add)]),
                   ),
                   const SizedBox(width: 5),
-                  TextButton.icon(
-                    icon: const Icon(Icons.input_rounded, size: 20),
+                  ShadButton.ghost(
                     onPressed: () => _import(manager),
-                    label: Text(l10n.import),
+                    child: Row(mainAxisSize: MainAxisSize.min, children: [
+                      const Icon(Icons.input_rounded, size: 20),
+                      const SizedBox(width: 6),
+                      Text(l10n.import)
+                    ]),
                   ),
                 ]),
                 const SizedBox(height: 10),
@@ -192,37 +196,38 @@ class _MobileRequestCryptoPageState extends State<MobileRequestCryptoPage> {
           left: 0,
           right: 0,
           child: Center(
-              child: TextButton(
-                  onPressed: () {},
-                  child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-                    TextButton.icon(
-                        onPressed: selected.isEmpty
-                            ? null
-                            : () async {
-                                // export selected only
-                                final m = await RequestCryptoManager.instance;
-                                await _export(m, indexes: selected.toList());
-                                setState(() {
-                                  selected.clear();
-                                  selectionMode = false;
-                                });
-                              },
-                        icon: const Icon(Icons.share, size: 18),
-                        label: Text(l10n.export, style: const TextStyle(fontSize: 14))),
-                    TextButton.icon(
-                        onPressed: selected.isEmpty ? null : () => _removeSelected(),
-                        icon: const Icon(Icons.delete, size: 18),
-                        label: Text(l10n.delete, style: const TextStyle(fontSize: 14))),
-                    TextButton.icon(
-                        onPressed: () {
+              child: ShadButton.ghost(
+            onPressed: () {},
+            child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+              TextButton.icon(
+                  onPressed: selected.isEmpty
+                      ? null
+                      : () async {
+                          // export selected only
+                          final m = await RequestCryptoManager.instance;
+                          await _export(m, indexes: selected.toList());
                           setState(() {
-                            selectionMode = false;
                             selected.clear();
+                            selectionMode = false;
                           });
                         },
-                        icon: const Icon(Icons.cancel, size: 18),
-                        label: Text(l10n.cancel, style: const TextStyle(fontSize: 14))),
-                  ]))))
+                  icon: const Icon(Icons.share, size: 18),
+                  label: Text(l10n.export, style: const TextStyle(fontSize: 14))),
+              TextButton.icon(
+                  onPressed: selected.isEmpty ? null : () => _removeSelected(),
+                  icon: const Icon(Icons.delete, size: 18),
+                  label: Text(l10n.delete, style: const TextStyle(fontSize: 14))),
+              TextButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      selectionMode = false;
+                      selected.clear();
+                    });
+                  },
+                  icon: const Icon(Icons.cancel, size: 18),
+                  label: Text(l10n.cancel, style: const TextStyle(fontSize: 14))),
+            ]),
+          )))
     ]);
   }
 
@@ -283,15 +288,16 @@ class _MobileRequestCryptoPageState extends State<MobileRequestCryptoPage> {
                 _removeRule(manager, index);
               }),
           Container(color: Theme.of(ctx).hoverColor, height: 8),
-          TextButton(
-              child: Container(
-                  height: 45,
-                  width: double.infinity,
-                  padding: const EdgeInsets.only(top: 10),
-                  child: Text(l10n.cancel, textAlign: TextAlign.center)),
-              onPressed: () {
-                Navigator.of(ctx).pop();
-              }),
+          ShadButton.ghost(
+            child: Container(
+                height: 45,
+                width: double.infinity,
+                padding: const EdgeInsets.only(top: 10),
+                child: Text(l10n.cancel, textAlign: TextAlign.center)),
+            onPressed: () {
+              Navigator.of(ctx).pop();
+            },
+          ),
         ]);
       },
     ).then((value) {
@@ -471,8 +477,7 @@ class _MobileCryptoRuleEditPageState extends State<MobileCryptoRuleEditPage> {
 
     return Scaffold(
       appBar: ShadHeader(title: widget.rule == null ? l10n.newBuilt : l10n.edit, actions: [
-        TextButton(
-          style: TextButton.styleFrom(foregroundColor: Colors.white),
+        ShadButton.ghost(
           onPressed: _save,
           child: Text(l10n.save, style: const TextStyle(color: Colors.white, fontSize: 15)),
         ),
@@ -483,13 +488,8 @@ class _MobileCryptoRuleEditPageState extends State<MobileCryptoRuleEditPage> {
         child: ListView(
           padding: const EdgeInsets.all(12),
           children: [
-            Card(
-              color: Theme.of(context).colorScheme.surfaceContainerLow.withAlpha((0.5 * 255).round()),
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                side: BorderSide(color: Theme.of(context).dividerColor.withAlpha((0.2 * 255).round())),
-                borderRadius: BorderRadius.circular(8),
-              ),
+            ShadCard(
+              border: ShadBorder.all(color: Theme.of(context).dividerColor.withAlpha((0.2 * 255).round())),
               child: Padding(
                 padding: const EdgeInsets.all(12),
                 child: Column(
@@ -525,13 +525,8 @@ class _MobileCryptoRuleEditPageState extends State<MobileCryptoRuleEditPage> {
               ),
             ),
             const SizedBox(height: 12),
-            Card(
-              color: Theme.of(context).colorScheme.surfaceContainerLow.withAlpha((0.5 * 255).round()),
-              elevation: 0,
-              shape: RoundedRectangleBorder(
-                side: BorderSide(color: Theme.of(context).dividerColor.withAlpha((0.2 * 255).round())),
-                borderRadius: BorderRadius.circular(8),
-              ),
+            ShadCard(
+              border: ShadBorder.all(color: Theme.of(context).dividerColor.withAlpha((0.2 * 255).round())),
               child: Padding(
                 padding: const EdgeInsets.all(12),
                 child: Column(

@@ -120,13 +120,14 @@ class _ReportServersPageMobileState extends State<ReportServersPageMobile> {
                     return ShadTile(
                       leading: SizedBox(
                           width: 32,
-                          child: Checkbox(
-                              value: s.enabled,
-                              onChanged: (v) async {
-                                final manager = await ReportServerManager.instance;
-                                await manager.toggleEnabled(idx, v == true);
-                                await _load();
-                              })),
+                          child: ShadCheckbox(
+                            value: s.enabled,
+                            onChanged: (v) async {
+                              final manager = await ReportServerManager.instance;
+                              await manager.toggleEnabled(idx, v == true);
+                              await _load();
+                            },
+                          )),
                       titleWidget: Text(s.name.isEmpty ? '-' : s.name),
                       subtitleWidget: Text(s.serverUrl),
                       trailing: Row(
@@ -228,10 +229,10 @@ class _ReportServerEditPageMobileState extends State<ReportServerEditPageMobile>
       appBar: ShadHeader(
           title: widget.initial == null ? localizations.addReportServer : localizations.editReportServer,
           actions: [
-            TextButton(
-                style: TextButton.styleFrom(foregroundColor: Colors.white),
-                onPressed: _onSave,
-                child: Text(localizations.save, style: const TextStyle(color: Colors.white, fontSize: 15))),
+            ShadButton.ghost(
+              onPressed: _onSave,
+              child: Text(localizations.save, style: const TextStyle(color: Colors.white, fontSize: 15)),
+            ),
           ]),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
