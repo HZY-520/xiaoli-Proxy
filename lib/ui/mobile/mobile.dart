@@ -20,7 +20,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 import 'package:proxypin/l10n/app_localizations.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
 import 'package:proxypin/native/app_lifecycle.dart';
@@ -43,7 +42,6 @@ import 'package:proxypin/ui/toolbox/toolbox.dart';
 import 'package:proxypin/ui/configuration.dart';
 import 'package:proxypin/ui/content/panel.dart';
 import 'package:proxypin/ui/launch/launch.dart';
-import 'package:proxypin/ui/mobile/liquid_glass.dart';
 import 'package:proxypin/ui/mobile/menu/drawer.dart';
 import 'package:proxypin/ui/mobile/menu/bottom_navigation.dart';
 import 'package:proxypin/ui/mobile/menu/menu.dart';
@@ -217,8 +215,6 @@ class MobileHomeState extends State<MobileHomePage> implements EventListener, Li
           child: SettingPage(proxyServer: proxyServer, appConfiguration: widget.appConfiguration)),
     ];
 
-    _selectIndex.value = 0;
-
     return PopScope(
         canPop: false,
         onPopInvokedWithResult: (didPop, result) async {
@@ -248,8 +244,62 @@ class MobileHomeState extends State<MobileHomePage> implements EventListener, Li
         child: ValueListenableBuilder<int>(
             valueListenable: _selectIndex,
             builder: (context, index, child) => Scaffold(
-                body: IndexedStack(index: index, children: navigationView),
+                  body: IndexedStack(index: index, children: navigationView),
+                  bottomNavigationBar:
+                      widget.appConfiguration.bottomNavigation ? _bottomBar(index) : null,
                 )));
+  }
+
+  /// shadcn 风格底部导航栏：抓包 / 工具 / 配置 / 设置
+  Widget _bottomBar(int index) {
+    final bool isDark = Theme.of(context).brightness == Brightness.dark;
+    final Color primary = Theme.of(context).colorScheme.primary;
+    final Color muted = isDark ? const Color(0xFFA1A1AA) : const Color(0xFF71717A);
+    final Color cardColor = isDark ? const Color(0xFF18181B) : Colors.white;
+    final Color borderColor = isDark ? const Color(0xFF27272A) : const Color(0xFFE4E4E7);
+
+    final items = [
+      (Icons.bolt_outlined, Icons.bolt, localizations.requests),
+      (Icons.grid_view_outlined, Icons.grid_view_rounded, localizations.toolbox),
+      (Icons.dns_outlined, Icons.dns, localizations.config),
+      (Icons.settings_outlined, Icons.settings, localizations.setting),
+    ];
+
+    return Container(
+      decoration: BoxDecoration(
+        color: cardColor,
+        border: Border(top: BorderSide(color: borderColor)),
+      ),
+      child: SafeArea(
+        top: false,
+        child: SizedBox(
+          height: 58,
+          child: Row(
+            children: [
+              for (var i = 0; i < items.length; i++)
+                Expanded(
+                  child: InkWell(
+                    onTap: () => _selectIndex.value = i,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(index == i ? items[i].$2 : items[i].$1,
+                            size: 24, color: index == i ? primary : muted),
+                        const SizedBox(height: 2),
+                        Text(items[i].$3,
+                            style: TextStyle(
+                                fontSize: 11,
+                                color: index == i ? primary : muted,
+                                fontWeight: index == i ? FontWeight.w600 : FontWeight.w400)),
+                      ],
+                    ),
+                  ),
+                ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   @override
@@ -362,9 +412,6 @@ class RequestPageState extends State<RequestPage> {
   /// 远程连接
   final ValueNotifier<RemoteModel> remoteDevice = ValueNotifier(RemoteModel(connect: false));
 
-  /// 侧边栏打开状态（用于让 AppBar 顶栏在抽屉滑出时变透明，避免顶栏黄带外露）
-  bool _drawerOpen = false;
-
   late ProxyServer proxyServer;
 
   AppLocalizations get localizations => AppLocalizations.of(context)!;
@@ -399,14 +446,8 @@ class RequestPageState extends State<RequestPage> {
           widget.appConfiguration,
           proxyServer,
           remoteDevice: remoteDevice,
-          drawerOpen: _drawerOpen,
         ),
         drawer: DrawerWidget(proxyServer: proxyServer, container: MobileApp.container),
-        onDrawerChanged: (isOpen) {
-          if (_drawerOpen != isOpen) {
-            setState(() => _drawerOpen = isOpen);
-          }
-        },
         floatingActionButton: _launchActionButton(),
         body: ValueListenableBuilder(
             valueListenable: remoteDevice,
@@ -508,18 +549,16 @@ class RequestPageState extends State<RequestPage> {
   }
 }
 
-/// 移动端AppBar
+/// 移动端AppBar（shadcn 风格：标题含应用图标，底部细分隔线）
 class _MobileAppBar extends StatefulWidget implements PreferredSizeWidget {
   final AppConfiguration appConfiguration;
   final ProxyServer proxyServer;
   final ValueNotifier<RemoteModel> remoteDevice;
-  final bool drawerOpen;
 
   const _MobileAppBar(
     this.appConfiguration,
     this.proxyServer, {
     required this.remoteDevice,
-    this.drawerOpen = false,
   });
 
   @override
@@ -638,47 +677,47 @@ class _MobileAppBarState extends State<_MobileAppBar> {
   Widget build(BuildContext context) {
     AppLocalizations localizations = AppLocalizations.of(context)!;
 
-    final Color iconColor = glassIconColor(context);
-    final Color titleColor = glassTextColor(context);
+    final Color iconColor = Theme.of(context).colorScheme.onSurface;
 
-    return GlassAppBar(
+    return AppBar(
       toolbarHeight: 56,
-      backgroundColor: Colors.transparent,
+      backgroundColor: Theme.of(context).colorScheme.surface,
+      surfaceTintColor: Colors.transparent,
+      elevation: 0,
+      scrolledUnderElevation: 0,
       centerTitle: false,
+      shape: Border(bottom: BorderSide(color: Theme.of(context).dividerColor, width: 0.5)),
       leading: Builder(
-        builder: (ctx) => GlassIconButton(
-          icon: Icon(Icons.menu, color: iconColor, size: 24),
-          size: 40,
-          iconSize: 24,
+        builder: (ctx) => IconButton(
+          icon: const Icon(Icons.menu, size: 24),
           onPressed: () => Scaffold.of(ctx).openDrawer(),
         ),
       ),
-      title: Text('ProxyBird',
-          style: TextStyle(
-            color: titleColor,
-            fontSize: 24,
-            fontWeight: FontWeight.w500,
-            height: 1.2,
-          )),
+      title: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          ClipRRect(
+            borderRadius: BorderRadius.circular(8),
+            child: Image.asset('assets/icon_new/app_icon.png', width: 30, height: 30, fit: BoxFit.cover),
+          ),
+          const SizedBox(width: 8),
+          const Text('小离Proxy',
+              style: TextStyle(fontSize: 19, fontWeight: FontWeight.w600, letterSpacing: 0.2)),
+        ],
+      ),
       actions: [
-        GlassIconButton(
-            icon: Icon(Icons.search, color: iconColor, size: 22),
-            size: 40,
-            iconSize: 22,
+        IconButton(
+            icon: const Icon(Icons.search, size: 22),
             onPressed: () => _openSearch(context)),
-        GlassIconButton(
-            icon: Icon(Icons.delete_sweep, color: iconColor, size: 22),
-            size: 40,
-            iconSize: 22,
+        IconButton(
+            icon: const Icon(Icons.delete_sweep, size: 22),
             onPressed: () => _onClear(context, localizations)),
-        GlassIconButton(
+        IconButton(
             icon: Icon(
               Icons.picture_in_picture_alt,
               size: 22,
-              color: _floatingActive ? iconColor : iconColor.withValues(alpha: 0.6),
+              color: _floatingActive ? iconColor : iconColor.withValues(alpha: 0.45),
             ),
-            size: 40,
-            iconSize: 22,
             onPressed: _toggleFloatingWindow),
         MoreMenu(proxyServer: widget.proxyServer, remoteDevice: widget.remoteDevice),
         const SizedBox(width: 6),

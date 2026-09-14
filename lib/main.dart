@@ -20,7 +20,6 @@ import 'dart:io';
 
 import 'package:code_forge/code_forge.dart';
 import 'package:flutter/material.dart';
-import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 import 'package:proxypin/network/bin/configuration.dart';
 import 'package:proxypin/network/components/manager/environment_manager.dart';
 import 'package:proxypin/ui/component/chinese_font.dart';
@@ -28,11 +27,11 @@ import 'package:proxypin/ui/component/multi_window_compat.dart';
 import 'package:proxypin/ui/component/multi_window.dart';
 import 'package:proxypin/ui/configuration.dart';
 import 'package:proxypin/ui/desktop/desktop.dart';
-import 'package:proxypin/ui/mobile/liquid_glass.dart';
 import 'package:proxypin/ui/mobile/mobile.dart';
 import 'package:proxypin/utils/desktop_support.dart';
 import 'package:proxypin/utils/navigator.dart';
 import 'package:proxypin/utils/platform.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'l10n/app_localizations.dart';
@@ -78,20 +77,7 @@ void main(List<String> args) async {
   //移动端
   if (Platforms.isMobile()) {
     var appConfiguration = await instance;
-    // 预热液态玻璃着色器，避免首帧白屏/闪烁
-    await LiquidGlassWidgets.initialize(enablePerformanceMonitor: false);
-    runApp(LiquidGlassWidgets.wrap(
-      child: FluentApp(MobileHomePage((await configuration), appConfiguration), appConfiguration, glass: true),
-      brightnessResolver: Theme.maybeBrightnessOf,
-      theme: GlassThemeData.simple(
-        blur: 12,
-        thickness: 26,
-        quality: GlassQuality.standard,
-        lightIntensity: 0.8,
-        ambientStrength: 0.12,
-        saturation: 1.2,
-      ),
-    ));
+    runApp(FluentApp(MobileHomePage((await configuration), appConfiguration), appConfiguration));
     return;
   }
 
@@ -107,10 +93,7 @@ class FluentApp extends StatelessWidget {
   final Widget home;
   final AppConfiguration appConfiguration;
 
-  /// 是否启用液态玻璃（仅安卓/移动端 UI 重构时开启）
-  final bool glass;
-
-  const FluentApp(this.home, this.appConfiguration, {super.key, this.glass = false});
+  const FluentApp(this.home, this.appConfiguration, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +101,7 @@ class FluentApp extends StatelessWidget {
         valueListenable: appConfiguration.globalChange,
         builder: (_, current, __) {
           return MaterialApp(
-            title: 'ProxyPin',
+            title: '小离Proxy',
             debugShowCheckedModeBanner: false,
             navigatorKey: navigatorHelper.navigatorKey,
             theme: theme(Brightness.light),
@@ -127,13 +110,11 @@ class FluentApp extends StatelessWidget {
             locale: appConfiguration.language,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
-            builder: glass
-                ? (context, child) => GlassPage(
-                      background: const GlassBackground(),
-                      statusBarStyle: GlassStatusBarStyle.auto,
-                      child: child!,
-                    )
-                : null,
+            // 为 shadcn_ui 组件注入 ShadTheme（跟随亮/暗模式）
+            builder: (context, child) => ShadTheme(
+              data: ShadThemeData(brightness: Theme.of(context).brightness),
+              child: child!,
+            ),
             home: home,
           );
         });
@@ -141,86 +122,149 @@ class FluentApp extends StatelessWidget {
 
   ThemeData theme(Brightness brightness) {
     bool isDark = brightness == Brightness.dark;
+    bool mobile = Platforms.isMobile();
 
-    Color? themeColor = isDark ? appConfiguration.themeColor : appConfiguration.themeColor;
-    Color? cardColor = isDark ? Color(0XFF3C3C3C) : Colors.white;
-    Color? surfaceContainer = isDark ? Colors.grey[800] : Colors.white;
+    // 桌面端保持原外观：Shadcn 默认色映射回原 HttpCanary 主色
+    Color themeColor = appConfiguration.themeColor;
+    if (!mobile && ColorMapping.getColorName(themeColor) == "Shadcn") {
+      themeColor = ColorMapping.colors["HttpCanary"]!;
+    }
+
+    Color background = isDark ? const Color(0xFF09090B) : const Color(0xFFFAFAFA);
+    Color cardColor = isDark ? const Color(0xFF18181B) : Colors.white;
+    Color borderColor = isDark ? const Color(0xFF27272A) : const Color(0xFFE4E4E7);
+    Color foreground = isDark ? const Color(0xFFFAFAFA) : const Color(0xFF09090B);
+    Color muted = isDark ? const Color(0xFFA1A1AA) : const Color(0xFF71717A);
+
+    Color? themeCardColor = mobile ? cardColor : (isDark ? const Color(0XFF3C3C3C) : Colors.white);
+    Color? surfaceContainer =
+        mobile ? cardColor : (isDark ? Colors.grey[800] : Colors.white);
 
     var colorScheme = ColorScheme.fromSeed(
       brightness: brightness,
       seedColor: themeColor,
       primary: themeColor,
-      surface: cardColor,
+      surface: themeCardColor,
       secondary: const Color(0xFF2196F3),
-      onPrimary: Colors.white,
+      onPrimary: isDark ? const Color(0xFF09090B) : Colors.white,
       surfaceContainer: surfaceContainer,
       surfaceContainerHigh: surfaceContainer,
     );
 
     var themeData =
-        ThemeData(brightness: brightness, useMaterial3: appConfiguration.useMaterial3, colorScheme: colorScheme);
-
-    if (!appConfiguration.useMaterial3) {
-      themeData = themeData.copyWith(
-        appBarTheme: themeData.appBarTheme.copyWith(
-          iconTheme: themeData.iconTheme.copyWith(size: 20),
-          backgroundColor: themeData.canvasColor,
-          elevation: 0,
-          titleTextStyle: themeData.textTheme.titleMedium,
-        ),
-        tabBarTheme: themeData.tabBarTheme.copyWith(
-          labelColor: themeData.colorScheme.primary,
-          indicatorColor: themeColor,
-          unselectedLabelColor: themeData.textTheme.titleMedium?.color,
-        ),
-      );
-    }
+        ThemeData(brightness: brightness, useMaterial3: true, colorScheme: colorScheme);
 
     if (Platform.isWindows) {
       themeData = themeData.useSystemChineseFont();
     }
 
-    // 黄鸟复刻：所有子页面 AppBar 统一橙底白字（被 AppBar 自身 backgroundColor 显式覆盖的除外）
-    // 黄鸟复刻：所有 Switch 统一 关闭=灰、开启=蓝 #369EDB
-    // 去掉花哨的页面切换动画，使用最基础的淡入向上过渡
+    if (!mobile) {
+      // 桌面端：保持原有黄鸟复刻样式
+      return themeData.copyWith(
+        pageTransitionsTheme: const PageTransitionsTheme(builders: {
+          TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+        }),
+        dialogTheme:
+            themeData.dialogTheme.copyWith(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
+        appBarTheme: themeData.appBarTheme.copyWith(
+          backgroundColor: const Color(0xFFFF9E05),
+          foregroundColor: Colors.white,
+          elevation: 0,
+          iconTheme: const IconThemeData(color: Colors.white, size: 22),
+          titleTextStyle: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500),
+        ),
+        switchTheme: SwitchThemeData(
+          thumbColor: WidgetStateProperty.resolveWith<Color?>((states) {
+            return Colors.white;
+          }),
+          trackColor: WidgetStateProperty.resolveWith<Color?>((states) {
+            if (states.contains(WidgetState.selected)) {
+              return const Color(0xFF369EDB);
+            }
+            return const Color(0xFFBDBDBD);
+          }),
+          trackOutlineColor: WidgetStateProperty.resolveWith<Color?>((states) {
+            return Colors.transparent;
+          }),
+        ),
+      );
+    }
+
+    // 安卓端：shadcn/ui 风格
     return themeData.copyWith(
       pageTransitionsTheme: const PageTransitionsTheme(builders: {
         TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
       }),
-      dialogTheme:
-          themeData.dialogTheme.copyWith(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-      // 液态玻璃模式：顶栏透明（背景由 GlassPage 渐变提供），图标/文字颜色随亮暗主题自适应
-      appBarTheme: glass
-          ? themeData.appBarTheme.copyWith(
-              backgroundColor: Colors.transparent,
-              foregroundColor: isDark ? Colors.white : const Color(0xDD000000),
-              elevation: 0,
-              scrolledUnderElevation: 0,
-              iconTheme: IconThemeData(color: isDark ? Colors.white : const Color(0xDD000000), size: 22),
-              titleTextStyle: TextStyle(
-                  color: isDark ? Colors.white : const Color(0xDD000000),
-                  fontSize: 18,
-                  fontWeight: FontWeight.w500),
-            )
-          : themeData.appBarTheme.copyWith(
-              backgroundColor: const Color(0xFFFF9E05),
-              foregroundColor: Colors.white,
-              elevation: 0,
-              iconTheme: const IconThemeData(color: Colors.white, size: 22),
-              titleTextStyle: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500),
-            ),
+      scaffoldBackgroundColor: background,
+      canvasColor: background,
+      dividerColor: borderColor,
+      dialogTheme: themeData.dialogTheme.copyWith(
+        backgroundColor: cardColor,
+        surfaceTintColor: Colors.transparent,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+      ),
+      appBarTheme: themeData.appBarTheme.copyWith(
+        backgroundColor: background,
+        foregroundColor: foreground,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
+        iconTheme: IconThemeData(color: foreground, size: 22),
+        titleTextStyle: TextStyle(color: foreground, fontSize: 18, fontWeight: FontWeight.w500),
+      ),
+      cardTheme: CardThemeData(
+        color: cardColor,
+        elevation: 0,
+        margin: EdgeInsets.zero,
+        surfaceTintColor: Colors.transparent,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+          side: BorderSide(color: borderColor),
+        ),
+      ),
+      navigationBarTheme: NavigationBarThemeData(
+        backgroundColor: cardColor,
+        elevation: 0,
+        height: 58,
+        surfaceTintColor: Colors.transparent,
+        indicatorColor: Color.lerp(themeColor, cardColor, 0.88),
+        labelTextStyle: WidgetStatePropertyAll(TextStyle(fontSize: 11, color: muted)),
+        iconTheme: WidgetStateProperty.resolveWith((states) => IconThemeData(
+            color: states.contains(WidgetState.selected) ? themeColor : muted, size: 22)),
+      ),
+      listTileTheme: ListTileThemeData(
+        iconColor: muted,
+        textColor: foreground,
+      ),
+      textButtonTheme: TextButtonThemeData(
+        style: TextButton.styleFrom(foregroundColor: themeColor),
+      ),
+      filledButtonTheme: FilledButtonThemeData(
+        style: FilledButton.styleFrom(
+          backgroundColor: themeColor,
+          foregroundColor: isDark ? const Color(0xFF09090B) : Colors.white,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        ),
+      ),
+      inputDecorationTheme: InputDecorationTheme(
+        filled: true,
+        fillColor: cardColor,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+        enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: borderColor)),
+        focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8), borderSide: BorderSide(color: themeColor)),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+      ),
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.resolveWith<Color?>((states) {
-          if (states.contains(WidgetState.selected)) {
-            return Colors.white;
-          }
           return Colors.white;
         }),
         trackColor: WidgetStateProperty.resolveWith<Color?>((states) {
           if (states.contains(WidgetState.selected)) {
-            return const Color(0xFF369EDB);
+            return themeColor;
           }
-          return const Color(0xFFBDBDBD);
+          return borderColor;
         }),
         trackOutlineColor: WidgetStateProperty.resolveWith<Color?>((states) {
           return Colors.transparent;

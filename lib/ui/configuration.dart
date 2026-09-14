@@ -27,6 +27,7 @@ import 'package:path_provider/path_provider.dart';
 /// 2024/1/1
 class ColorMapping {
   static final Map<String, Color> colors = {
+    "Shadcn": const Color(0xFF18181B),
     "Blue": Colors.blue,
     "Pink": Colors.pink,
     "Red": Colors.red,
@@ -52,7 +53,7 @@ class ColorMapping {
 class ThemeModel {
   ThemeMode mode;
   bool useMaterial3;
-  String color = "HttpCanary";
+  String color = "Shadcn";
 
   ThemeModel({this.mode = ThemeMode.system, this.useMaterial3 = true});
 
@@ -73,7 +74,7 @@ class AppConfiguration {
   Locale? _language;
 
   // 配置文件结构版本号（用于一次性迁移）
-  int configVersion = 1;
+  int configVersion = 3;
 
   //是否显示更新内容公告
   bool upgradeNoticeV30 = true;
@@ -88,7 +89,7 @@ class AppConfiguration {
   String headerViewMode = "table";
 
   /// 底部导航栏
-  bool bottomNavigation = false;
+  bool bottomNavigation = true;
 
   /// 内存清理
   int? memoryCleanupThreshold;
@@ -205,13 +206,13 @@ class AppConfiguration {
       var mode =
           ThemeMode.values.firstWhere((element) => element.name == config['mode'], orElse: () => ThemeMode.system);
       _theme = ThemeModel(mode: mode, useMaterial3: config['useMaterial3'] ?? true);
-      _theme.color = config['themeColor'] ?? "HttpCanary";
+      _theme.color = config['themeColor'] ?? "Shadcn";
 
-      // 迁移：旧版本默认是 Pink（或其他非 HttpCanary 颜色），统一刷成 HttpCanary
+      // 迁移：旧版本默认是 Pink / HttpCanary 等颜色，统一刷成 shadcn 默认色
       int savedVersion = config['configVersion'] ?? 1;
-      if (savedVersion < 2 && _theme.color != "HttpCanary") {
-        _theme.color = "HttpCanary";
-        configVersion = 2;
+      if (savedVersion < 3 && _theme.color != "Shadcn") {
+        _theme.color = "Shadcn";
+        configVersion = 3;
         unawaited(flushConfig());
       }
 
@@ -222,7 +223,7 @@ class AppConfiguration {
       pipEnabled.value = config['pipEnabled'] ?? true;
       pipIcon.value = config['pipIcon'] ?? false;
       headerViewMode = config['headerViewMode'] ?? "table";
-      bottomNavigation = config['bottomNavigation'] ?? false;
+      bottomNavigation = config['bottomNavigation'] ?? true;
       memoryCleanupThreshold = config['memoryCleanupThreshold'];
       autoReadEnabled = config['autoReadEnabled'] ?? true;
       clearConfirm = config['clearConfirm'] ?? false;
