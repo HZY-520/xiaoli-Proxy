@@ -233,8 +233,7 @@ class RequestSequenceState extends State<RequestSequence> with AutomaticKeepAliv
                 child: ListView.separated(
                     controller: PrimaryScrollController.maybeOf(context),
                     scrollCacheExtent: ScrollCacheExtent.viewport(2.0),
-                    separatorBuilder: (context, index) =>
-                        const SizedBox.shrink(),
+                    separatorBuilder: (context, index) => const SizedBox.shrink(),
                     itemCount: view.length,
                     itemBuilder: (context, index) {
                       // 安全边界检查：防止 view 数据变化时索引越界

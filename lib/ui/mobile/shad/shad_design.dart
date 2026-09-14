@@ -281,8 +281,8 @@ class ShadTag extends StatelessWidget {
         borderRadius: BorderRadius.circular(6),
         border: outline ? Border.all(color: c.withValues(alpha: 0.35), width: 0.8) : null,
       ),
-      child: Text(text,
-          style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: outline ? c : c, height: 1.4)),
+      child:
+          Text(text, style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600, color: outline ? c : c, height: 1.4)),
     );
   }
 }
@@ -303,9 +303,7 @@ class ShadEmpty extends StatelessWidget {
         children: [
           Icon(icon, size: 40, color: scheme.mutedForeground.withValues(alpha: 0.6)),
           const SizedBox(height: 12),
-          Text(message,
-              textAlign: TextAlign.center,
-              style: TextStyle(fontSize: 13, color: scheme.mutedForeground)),
+          Text(message, textAlign: TextAlign.center, style: TextStyle(fontSize: 13, color: scheme.mutedForeground)),
         ],
       ),
     );

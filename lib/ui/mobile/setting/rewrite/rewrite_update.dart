@@ -19,6 +19,7 @@ import 'package:code_forge/code_forge/controller.dart';
 import 'package:code_forge/code_forge/find_controller.dart';
 import 'package:code_forge/code_forge/styling.dart';
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:re_highlight/styles/atom-one-dark.dart';
 import 'package:re_highlight/styles/atom-one-light.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
@@ -28,6 +29,7 @@ import 'package:lico_proxy/network/components/manager/rewrite_rule.dart';
 import 'package:lico_proxy/network/http/http.dart';
 import 'package:lico_proxy/ui/component/widgets.dart';
 import 'package:lico_proxy/utils/lang.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 import 'package:re_highlight/languages/json.dart';
 
 class MobileRewriteUpdate extends StatefulWidget {
@@ -184,27 +186,24 @@ class _RewriteUpdateAddState extends State<RewriteUpdateEdit> {
     var typeList = widget.ruleType == RuleType.requestUpdate ? RewriteType.updateRequest : RewriteType.updateResponse;
     bool isCN = Localizations.localeOf(context).languageCode == "zh";
     return Scaffold(
-        appBar: AppBar(
-            centerTitle: true,
-            title: Text(i18n.requestRewriteRule, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.w500)),
-            actions: [
-              TextButton(
-                  style: TextButton.styleFrom(foregroundColor: Colors.white),
-                  onPressed: () {
-                    if (!(formKey.currentState as FormState).validate()) {
-                      FlutterToastr.show(i18n.cannotBeEmpty, context, position: FlutterToastr.center);
-                      return;
-                    }
-                    (formKey.currentState as FormState).save();
-                    rewriteItem.key = keyController.text;
-                    rewriteItem.value = valueController.text;
-                    rewriteItem.type = rewriteType;
-                    rewriteItem.useRegex = useRegex;
-                    Navigator.of(context).pop(rewriteItem);
-                  },
-                  child: Text(i18n.confirm)),
-              SizedBox(width: 5)
-            ]),
+        appBar: ShadHeader(title: i18n.requestRewriteRule, actions: [
+          TextButton(
+              style: TextButton.styleFrom(foregroundColor: Colors.white),
+              onPressed: () {
+                if (!(formKey.currentState as FormState).validate()) {
+                  FlutterToastr.show(i18n.cannotBeEmpty, context, position: FlutterToastr.center);
+                  return;
+                }
+                (formKey.currentState as FormState).save();
+                rewriteItem.key = keyController.text;
+                rewriteItem.value = valueController.text;
+                rewriteItem.type = rewriteType;
+                rewriteItem.useRegex = useRegex;
+                Navigator.of(context).pop(rewriteItem);
+              },
+              child: Text(i18n.confirm)),
+          SizedBox(width: 5)
+        ]),
         body: Form(
             key: formKey,
             child: ListView(padding: const EdgeInsets.all(10), children: [

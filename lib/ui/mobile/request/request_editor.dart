@@ -18,6 +18,7 @@ import 'dart:convert';
 
 import 'package:code_forge/code_forge.dart';
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:re_highlight/styles/atom-one-dark.dart';
 import 'package:re_highlight/styles/atom-one-light.dart';
@@ -41,6 +42,7 @@ import 'package:lico_proxy/utils/lang.dart';
 import 'package:lico_proxy/utils/xml_formatter.dart';
 
 import 'package:lico_proxy/ui/mobile/request/request_editor_source.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 
 import '../../component/http_method_popup.dart';
 
@@ -183,10 +185,8 @@ class RequestEditorState extends State<MobileRequestEditor> with SingleTickerPro
     }
 
     return Scaffold(
-        appBar: AppBar(
-            title: Text(localizations.httpRequest, style: const TextStyle(fontSize: 16)),
-            centerTitle: true,
-            leadingWidth: 72,
+        appBar: ShadHeader(
+            title: localizations.httpRequest,
             leading: TextButton(
                 style: TextButton.styleFrom(foregroundColor: Colors.white),
                 onPressed: () => Navigator.pop(context),

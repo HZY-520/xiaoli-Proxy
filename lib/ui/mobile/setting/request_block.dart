@@ -182,8 +182,7 @@ class RequestBlockAddDialog extends StatelessWidget {
     return ShadDialog(
         scrollable: true,
         actions: [
-          ShadButton.outline(
-              onPressed: () => Navigator.of(context).pop(), child: Text(localizations.cancel)),
+          ShadButton.outline(onPressed: () => Navigator.of(context).pop(), child: Text(localizations.cancel)),
           ShadButton(
               onPressed: () {
                 if (!(formKey.currentState as FormState).validate()) {

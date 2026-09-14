@@ -18,6 +18,7 @@ import 'dart:convert';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:lico_proxy/l10n/app_localizations.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
@@ -25,6 +26,7 @@ import 'package:lico_proxy/network/components/manager/hosts_manager.dart';
 import 'package:lico_proxy/network/util/logger.dart';
 import 'package:lico_proxy/ui/component/utils.dart';
 import 'package:lico_proxy/ui/component/widgets.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 
 /// Hosts page
 /// @author wanghongen
@@ -65,7 +67,7 @@ class _HostsPageState extends State<HostsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(centerTitle: true, title: Text('Hosts', style: const TextStyle(fontSize: 16))),
+        appBar: ShadHeader(title: 'Hosts'),
         persistentFooterButtons: [multiple ? globalMenu() : const SizedBox()],
         body: Padding(
             padding: const EdgeInsets.all(8),

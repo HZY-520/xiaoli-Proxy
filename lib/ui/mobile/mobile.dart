@@ -206,8 +206,7 @@ class MobileHomeState extends State<MobileHomePage> implements EventListener, Li
           navigatorKey: toolboxNavigatorKey,
           child: Scaffold(
               appBar: PreferredSize(
-                  preferredSize: const Size.fromHeight(42),
-                  child: ShadHeader(title: localizations.toolbox)),
+                  preferredSize: const Size.fromHeight(42), child: ShadHeader(title: localizations.toolbox)),
               body: Toolbox(proxyServer: proxyServer))),
       NavigatorPage(navigatorKey: configNavigatorKey, child: ConfigPage(proxyServer: proxyServer)),
       NavigatorPage(
@@ -246,7 +245,7 @@ class MobileHomeState extends State<MobileHomePage> implements EventListener, Li
         child: ValueListenableBuilder<int>(
             valueListenable: _selectIndex,
             builder: (context, index, child) => Scaffold(
-                body: IndexedStack(index: index, children: navigationView),
+                  body: IndexedStack(index: index, children: navigationView),
                 )));
   }
 
@@ -426,7 +425,8 @@ class RequestPageState extends State<RequestPage> {
 
   Widget _launchActionButton() {
     return Theme(
-        data: ThemeData.from(colorScheme: Theme.of(context).colorScheme, textTheme: Theme.of(context).textTheme, useMaterial3: true),
+        data: ThemeData.from(
+            colorScheme: Theme.of(context).colorScheme, textTheme: Theme.of(context).textTheme, useMaterial3: true),
         child: SocketLaunch(
             proxyServer: proxyServer,
             size: 64,
@@ -591,8 +591,7 @@ class _MobileAppBarState extends State<_MobileAppBar> {
     bool? shouldClear = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
-        title: const Text('确定要清除当前的抓包记录吗？',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+        title: const Text('确定要清除当前的抓包记录吗？', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         actions: [
           TextButton(
             onPressed: () => Navigator.of(ctx).pop(false),

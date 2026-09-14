@@ -81,40 +81,37 @@ class _FavoritesState extends State<MobileFavorites> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: ShadHeader(
-            title: localizations.favorites,
-            actions: [
-              ShadIconButton.ghost(
-                  icon: const Icon(LucideIcons.upload, size: 19),
-                  width: 38,
-                  height: 38,
-                  onPressed: () async {
-                    try {
-                      await _exportJson();
-                    } catch (e) {
-                      if (context.mounted) FlutterToastr.show('${localizations.importFailed}: $e', context);
-                    }
-                  }),
-              ShadIconButton.ghost(
-                  icon: const Icon(LucideIcons.download, size: 19),
-                  width: 38,
-                  height: 38,
-                  onPressed: () async {
-                    final result = await FilePicker.pickFiles(
-                        type: FileType.custom, allowedExtensions: ['json', 'har']);
-                    final file = result?.files.isNotEmpty == true ? result!.files.first : null;
-                    if (file == null) return;
-                    final path = await _materializePickedFile(file);
-                    if (path == null) return;
-                    try {
-                      await FavoriteStorage.importFromFile(path);
-                      if (context.mounted) FlutterToastr.show(localizations.importSuccess, context);
-                      setState(() {});
-                    } catch (e) {
-                      if (context.mounted) FlutterToastr.show('${localizations.importFailed}: $e', context);
-                    }
-                  }),
-            ]),
+        appBar: ShadHeader(title: localizations.favorites, actions: [
+          ShadIconButton.ghost(
+              icon: const Icon(LucideIcons.upload, size: 19),
+              width: 38,
+              height: 38,
+              onPressed: () async {
+                try {
+                  await _exportJson();
+                } catch (e) {
+                  if (context.mounted) FlutterToastr.show('${localizations.importFailed}: $e', context);
+                }
+              }),
+          ShadIconButton.ghost(
+              icon: const Icon(LucideIcons.download, size: 19),
+              width: 38,
+              height: 38,
+              onPressed: () async {
+                final result = await FilePicker.pickFiles(type: FileType.custom, allowedExtensions: ['json', 'har']);
+                final file = result?.files.isNotEmpty == true ? result!.files.first : null;
+                if (file == null) return;
+                final path = await _materializePickedFile(file);
+                if (path == null) return;
+                try {
+                  await FavoriteStorage.importFromFile(path);
+                  if (context.mounted) FlutterToastr.show(localizations.importSuccess, context);
+                  setState(() {});
+                } catch (e) {
+                  if (context.mounted) FlutterToastr.show('${localizations.importFailed}: $e', context);
+                }
+              }),
+        ]),
         body: FutureBuilder(
             future: FavoriteStorage.favorites,
             builder: (BuildContext context, AsyncSnapshot<Queue<Favorite>> snapshot) {
@@ -402,8 +399,7 @@ class _FavoriteItemState extends State<_FavoriteItem> {
           return ShadDialog.alert(
             title: Text(localizations.name),
             actions: <Widget>[
-              ShadButton.outline(
-                  onPressed: () => Navigator.pop(context), child: Text(localizations.cancel)),
+              ShadButton.outline(onPressed: () => Navigator.pop(context), child: Text(localizations.cancel)),
               ShadButton(
                 onPressed: () {
                   Navigator.maybePop(context);

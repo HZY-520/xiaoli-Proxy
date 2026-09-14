@@ -19,6 +19,7 @@ import 'dart:convert';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:lico_proxy/l10n/app_localizations.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
 import 'package:lico_proxy/network/components/manager/request_rewrite_manager.dart';
@@ -30,6 +31,7 @@ import 'package:lico_proxy/ui/component/widgets.dart';
 import 'package:lico_proxy/ui/mobile/setting/rewrite/rewrite_update.dart';
 import 'package:lico_proxy/utils/lang.dart';
 import 'package:lico_proxy/utils/platform.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -56,8 +58,7 @@ class _MobileRequestRewriteState extends State<MobileRequestRewrite> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            centerTitle: true, title: Text(localizations.requestRewriteList, style: const TextStyle(fontSize: 16))),
+        appBar: ShadHeader(title: localizations.requestRewriteList),
         body: Container(
             padding: const EdgeInsets.all(10),
             child: Column(
@@ -457,50 +458,35 @@ class _RewriteRuleState extends State<RewriteRule> {
     bool isCN = Localizations.localeOf(context) == const Locale.fromSubtags(languageCode: 'zh');
 
     return Scaffold(
-        appBar: AppBar(
-          title: Row(children: [
-            Text(localizations.requestRewrite, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
-            const SizedBox(width: 15),
-            Text.rich(TextSpan(
-                text: localizations.useGuide,
-                style: const TextStyle(color: Colors.blue, fontSize: 14),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () => launchUrl(
-                      mode: LaunchMode.externalApplication,
-                      Uri.parse(isCN
-                          ? 'https://gitee.com/wanghongenpin/proxypin/wikis/%E8%AF%B7%E6%B1%82%E9%87%8D%E5%86%99'
-                          : 'https://github.com/wanghongenpin/proxypin/wiki/Request-Rewrite')))),
-          ]),
-          actions: [
-            TextButton(
-                child: Text(localizations.save),
-                onPressed: () async {
-                  if (!(formKey.currentState as FormState).validate()) {
-                    FlutterToastr.show(localizations.cannotBeEmpty, context, position: FlutterToastr.center);
-                    return;
-                  }
+        appBar: ShadHeader(title: localizations.requestRewrite, actions: [
+          TextButton(
+              child: Text(localizations.save),
+              onPressed: () async {
+                if (!(formKey.currentState as FormState).validate()) {
+                  FlutterToastr.show(localizations.cannotBeEmpty, context, position: FlutterToastr.center);
+                  return;
+                }
 
-                  (formKey.currentState as FormState).save();
-                  rule.name = nameInput.text;
-                  rule.url = urlInput.text;
-                  items = rewriteReplaceKey.currentState?.getItems() ?? rewriteUpdateKey.currentState?.getItems();
+                (formKey.currentState as FormState).save();
+                rule.name = nameInput.text;
+                rule.url = urlInput.text;
+                items = rewriteReplaceKey.currentState?.getItems() ?? rewriteUpdateKey.currentState?.getItems();
 
-                  var requestRewrites = await RequestRewriteManager.instance;
-                  var index = requestRewrites.rules.indexOf(rule);
+                var requestRewrites = await RequestRewriteManager.instance;
+                var index = requestRewrites.rules.indexOf(rule);
 
-                  if (index >= 0) {
-                    await requestRewrites.updateRule(index, rule, items);
-                  } else {
-                    await requestRewrites.addRule(rule, items!);
-                  }
-                  requestRewrites.flushRequestRewriteConfig();
-                  if (mounted) {
-                    FlutterToastr.show(localizations.saveSuccess, this.context);
-                    Navigator.of(this.context).pop(rule);
-                  }
-                })
-          ],
-        ),
+                if (index >= 0) {
+                  await requestRewrites.updateRule(index, rule, items);
+                } else {
+                  await requestRewrites.addRule(rule, items!);
+                }
+                requestRewrites.flushRequestRewriteConfig();
+                if (mounted) {
+                  FlutterToastr.show(localizations.saveSuccess, this.context);
+                  Navigator.of(this.context).pop(rule);
+                }
+              })
+        ]),
         body: Padding(
           padding: const EdgeInsets.all(15),
           child: NestedScrollView(

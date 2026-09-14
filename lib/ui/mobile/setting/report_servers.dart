@@ -3,10 +3,12 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
 import 'package:lico_proxy/network/components/manager/report_server_manager.dart';
 import 'package:lico_proxy/ui/component/widgets.dart';
 import 'package:lico_proxy/ui/component/utils.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 import '../../../l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -93,23 +95,19 @@ class _ReportServersPageMobileState extends State<ReportServersPageMobile> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(localizations.reportServers, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-        centerTitle: true,
-        actions: [
-          IconButton(
-            tooltip: localizations.useGuide,
-            onPressed: _openGuide,
-            icon: const Icon(Icons.help_outline, size: 22),
-          ),
-          IconButton(
-            tooltip: localizations.add,
-            onPressed: _addServer,
-            icon: const Icon(Icons.add, size: 26),
-          ),
-          SizedBox(width: 5)
-        ],
-      ),
+      appBar: ShadHeader(title: localizations.reportServers, actions: [
+        IconButton(
+          tooltip: localizations.useGuide,
+          onPressed: _openGuide,
+          icon: const Icon(Icons.help_outline, size: 22),
+        ),
+        IconButton(
+          tooltip: localizations.add,
+          onPressed: _addServer,
+          icon: const Icon(Icons.add, size: 26),
+        ),
+        SizedBox(width: 5)
+      ]),
       body: _loading
           ? const Center(child: CircularProgressIndicator())
           : _servers.isEmpty
@@ -228,16 +226,14 @@ class _ReportServerEditPageMobileState extends State<ReportServerEditPageMobile>
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.initial == null ? localizations.addReportServer : localizations.editReportServer),
-        centerTitle: true,
-        actions: [
-          TextButton(
-              style: TextButton.styleFrom(foregroundColor: Colors.white),
-              onPressed: _onSave,
-              child: Text(localizations.save, style: const TextStyle(color: Colors.white, fontSize: 15))),
-        ],
-      ),
+      appBar: ShadHeader(
+          title: widget.initial == null ? localizations.addReportServer : localizations.editReportServer,
+          actions: [
+            TextButton(
+                style: TextButton.styleFrom(foregroundColor: Colors.white),
+                onPressed: _onSave,
+                child: Text(localizations.save, style: const TextStyle(color: Colors.white, fontSize: 15))),
+          ]),
       body: Padding(
         padding: const EdgeInsets.all(12.0),
         child: Form(
@@ -296,7 +292,8 @@ class _ReportServerEditPageMobileState extends State<ReportServerEditPageMobile>
                   '${localizations.splitReport}: ',
                   Align(
                       alignment: Alignment.centerLeft,
-                      child: SwitchWidget(value: _splitReport, scale: 0.9, onChanged: (v) => setState(() => _splitReport = v))),
+                      child: SwitchWidget(
+                          value: _splitReport, scale: 0.9, onChanged: (v) => setState(() => _splitReport = v))),
                 ),
               ],
             ),

@@ -9,11 +9,13 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:lico_proxy/l10n/app_localizations.dart';
 import 'package:lico_proxy/network/components/manager/network_condition_manager.dart';
 import 'package:lico_proxy/ui/component/utils.dart';
 import 'package:lico_proxy/ui/component/widgets.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 
 /// Dropdown 下拉里"新增预设"项使用的哨兵值
 const String _kNewProfileValue = '__new__';
@@ -96,27 +98,24 @@ class _MobileWeakNetworkState extends State<MobileWeakNetwork> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.weakNetwork, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
-        actions: [
-          // 预设管理入口
-          IconButton(
-            icon: const Icon(Icons.tune_rounded),
-            tooltip: '${l10n.edit} ${l10n.weakNetworkPreset}',
-            onPressed: _manageProfiles,
-          ),
-          // 全局弱网开关
-          SwitchWidget(
-            scale: 0.8,
-            value: m.enabled,
-            onChanged: (v) {
-              setState(() => m.enabled = v);
-              m.flushConfig();
-            },
-          ),
-          const SizedBox(width: 12),
-        ],
-      ),
+      appBar: ShadHeader(title: l10n.weakNetwork, actions: [
+        // 预设管理入口
+        IconButton(
+          icon: const Icon(Icons.tune_rounded),
+          tooltip: '${l10n.edit} ${l10n.weakNetworkPreset}',
+          onPressed: _manageProfiles,
+        ),
+        // 全局弱网开关
+        SwitchWidget(
+          scale: 0.8,
+          value: m.enabled,
+          onChanged: (v) {
+            setState(() => m.enabled = v);
+            m.flushConfig();
+          },
+        ),
+        const SizedBox(width: 12),
+      ]),
       body: _buildRulesList(theme),
       floatingActionButton: FloatingActionButton.extended(
         onPressed: _addRule,
@@ -134,8 +133,7 @@ class _MobileWeakNetworkState extends State<MobileWeakNetwork> {
           children: [
             Icon(Icons.wifi_off_rounded, size: 64, color: theme.hintColor.withValues(alpha: 0.3)),
             const SizedBox(height: 16),
-            Text(l10n.emptyData,
-                style: TextStyle(fontSize: 14, color: theme.hintColor, fontWeight: FontWeight.w500)),
+            Text(l10n.emptyData, style: TextStyle(fontSize: 14, color: theme.hintColor, fontWeight: FontWeight.w500)),
           ],
         ),
       );
@@ -320,14 +318,10 @@ class _MobileRuleEditPageState extends State<_MobileRuleEditPage> {
     final selected = m.findProfile(_profileId) ?? m.defaultProfile;
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('${widget.isNew ? l10n.add : l10n.edit} ${l10n.weakNetworkRules}',
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-        actions: [
-          SwitchWidget(scale: 0.75, value: _enabled, onChanged: (v) => setState(() => _enabled = v)),
-          const SizedBox(width: 12),
-        ],
-      ),
+      appBar: ShadHeader(title: '${widget.isNew ? l10n.add : l10n.edit} ${l10n.weakNetworkRules}', actions: [
+        SwitchWidget(scale: 0.75, value: _enabled, onChanged: (v) => setState(() => _enabled = v)),
+        const SizedBox(width: 12),
+      ]),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -345,8 +339,7 @@ class _MobileRuleEditPageState extends State<_MobileRuleEditPage> {
             ),
             const SizedBox(height: 24),
             Text(l10n.weakNetworkPreset,
-                style:
-                    TextStyle(fontSize: 14, color: theme.colorScheme.onSurfaceVariant, fontWeight: FontWeight.w600)),
+                style: TextStyle(fontSize: 14, color: theme.colorScheme.onSurfaceVariant, fontWeight: FontWeight.w600)),
             const SizedBox(height: 8),
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 4),
@@ -454,8 +447,7 @@ class _MobileRuleEditPageState extends State<_MobileRuleEditPage> {
         children: [
           Row(
             children: [
-              Icon(isUpload ? Icons.arrow_upward_rounded : Icons.arrow_downward_rounded,
-                  size: 16, color: accentColor),
+              Icon(isUpload ? Icons.arrow_upward_rounded : Icons.arrow_downward_rounded, size: 16, color: accentColor),
               const SizedBox(width: 6),
               Text(title, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: accentColor)),
             ],
@@ -526,10 +518,7 @@ class _MobileProfileEditPageState extends State<_MobileProfileEditPage> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.isNew ? '${l10n.add} ${l10n.weakNetworkPreset}' : l10n.edit,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-      ),
+      appBar: ShadHeader(title: widget.isNew ? '${l10n.add} ${l10n.weakNetworkPreset}' : l10n.edit),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -562,8 +551,7 @@ class _MobileProfileEditPageState extends State<_MobileProfileEditPage> {
                   children: [
                     Icon(Icons.broken_image_outlined, size: 18, color: theme.colorScheme.error),
                     const SizedBox(width: 8),
-                    Text(l10n.weakNetworkLossRate,
-                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+                    Text(l10n.weakNetworkLossRate, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
                     const Spacer(),
                     SizedBox(width: 120, child: _buildNumField('', _lossCtrl, '%', isInteger: false)),
                   ],
@@ -619,8 +607,7 @@ class _MobileProfileEditPageState extends State<_MobileProfileEditPage> {
         children: [
           Row(
             children: [
-              Icon(isUpload ? Icons.arrow_upward_rounded : Icons.arrow_downward_rounded,
-                  size: 16, color: accentColor),
+              Icon(isUpload ? Icons.arrow_upward_rounded : Icons.arrow_downward_rounded, size: 16, color: accentColor),
               const SizedBox(width: 6),
               Text(title, style: TextStyle(fontSize: 13, fontWeight: FontWeight.w600, color: accentColor)),
             ],
@@ -688,10 +675,7 @@ class _MobileManageProfilesPageState extends State<_MobileManageProfilesPage> {
     final customProfiles = m.allProfiles.where((p) => !p.isBuiltin).toList();
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text('${l10n.edit} ${l10n.weakNetworkPreset}',
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-      ),
+      appBar: ShadHeader(title: '${l10n.edit} ${l10n.weakNetworkPreset}'),
       body: customProfiles.isEmpty
           ? Center(
               child: Column(
@@ -719,8 +703,8 @@ class _MobileManageProfilesPageState extends State<_MobileManageProfilesPage> {
                   ),
                   child: ListTile(
                     contentPadding: const EdgeInsets.symmetric(horizontal: 14, vertical: 4),
-                    title: Text(widget.profileLabel(p),
-                        style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
+                    title:
+                        Text(widget.profileLabel(p), style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w600)),
                     subtitle: Padding(
                       padding: const EdgeInsets.only(top: 4),
                       child: Text(

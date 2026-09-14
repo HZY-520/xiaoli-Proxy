@@ -5,12 +5,14 @@ import 'dart:math' as math;
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
 import 'package:lico_proxy/l10n/app_localizations.dart';
 import 'package:lico_proxy/network/components/manager/request_crypto_manager.dart';
 import 'package:lico_proxy/network/util/logger.dart';
 import 'package:lico_proxy/ui/component/utils.dart';
 import 'package:lico_proxy/ui/component/widgets.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 
 bool _refresh = false;
 
@@ -48,11 +50,7 @@ class _MobileRequestCryptoPageState extends State<MobileRequestCryptoPage> {
   Widget build(BuildContext context) {
     final l10n = localizations;
     return Scaffold(
-      appBar: AppBar(
-        title: Text(l10n.requestCrypto, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-        toolbarHeight: 36,
-        centerTitle: true,
-      ),
+      appBar: ShadHeader(title: l10n.requestCrypto),
       persistentFooterButtons: selectionMode ? [_buildSelectionFooter()] : null,
       body: Padding(
         padding: const EdgeInsets.all(10),
@@ -473,18 +471,14 @@ class _MobileCryptoRuleEditPageState extends State<MobileCryptoRuleEditPage> {
     final isCN = Localizations.localeOf(context).languageCode == 'zh';
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.rule == null ? l10n.newBuilt : l10n.edit,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-        actions: [
-          TextButton(
-            style: TextButton.styleFrom(foregroundColor: Colors.white),
-            onPressed: _save,
-            child: Text(l10n.save, style: const TextStyle(color: Colors.white, fontSize: 15)),
-          ),
-          const SizedBox(width: 6),
-        ],
-      ),
+      appBar: ShadHeader(title: widget.rule == null ? l10n.newBuilt : l10n.edit, actions: [
+        TextButton(
+          style: TextButton.styleFrom(foregroundColor: Colors.white),
+          onPressed: _save,
+          child: Text(l10n.save, style: const TextStyle(color: Colors.white, fontSize: 15)),
+        ),
+        const SizedBox(width: 6),
+      ]),
       body: Form(
         key: _formKey,
         child: ListView(

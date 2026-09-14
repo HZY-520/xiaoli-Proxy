@@ -20,6 +20,7 @@ import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:lico_proxy/l10n/app_localizations.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
@@ -28,6 +29,7 @@ import 'package:lico_proxy/network/util/logger.dart';
 import 'package:lico_proxy/ui/component/domain_add_dialog.dart';
 import 'package:lico_proxy/ui/component/utils.dart';
 import 'package:lico_proxy/utils/platform.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../network/components/host_filter.dart';
@@ -60,7 +62,7 @@ class _MobileFilterState extends State<MobileFilterWidget> {
         widget.hostList.runtimeType == Whites ? localizations.domainWhitelistDescribe : localizations.domainBlacklist;
 
     return Scaffold(
-        appBar: AppBar(title: Text(localizations.domainFilter, style: const TextStyle(fontSize: 16))),
+        appBar: ShadHeader(title: localizations.domainFilter),
         body: Container(
           padding: const EdgeInsets.all(10),
           child: DomainFilter(
@@ -173,7 +175,6 @@ class _DomainFilterState extends State<DomainFilter> {
     });
   }
 }
-
 
 ///域名列表
 class DomainList extends StatefulWidget {

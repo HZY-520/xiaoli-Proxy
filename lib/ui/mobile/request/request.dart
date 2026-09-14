@@ -311,8 +311,7 @@ class RequestRowState extends State<RequestRow> {
         alignment: Alignment.center,
         decoration: const BoxDecoration(color: Colors.grey, shape: BoxShape.circle),
         child: Text('$index',
-            style: const TextStyle(
-                fontSize: 10, color: Colors.white, fontWeight: FontWeight.w500, height: 1.0)));
+            style: const TextStyle(fontSize: 10, color: Colors.white, fontWeight: FontWeight.w500, height: 1.0)));
   }
 
   /// 类型圆标：图片/视频/JSON 用 HttpCanary 图标包矢量（蓝色圆底），
@@ -347,8 +346,7 @@ class RequestRowState extends State<RequestRow> {
         alignment: Alignment.center,
         decoration: const BoxDecoration(color: _hcTypeBg, shape: BoxShape.circle),
         child: Text(letter,
-            style: const TextStyle(
-                fontSize: 11, color: Colors.white, fontWeight: FontWeight.bold, height: 1.0)));
+            style: const TextStyle(fontSize: 11, color: Colors.white, fontWeight: FontWeight.bold, height: 1.0)));
   }
 
   ///菜单

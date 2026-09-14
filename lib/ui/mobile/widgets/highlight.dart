@@ -15,10 +15,12 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:lico_proxy/l10n/app_localizations.dart';
 import 'package:lico_proxy/ui/component/state_component.dart';
 import 'package:lico_proxy/ui/component/widgets.dart';
 import 'package:lico_proxy/utils/keyword_highlight.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 
 class KeywordHighlight extends StatefulWidget {
   const KeywordHighlight({super.key});
@@ -41,15 +43,10 @@ class _KeywordHighlightState extends State<KeywordHighlight> {
     };
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(localizations.keyword + localizations.highlight,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-        actions: [
-          SwitchWidget(
-              scale: 0.7, value: KeywordHighlights.enabled, onChanged: (val) => KeywordHighlights.enabled = val),
-          const SizedBox(width: 10)
-        ],
-      ),
+      appBar: ShadHeader(title: localizations.keyword + localizations.highlight, actions: [
+        SwitchWidget(scale: 0.7, value: KeywordHighlights.enabled, onChanged: (val) => KeywordHighlights.enabled = val),
+        const SizedBox(width: 10)
+      ]),
       body: DefaultTabController(
         length: colors.length,
         child: Scaffold(

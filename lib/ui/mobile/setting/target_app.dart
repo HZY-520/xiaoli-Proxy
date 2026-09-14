@@ -160,8 +160,11 @@ class _TargetAppPageState extends State<TargetAppPage> {
                 )
               : ListView.separated(
                   itemCount: appInfoList.length,
-                  separatorBuilder: (_, __) =>
-                      Divider(height: 0.5, thickness: 0.5, color: ShadTheme.of(context).colorScheme.border.withValues(alpha: 0.5), indent: 76),
+                  separatorBuilder: (_, __) => Divider(
+                      height: 0.5,
+                      thickness: 0.5,
+                      color: ShadTheme.of(context).colorScheme.border.withValues(alpha: 0.5),
+                      indent: 76),
                   itemBuilder: (BuildContext context, int index) {
                     AppInfo appInfo = appInfoList[index];
                     return ListTile(

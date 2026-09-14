@@ -72,15 +72,14 @@ class _PreferenceState extends State<Preference> {
               MobileThemeSetting(appConfiguration: appConfiguration),
               Divider(height: 0, thickness: 0.5, color: dividerColor),
               ListTile(title: Text(localizations.themeColor)),
-              Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
-                  child: themeColor(context)),
+              Padding(padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8), child: themeColor(context)),
             ]),
             const SizedBox(height: 12),
             section([
               ListTile(
                   title: Text(localizations.autoStartup),
-                  subtitle: Text(localizations.autoStartupDescribe, style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
+                  subtitle: Text(localizations.autoStartupDescribe,
+                      style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
                   trailing: SwitchWidget(
                       value: proxyServer.configuration.startup,
                       scale: 0.8,
@@ -92,7 +91,8 @@ class _PreferenceState extends State<Preference> {
               if (Platform.isAndroid) ...[
                 ListTile(
                     title: Text(localizations.windowMode),
-                    subtitle: Text(localizations.windowModeSubTitle, style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
+                    subtitle: Text(localizations.windowModeSubTitle,
+                        style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
                     trailing: SwitchWidget(
                         value: appConfiguration.pipEnabled.value,
                         scale: 0.8,
@@ -104,7 +104,8 @@ class _PreferenceState extends State<Preference> {
               ],
               ListTile(
                   title: Text(localizations.pipIcon),
-                  subtitle: Text(localizations.pipIconDescribe, style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
+                  subtitle: Text(localizations.pipIconDescribe,
+                      style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
                   trailing: SwitchWidget(
                       value: appConfiguration.pipIcon.value,
                       scale: 0.8,
@@ -115,7 +116,8 @@ class _PreferenceState extends State<Preference> {
               Divider(height: 0, thickness: 0.5, color: dividerColor),
               ListTile(
                   title: Text(localizations.bottomNavigation),
-                  subtitle: Text(localizations.bottomNavigationSubtitle, style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
+                  subtitle: Text(localizations.bottomNavigationSubtitle,
+                      style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
                   trailing: SwitchWidget(
                       value: appConfiguration.bottomNavigation,
                       scale: 0.8,
@@ -126,7 +128,8 @@ class _PreferenceState extends State<Preference> {
               Divider(height: 0, thickness: 0.5, color: dividerColor),
               ListTile(
                   title: Text(localizations.clearConfirm),
-                  subtitle: Text(localizations.clearConfirmSubtitle, style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
+                  subtitle: Text(localizations.clearConfirmSubtitle,
+                      style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
                   trailing: SwitchWidget(
                       value: appConfiguration.clearConfirm,
                       scale: 0.8,
@@ -139,7 +142,8 @@ class _PreferenceState extends State<Preference> {
             section([
               ListTile(
                   title: Text(localizations.memoryCleanup),
-                  subtitle: Text(localizations.memoryCleanupSubtitle, style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
+                  subtitle: Text(localizations.memoryCleanupSubtitle,
+                      style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
                   trailing: memoryCleanup(context, localizations)),
             ]),
             const SizedBox(height: 15),

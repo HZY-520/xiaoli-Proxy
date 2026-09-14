@@ -142,8 +142,7 @@ class _CustomRepeatState extends State<MobileCustomRepeat> {
                             height: 42,
                             padding: const EdgeInsets.only(left: 10, right: 10),
                             decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: ShadTheme.of(context).colorScheme.border, width: 1.0),
+                                border: Border.all(color: ShadTheme.of(context).colorScheme.border, width: 1.0),
                                 borderRadius: BorderRadius.circular(10)),
                             child: Row(
                               children: [
@@ -161,7 +160,8 @@ class _CustomRepeatState extends State<MobileCustomRepeat> {
                                     child: const Icon(LucideIcons.x, size: 18),
                                   ),
                                 if (time == null)
-                                  Icon(LucideIcons.clock, size: 18, color: ShadTheme.of(context).colorScheme.mutedForeground),
+                                  Icon(LucideIcons.clock,
+                                      size: 18, color: ShadTheme.of(context).colorScheme.mutedForeground),
                               ],
                             ),
                           ))), //指定时间
@@ -259,7 +259,6 @@ class _CustomRepeatState extends State<MobileCustomRepeat> {
     );
   }
 
-
   Future<void> _pickScheduleDateTime() async {
     DateTime now = DateTime.now();
     DateTime temp = time ?? now;
@@ -340,14 +339,11 @@ class _CustomRepeatState extends State<MobileCustomRepeat> {
           errorStyle: const TextStyle(height: 2, fontSize: 0),
           contentPadding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
           border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(width: 1, color: scheme.border)),
+              borderRadius: BorderRadius.circular(10), borderSide: BorderSide(width: 1, color: scheme.border)),
           enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(width: 1, color: scheme.border)),
+              borderRadius: BorderRadius.circular(10), borderSide: BorderSide(width: 1, color: scheme.border)),
           focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(width: 1.5, color: scheme.primary))),
+              borderRadius: BorderRadius.circular(10), borderSide: BorderSide(width: 1.5, color: scheme.primary))),
       validator: (val) => val == null || val.isEmpty ? localizations.cannotBeEmpty : null,
     );
   }

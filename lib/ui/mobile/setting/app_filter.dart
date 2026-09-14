@@ -14,6 +14,7 @@
  * limitations under the License.
  */
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:get/get.dart';
 import 'package:lico_proxy/l10n/app_localizations.dart';
 import 'package:lico_proxy/native/installed_apps.dart';
@@ -22,6 +23,7 @@ import 'package:lico_proxy/network/bin/configuration.dart';
 import 'package:lico_proxy/network/bin/server.dart';
 import 'package:lico_proxy/ui/component/widgets.dart';
 import 'package:lico_proxy/utils/task.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 
 ///应用白名单 目前只支持安卓 ios没办法获取安装的列表
 ///@author wang
@@ -83,47 +85,44 @@ class _AppWhitelistState extends State<AppWhitelist> {
     bool isCN = Localizations.localeOf(context) == const Locale.fromSubtags(languageCode: 'zh');
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text(localizations.appWhitelist, style: const TextStyle(fontSize: 16)),
-          actions: [
-            IconButton(
-              icon: const Icon(Icons.add),
-              onPressed: () async {
-                final packageName = await Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => InstalledAppsWidget(addedList: appInfoList),
-                ));
-                if (packageName != null && !configuration.appWhitelist.contains(packageName)) {
-                  configuration.appWhitelist.add(packageName);
-                  changed = true;
-                  bool isCN = Localizations.localeOf(context) == const Locale.fromSubtags(languageCode: 'zh');
-                  var newApp = await InstalledApps.getAppInfo(packageName).catchError((e) {
-                    return AppInfo(name: isCN ? "未知应用" : "Unknown app", packageName: packageName, inValid: true);
-                  });
-                  if (mounted) {
-                    setState(() => appInfoList.add(newApp));
-                  }
-                }
-              },
-            ),
-            IconButton(
-              tooltip: isCN ? '清除失效应用' : 'clear invalid apps',
-              onPressed: () {
-                if (configuration.appWhitelist.isEmpty) return;
-                setState(() {
-                  appInfoList.removeWhere((appInfo) {
-                    if (appInfo.inValid == true) {
-                      configuration.appWhitelist.remove(appInfo.packageName);
-                      return true;
-                    }
-                    return false;
-                  });
-                  changed = true;
+        appBar: ShadHeader(title: localizations.appWhitelist, actions: [
+          IconButton(
+            icon: const Icon(Icons.add),
+            onPressed: () async {
+              final packageName = await Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => InstalledAppsWidget(addedList: appInfoList),
+              ));
+              if (packageName != null && !configuration.appWhitelist.contains(packageName)) {
+                configuration.appWhitelist.add(packageName);
+                changed = true;
+                bool isCN = Localizations.localeOf(context) == const Locale.fromSubtags(languageCode: 'zh');
+                var newApp = await InstalledApps.getAppInfo(packageName).catchError((e) {
+                  return AppInfo(name: isCN ? "未知应用" : "Unknown app", packageName: packageName, inValid: true);
                 });
-              },
-              icon: const Icon(Icons.cleaning_services_outlined),
-            ),
-          ],
-        ),
+                if (mounted) {
+                  setState(() => appInfoList.add(newApp));
+                }
+              }
+            },
+          ),
+          IconButton(
+            tooltip: isCN ? '清除失效应用' : 'clear invalid apps',
+            onPressed: () {
+              if (configuration.appWhitelist.isEmpty) return;
+              setState(() {
+                appInfoList.removeWhere((appInfo) {
+                  if (appInfo.inValid == true) {
+                    configuration.appWhitelist.remove(appInfo.packageName);
+                    return true;
+                  }
+                  return false;
+                });
+                changed = true;
+              });
+            },
+            icon: const Icon(Icons.cleaning_services_outlined),
+          ),
+        ]),
         body: Column(children: [
           const SizedBox(height: 5),
           SwitchWidget(
@@ -232,48 +231,45 @@ class _AppBlacklistState extends State<AppBlacklist> {
     bool isCN = Localizations.localeOf(context) == const Locale.fromSubtags(languageCode: 'zh');
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(localizations.appBlacklist, style: const TextStyle(fontSize: 16)),
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            onPressed: () async {
-              final packageName = await Navigator.of(context).push(MaterialPageRoute(
-                builder: (context) => InstalledAppsWidget(addedList: appInfoList),
-              ));
-              if (packageName != null && configuration.appBlacklist?.contains(packageName) != true) {
-                configuration.appBlacklist ??= [];
-                configuration.appBlacklist?.add(packageName);
-                changed = true;
-                bool isCN = Localizations.localeOf(context) == const Locale.fromSubtags(languageCode: 'zh');
-                var newApp = await InstalledApps.getAppInfo(packageName).catchError((e) {
-                  return AppInfo(name: isCN ? "未知应用" : "Unknown app", packageName: packageName, inValid: true);
-                });
-                if (mounted) {
-                  setState(() => appInfoList.add(newApp));
-                }
-              }
-            },
-          ),
-          IconButton(
-            tooltip: isCN ? '清除失效应用' : 'clear invalid apps',
-            onPressed: () {
-              if (configuration.appBlacklist?.isEmpty == true) return;
-              setState(() {
-                appInfoList.removeWhere((appInfo) {
-                  if (appInfo.inValid == true) {
-                    configuration.appBlacklist?.remove(appInfo.packageName);
-                    return true;
-                  }
-                  return false;
-                });
-                changed = true;
+      appBar: ShadHeader(title: localizations.appBlacklist, actions: [
+        IconButton(
+          icon: const Icon(Icons.add),
+          onPressed: () async {
+            final packageName = await Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => InstalledAppsWidget(addedList: appInfoList),
+            ));
+            if (packageName != null && configuration.appBlacklist?.contains(packageName) != true) {
+              configuration.appBlacklist ??= [];
+              configuration.appBlacklist?.add(packageName);
+              changed = true;
+              bool isCN = Localizations.localeOf(context) == const Locale.fromSubtags(languageCode: 'zh');
+              var newApp = await InstalledApps.getAppInfo(packageName).catchError((e) {
+                return AppInfo(name: isCN ? "未知应用" : "Unknown app", packageName: packageName, inValid: true);
               });
-            },
-            icon: const Icon(Icons.cleaning_services_outlined),
-          ),
-        ],
-      ),
+              if (mounted) {
+                setState(() => appInfoList.add(newApp));
+              }
+            }
+          },
+        ),
+        IconButton(
+          tooltip: isCN ? '清除失效应用' : 'clear invalid apps',
+          onPressed: () {
+            if (configuration.appBlacklist?.isEmpty == true) return;
+            setState(() {
+              appInfoList.removeWhere((appInfo) {
+                if (appInfo.inValid == true) {
+                  configuration.appBlacklist?.remove(appInfo.packageName);
+                  return true;
+                }
+                return false;
+              });
+              changed = true;
+            });
+          },
+          icon: const Icon(Icons.cleaning_services_outlined),
+        ),
+      ]),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : appInfoList.isEmpty

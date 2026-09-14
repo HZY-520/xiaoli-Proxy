@@ -1,4 +1,4 @@
-﻿/*
+/*
  * Copyright 2023 Hongen Wang All rights reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,6 +18,7 @@ import 'dart:convert';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:code_forge/code_forge.dart';
 import 'package:http/http.dart' as http;
@@ -33,6 +34,7 @@ import 'package:lico_proxy/ui/component/widgets.dart';
 import 'package:lico_proxy/ui/mobile/widgets/floating_window.dart';
 import 'package:lico_proxy/utils/lang.dart';
 import 'package:lico_proxy/utils/platform.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -66,7 +68,7 @@ class _MobileScriptState extends State<MobileScript> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(localizations.script, style: const TextStyle(fontSize: 16))),
+        appBar: ShadHeader(title: localizations.script),
         body: Padding(
             padding: const EdgeInsets.only(left: 15, right: 10),
             child: futureWidget(
@@ -222,7 +224,7 @@ class _ScriptConsoleLogState extends State<ScriptConsoleLog> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text(localizations.logger, style: const TextStyle(fontSize: 16)), actions: [
+        appBar: ShadHeader(title: localizations.logger, actions: [
           IconButton(
               tooltip: localizations.windowMode,
               onPressed: () {
@@ -484,65 +486,50 @@ class _ScriptEditState extends State<ScriptEdit> {
     bool isCN = Localizations.localeOf(context) == const Locale.fromSubtags(languageCode: 'zh');
 
     return Scaffold(
-        appBar: AppBar(
-            title: Row(children: [
-              Text(localizations.scriptEdit, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-              const SizedBox(width: 10),
-              Text.rich(TextSpan(
-                  text: localizations.useGuide,
-                  style: const TextStyle(color: Colors.blue, fontSize: 14),
-                  recognizer: TapGestureRecognizer()
-                    ..onTap = () => launchUrl(
-                        mode: LaunchMode.externalApplication,
-                        Uri.parse(isCN
-                            ? 'https://gitee.com/wanghongenpin/proxypin/wikis/%E8%84%9A%E6%9C%AC'
-                            : 'https://github.com/wanghongenpin/proxypin/wiki/Script')))),
-            ]),
-            actions: [
-              TextButton(
-                  onPressed: () async {
-                    if (!(formKey.currentState as FormState).validate()) {
-                      FlutterToastr.show("${localizations.name} URL ${localizations.cannotBeEmpty}", context,
-                          position: FlutterToastr.top);
-                      return;
-                    }
-                    // 收集所有非空、去重的 url
-                    final urls = urlControllers.map((c) => c.text.trim()).where((u) => u.isNotEmpty).toSet().toList();
-                    if (urls.isEmpty) {
-                      FlutterToastr.show("URL ${localizations.cannotBeEmpty}", context, position: FlutterToastr.top);
-                      return;
-                    }
+        appBar: ShadHeader(title: localizations.scriptEdit, actions: [
+          TextButton(
+              onPressed: () async {
+                if (!(formKey.currentState as FormState).validate()) {
+                  FlutterToastr.show("${localizations.name} URL ${localizations.cannotBeEmpty}", context,
+                      position: FlutterToastr.top);
+                  return;
+                }
+                // 收集所有非空、去重的 url
+                final urls = urlControllers.map((c) => c.text.trim()).where((u) => u.isNotEmpty).toSet().toList();
+                if (urls.isEmpty) {
+                  FlutterToastr.show("URL ${localizations.cannotBeEmpty}", context, position: FlutterToastr.top);
+                  return;
+                }
 
-                    // Only persist remoteUrl when remote mode is enabled.
-                    final remoteUrl = _useRemote ? remoteUrlController.text.trim() : '';
-                    final hasRemote = remoteUrl.isNotEmpty;
-                    if (_useRemote && !hasRemote) {
-                      FlutterToastr.show("Remote URL ${localizations.cannotBeEmpty}", context,
-                          position: FlutterToastr.top);
-                      return;
-                    }
+                // Only persist remoteUrl when remote mode is enabled.
+                final remoteUrl = _useRemote ? remoteUrlController.text.trim() : '';
+                final hasRemote = remoteUrl.isNotEmpty;
+                if (_useRemote && !hasRemote) {
+                  FlutterToastr.show("Remote URL ${localizations.cannotBeEmpty}", context, position: FlutterToastr.top);
+                  return;
+                }
 
-                    var scriptManager = await ScriptManager.instance;
-                    if (widget.scriptItem == null) {
-                      var scriptItem = ScriptItem(true, nameController.text, urls);
-                      scriptItem.remoteUrl = _useRemote ? remoteUrl : null;
-                      await scriptManager.addScript(scriptItem, script.text);
-                    } else {
-                      widget.scriptItem?.name = nameController.text;
-                      widget.scriptItem?.urls = urls;
-                      widget.scriptItem?.urlRegs = null;
-                      widget.scriptItem?.remoteUrl = _useRemote ? remoteUrl : null;
-                      await scriptManager.updateScript(widget.scriptItem!, script.text);
-                    }
+                var scriptManager = await ScriptManager.instance;
+                if (widget.scriptItem == null) {
+                  var scriptItem = ScriptItem(true, nameController.text, urls);
+                  scriptItem.remoteUrl = _useRemote ? remoteUrl : null;
+                  await scriptManager.addScript(scriptItem, script.text);
+                } else {
+                  widget.scriptItem?.name = nameController.text;
+                  widget.scriptItem?.urls = urls;
+                  widget.scriptItem?.urlRegs = null;
+                  widget.scriptItem?.remoteUrl = _useRemote ? remoteUrl : null;
+                  await scriptManager.updateScript(widget.scriptItem!, script.text);
+                }
 
-                    _refreshScript(force: true);
-                    if (context.mounted) {
-                      FlutterToastr.show(localizations.saveSuccess, context);
-                      Navigator.of(context).maybePop(true);
-                    }
-                  },
-                  child: Text(localizations.save)),
-            ]),
+                _refreshScript(force: true);
+                if (context.mounted) {
+                  FlutterToastr.show(localizations.saveSuccess, context);
+                  Navigator.of(context).maybePop(true);
+                }
+              },
+              child: Text(localizations.save)),
+        ]),
         body: Form(
             key: formKey,
             child: ListView(

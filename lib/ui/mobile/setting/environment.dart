@@ -9,11 +9,13 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
 import 'package:lico_proxy/l10n/app_localizations.dart';
 import 'package:lico_proxy/network/components/manager/environment_manager.dart';
 import 'package:lico_proxy/network/util/random.dart';
 import 'package:lico_proxy/ui/component/utils.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// 环境变量管理页(移动端)
@@ -66,8 +68,7 @@ class _MobileEnvironmentPageState extends State<MobileEnvironmentPage> {
     });
   }
 
-  Environment get _draftGlobal =>
-      _draft!.firstWhere((e) => e.isGlobal, orElse: () => _draft!.first);
+  Environment get _draftGlobal => _draft!.firstWhere((e) => e.isGlobal, orElse: () => _draft!.first);
 
   List<Environment> get _draftNamed => _draft!.where((e) => !e.isGlobal).toList();
 
@@ -108,8 +109,8 @@ class _MobileEnvironmentPageState extends State<MobileEnvironmentPage> {
   }
 
   void _addEnvironment() async {
-    final name = await _promptText(
-        title: _join(localizations.add, localizations.environment), hint: localizations.name);
+    final name =
+        await _promptText(title: _join(localizations.add, localizations.environment), hint: localizations.name);
     final m = manager;
     if (name == null || name.trim().isEmpty || m == null || _draft == null) return;
     final env = Environment(id: RandomUtil.randomString(8), name: name.trim());
@@ -125,8 +126,7 @@ class _MobileEnvironmentPageState extends State<MobileEnvironmentPage> {
 
   void _renameEnvironment(Environment env) async {
     if (env.isGlobal) return;
-    final name = await _promptText(
-        title: localizations.edit, hint: localizations.name, initial: env.name);
+    final name = await _promptText(title: localizations.edit, hint: localizations.name, initial: env.name);
     final m = manager;
     if (name == null || name.trim().isEmpty || m == null) return;
     // 实时落库
@@ -173,92 +173,84 @@ class _MobileEnvironmentPageState extends State<MobileEnvironmentPage> {
       onTap: () => FocusScope.of(context).unfocus(),
       behavior: HitTestBehavior.opaque,
       child: Scaffold(
-        appBar: AppBar(
-          title: Text(localizations.environmentVariables,
-              style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-          toolbarHeight: 36,
-          centerTitle: true,
-          actions: [
-            IconButton(
-              tooltip: localizations.useGuide,
-              onPressed: _openGuide,
-              icon: const Icon(Icons.help_outline, size: 20),
-            ),
-            TextButton(
-              onPressed: _save,
-              child: Text(localizations.save, style: const TextStyle(fontSize: 14)),
-            ),
-          ],
-        ),
+        appBar: ShadHeader(title: localizations.environmentVariables, actions: [
+          IconButton(
+            tooltip: localizations.useGuide,
+            onPressed: _openGuide,
+            icon: const Icon(Icons.help_outline, size: 20),
+          ),
+          TextButton(
+            onPressed: _save,
+            child: Text(localizations.save, style: const TextStyle(fontSize: 14)),
+          ),
+        ]),
         body: _draft == null || cur == null
             ? const Center(child: CircularProgressIndicator())
-          : Padding(
-              padding: const EdgeInsets.all(10),
-              child: Column(children: [
-                const SizedBox(height: 4),
-                // 激活环境切换
-                Row(children: [
-                  Text('${localizations.environment}: ',
-                      style: const TextStyle(fontSize: 13, color: Colors.grey)),
-                  const SizedBox(width: 6),
-                  Expanded(
-                    child: DropdownButton<String?>(
-                      isDense: true,
-                      isExpanded: true,
-                      value: _draftActiveId,
-                      hint: Text(localizations.envNone, style: const TextStyle(fontSize: 13)),
-                      items: [
-                        DropdownMenuItem<String?>(
-                          value: null,
-                          child: Text(localizations.envNone, style: const TextStyle(fontSize: 13)),
+            : Padding(
+                padding: const EdgeInsets.all(10),
+                child: Column(children: [
+                  const SizedBox(height: 4),
+                  // 激活环境切换
+                  Row(children: [
+                    Text('${localizations.environment}: ', style: const TextStyle(fontSize: 13, color: Colors.grey)),
+                    const SizedBox(width: 6),
+                    Expanded(
+                      child: DropdownButton<String?>(
+                        isDense: true,
+                        isExpanded: true,
+                        value: _draftActiveId,
+                        hint: Text(localizations.envNone, style: const TextStyle(fontSize: 13)),
+                        items: [
+                          DropdownMenuItem<String?>(
+                            value: null,
+                            child: Text(localizations.envNone, style: const TextStyle(fontSize: 13)),
+                          ),
+                          ..._draftNamed.map((e) => DropdownMenuItem<String?>(
+                                value: e.id,
+                                child: Text(e.name, style: const TextStyle(fontSize: 13)),
+                              )),
+                        ],
+                        onChanged: (v) {
+                          setState(() {
+                            _draftActiveId = v;
+                          });
+                        },
+                      ),
+                    ),
+                  ]),
+                  const SizedBox(height: 12),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(localizations.envUsageHint.replaceFirst('%s', '{{name}}'),
+                        style: TextStyle(fontSize: 11, color: Colors.grey.shade600)),
+                  ),
+                  const SizedBox(height: 8),
+                  const Divider(height: 1),
+                  const SizedBox(height: 8),
+                  // 环境选择器 (Chips)
+                  SizedBox(
+                    height: 42,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: [
+                        _envChip(_draftGlobal),
+                        for (final e in _draftNamed) _envChip(e),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
+                          child: ActionChip(
+                            avatar: const Icon(Icons.add, size: 16),
+                            label: Text(_join(localizations.add, localizations.environment),
+                                style: const TextStyle(fontSize: 12)),
+                            onPressed: _addEnvironment,
+                          ),
                         ),
-                        ..._draftNamed.map((e) => DropdownMenuItem<String?>(
-                              value: e.id,
-                              child: Text(e.name, style: const TextStyle(fontSize: 13)),
-                            )),
                       ],
-                      onChanged: (v) {
-                        setState(() {
-                          _draftActiveId = v;
-                        });
-                      },
                     ),
                   ),
+                  // 变量列表
+                  Expanded(child: _VariableList(env: cur, onChanged: () => setState(() {}))),
                 ]),
-                const SizedBox(height: 12),
-                Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(localizations.envUsageHint.replaceFirst('%s', '{{name}}'),
-                      style: TextStyle(fontSize: 11, color: Colors.grey.shade600)),
-                ),
-                const SizedBox(height: 8),
-                const Divider(height: 1),
-                const SizedBox(height: 8),
-                // 环境选择器 (Chips)
-                SizedBox(
-                  height: 42,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: [
-                      _envChip(_draftGlobal),
-                      for (final e in _draftNamed) _envChip(e),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 4, vertical: 4),
-                        child: ActionChip(
-                          avatar: const Icon(Icons.add, size: 16),
-                          label: Text(_join(localizations.add, localizations.environment),
-                              style: const TextStyle(fontSize: 12)),
-                          onPressed: _addEnvironment,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-                // 变量列表
-                Expanded(
-                    child: _VariableList(env: cur, onChanged: () => setState(() {}))),
-              ]),
-            ),
+              ),
       ),
     );
   }

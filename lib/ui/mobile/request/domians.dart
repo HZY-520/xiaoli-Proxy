@@ -213,8 +213,7 @@ class DomainListState extends State<DomainList> with AutomaticKeepAliveClientMix
         child: ListView.separated(
             controller: _scrollController,
             padding: EdgeInsets.zero,
-            separatorBuilder: (context, index) =>
-                const SizedBox.shrink(),
+            separatorBuilder: (context, index) => const SizedBox.shrink(),
             itemCount: view.length,
             itemBuilder: (ctx, index) => title(index)));
   }

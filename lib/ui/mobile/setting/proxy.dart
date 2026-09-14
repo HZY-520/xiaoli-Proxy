@@ -128,13 +128,13 @@ class _ExternalProxyDialogState extends State<ExternalProxyDialog> {
                         child: Text('${localizations.username}：', style: const TextStyle(fontWeight: FontWeight.w300))),
                     Expanded(
                         child: TextFormField(
-                          initialValue: externalProxy.username,
-                          onChanged: (val) => externalProxy.username = val,
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                            border: OutlineInputBorder(),
-                          ),
-                        ))
+                      initialValue: externalProxy.username,
+                      onChanged: (val) => externalProxy.username = val,
+                      decoration: const InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                        border: OutlineInputBorder(),
+                      ),
+                    ))
                   ])),
               const SizedBox(height: 10),
 
@@ -146,13 +146,13 @@ class _ExternalProxyDialogState extends State<ExternalProxyDialog> {
                         child: Text('${localizations.password}：', style: const TextStyle(fontWeight: FontWeight.w300))),
                     Expanded(
                         child: TextFormField(
-                          initialValue: externalProxy.password,
-                          onChanged: (val) => externalProxy.password = val,
-                          decoration: const InputDecoration(
-                            contentPadding: EdgeInsets.symmetric(horizontal: 8),
-                            border: OutlineInputBorder(),
-                          ),
-                        ))
+                      initialValue: externalProxy.password,
+                      onChanged: (val) => externalProxy.password = val,
+                      decoration: const InputDecoration(
+                        contentPadding: EdgeInsets.symmetric(horizontal: 8),
+                        border: OutlineInputBorder(),
+                      ),
+                    ))
                   ])),
             ])));
   }

@@ -160,23 +160,21 @@ class _MobileHistoryState extends State<MobileHistory> {
       }
 
       return Scaffold(
-          appBar: ShadHeader(
-              title: localizations.history,
-              actions: [
-                ShadIconButton.ghost(
-                    onPressed: () => import(storage),
-                    icon: const Icon(LucideIcons.import, size: 19),
-                    width: 38,
-                    height: 38),
-                HistoryCacheTime(configuration, onSelected: (val) {
-                  if (val == 0) {
-                    widget.container.removeListener(widget.historyTask);
-                  } else {
-                    widget.container.addListener(widget.historyTask);
-                  }
-                }),
-                const SizedBox(width: 6)
-              ]),
+          appBar: ShadHeader(title: localizations.history, actions: [
+            ShadIconButton.ghost(
+                onPressed: () => import(storage),
+                icon: const Icon(LucideIcons.import, size: 19),
+                width: 38,
+                height: 38),
+            HistoryCacheTime(configuration, onSelected: (val) {
+              if (val == 0) {
+                widget.container.removeListener(widget.historyTask);
+              } else {
+                widget.container.addListener(widget.historyTask);
+              }
+            }),
+            const SizedBox(width: 6)
+          ]),
           body: children.isEmpty
               ? ShadEmpty(icon: LucideIcons.inbox, message: localizations.emptyData)
               : ListView.separated(
@@ -351,8 +349,7 @@ class _MobileHistoryState extends State<MobileHistory> {
           return ShadDialog.alert(
             title: Text(localizations.name),
             actions: <Widget>[
-              ShadButton.outline(
-                  onPressed: () => Navigator.pop(context), child: Text(localizations.cancel)),
+              ShadButton.outline(onPressed: () => Navigator.pop(context), child: Text(localizations.cancel)),
               ShadButton(
                 onPressed: () {
                   if (name.isEmpty) {
@@ -384,8 +381,7 @@ class _MobileHistoryState extends State<MobileHistory> {
           return ShadDialog.alert(
             title: Text(localizations.historyDeleteConfirm),
             actions: [
-              ShadButton.outline(
-                  onPressed: () => Navigator.pop(context), child: Text(localizations.cancel)),
+              ShadButton.outline(onPressed: () => Navigator.pop(context), child: Text(localizations.cancel)),
               ShadButton(
                   backgroundColor: ShadTheme.of(context).colorScheme.destructive,
                   onPressed: () {
@@ -441,55 +437,44 @@ class _HistoryRecordState extends State<HistoryRecord> {
     return Scaffold(
         appBar: PreferredSize(
             preferredSize: const Size.fromHeight(38),
-            child: AppBar(
-              title: ValueListenableBuilder(
-                  valueListenable: searchEnabled,
-                  builder: (BuildContext context, bool value, Widget? child) {
-                    return value
-                        ? MobileSearch(
-                            key: searchStateKey,
-                            onSearch: (val) => requestStateKey.currentState?.search(val),
-                            showSearch: true)
-                        : Text(localizations.historyRecordTitle(widget.history.requestLength, widget.history.name),
-                            style: const TextStyle(fontSize: 16));
-                  }),
-              actions: [
-                PopupMenuButton(
-                    offset: const Offset(0, 30),
-                    icon: const Icon(Icons.more_vert_outlined),
-                    itemBuilder: (BuildContext context) {
-                      return [
-                        PopupMenuItem(
-                            onTap: () {
-                              if (searchEnabled.value) {
-                                searchStateKey.currentState?.showSearch();
-                                return;
-                              }
-                              searchEnabled.value = true;
-                            },
-                            child: IconText(icon: const Icon(Icons.search), text: localizations.search)),
-                        PopupMenuItem(
-                            onTap: () => export(context),
-                            child: IconText(icon: const Icon(Icons.share), text: localizations.viewExport)),
-                        PopupMenuItem(
-                            onTap: () async {
-                              multiSelectController.toggleSelectionMode();
-                            },
-                            child: IconText(
-                                icon: const Icon(Icons.checklist_rtl_outlined), text: localizations.selectAction)),
-                        PopupMenuItem(
-                            onTap: () async {
-                              var requests = requestStateKey.currentState?.currentView();
-                              if (requests == null) return;
-                              //重发所有请求
-                              _repeatAllRequests(requests.toList(), widget.proxyServer,
-                                  context: mounted ? context : null);
-                            },
-                            child: IconText(icon: const Icon(Icons.repeat), text: localizations.repeatAllRequests)),
-                      ];
-                    }),
-              ],
-            )),
+            child: ShadHeader(
+                title: localizations.historyRecordTitle(widget.history.requestLength, widget.history.name),
+                actions: [
+                  PopupMenuButton(
+                      offset: const Offset(0, 30),
+                      icon: const Icon(Icons.more_vert_outlined),
+                      itemBuilder: (BuildContext context) {
+                        return [
+                          PopupMenuItem(
+                              onTap: () {
+                                if (searchEnabled.value) {
+                                  searchStateKey.currentState?.showSearch();
+                                  return;
+                                }
+                                searchEnabled.value = true;
+                              },
+                              child: IconText(icon: const Icon(Icons.search), text: localizations.search)),
+                          PopupMenuItem(
+                              onTap: () => export(context),
+                              child: IconText(icon: const Icon(Icons.share), text: localizations.viewExport)),
+                          PopupMenuItem(
+                              onTap: () async {
+                                multiSelectController.toggleSelectionMode();
+                              },
+                              child: IconText(
+                                  icon: const Icon(Icons.checklist_rtl_outlined), text: localizations.selectAction)),
+                          PopupMenuItem(
+                              onTap: () async {
+                                var requests = requestStateKey.currentState?.currentView();
+                                if (requests == null) return;
+                                //重发所有请求
+                                _repeatAllRequests(requests.toList(), widget.proxyServer,
+                                    context: mounted ? context : null);
+                              },
+                              child: IconText(icon: const Icon(Icons.repeat), text: localizations.repeatAllRequests)),
+                        ];
+                      }),
+                ])),
         body: futureWidget(
           loading: true,
           HistoryStorage.instance.then((storage) => storage.getRequests(widget.history)),

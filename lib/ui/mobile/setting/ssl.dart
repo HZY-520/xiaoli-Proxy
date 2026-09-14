@@ -301,9 +301,8 @@ class _AndroidCaInstallState extends State<AndroidCaInstall> with SingleTickerPr
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            centerTitle: true,
-            title: Text(localizations.installRootCa, style: const TextStyle(fontSize: 16)),
+        appBar: ShadHeader(
+            title: localizations.installRootCa,
             bottom: TabBar(
                 controller: _tabController,
                 labelColor: Colors.white,
@@ -659,10 +658,9 @@ class _IosCaInstallState extends State<IosCaInstall> {
     final isCN = Localizations.localeOf(context) == const Locale.fromSubtags(languageCode: 'zh');
 
     return Scaffold(
-      appBar: AppBar(
-        title: Text(localizations.installRootCa, style: const TextStyle(fontSize: 16)),
-        actions: [IconButton(onPressed: _refreshStatus, icon: const Icon(Icons.refresh))],
-      ),
+      appBar: ShadHeader(
+          title: localizations.installRootCa,
+          actions: [IconButton(onPressed: _refreshStatus, icon: const Icon(Icons.refresh))]),
       body: loading
           ? const Center(child: CircularProgressIndicator())
           : ListView(padding: const EdgeInsets.all(12), children: [

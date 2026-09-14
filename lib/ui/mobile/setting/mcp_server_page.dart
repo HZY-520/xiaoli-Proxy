@@ -15,9 +15,11 @@
  */
 
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
 import 'package:lico_proxy/network/mcp/mcp_server.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 
 /// MCP Server 管理页面
 /// 允许用户启动/停止 MCP Server，查看连接配置信息
@@ -74,7 +76,7 @@ class _McpServerPageState extends State<McpServerPage> {
     final isDark = theme.brightness == Brightness.dark;
 
     return Scaffold(
-      appBar: AppBar(title: const Text('MCP Server')),
+      appBar: ShadHeader(title: 'MCP Server'),
       body: Center(
         child: ConstrainedBox(
           constraints: const BoxConstraints(maxWidth: 680),
@@ -401,7 +403,8 @@ class _McpServerPageState extends State<McpServerPage> {
             const SizedBox(height: 12),
             _buildGuideItem(theme, '1', '在本页点击「启动」，保持 MCP Server 运行。'),
             _buildGuideItem(theme, '2', '复制上面的 MCP 配置 JSON，或直接使用 Streamable HTTP 地址。'),
-            _buildGuideItem(theme, '3', '在 AI 客户端（Claude Desktop / Cursor / Cherry Studio 等）的 MCP 配置中粘贴，重启后即可让 AI 调用本机抓包数据。'),
+            _buildGuideItem(
+                theme, '3', '在 AI 客户端（Claude Desktop / Cursor / Cherry Studio 等）的 MCP 配置中粘贴，重启后即可让 AI 调用本机抓包数据。'),
             const SizedBox(height: 8),
             Text('可用工具:', style: theme.textTheme.bodySmall?.copyWith(fontWeight: FontWeight.w600)),
             const SizedBox(height: 4),
@@ -441,9 +444,7 @@ class _McpServerPageState extends State<McpServerPage> {
       ('extract_api_endpoints', '提取 API 端点与路径'),
     ];
 
-    return tools
-        .map((t) => _buildToolItem(theme, t.$1, t.$2))
-        .toList();
+    return tools.map((t) => _buildToolItem(theme, t.$1, t.$2)).toList();
   }
 
   Widget _buildGuideItem(ThemeData theme, String step, String text) {

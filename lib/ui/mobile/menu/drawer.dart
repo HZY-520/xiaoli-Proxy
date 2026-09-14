@@ -78,8 +78,7 @@ Widget _drawerHeader(BuildContext context) {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text('小离Proxy',
-                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, height: 1.2)),
+              const Text('小离Proxy', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold, height: 1.2)),
               const SizedBox(height: 2),
               Text('v${AppConfiguration.version}',
                   style: TextStyle(fontSize: 12, color: scheme.mutedForeground, height: 1.2)),
@@ -142,15 +141,15 @@ Widget _mcpRow(BuildContext ctx) {
 /// 打开工具箱
 void _openToolbox(BuildContext ctx, ProxyServer proxyServer) {
   Navigator.of(ctx).push(MaterialPageRoute(
-      builder: (_) => Scaffold(
-          appBar: ShadHeader(title: '工具箱'),
-          body: Toolbox(proxyServer: proxyServer))));
+      builder: (_) => Scaffold(appBar: ShadHeader(title: '工具箱'), body: Toolbox(proxyServer: proxyServer))));
 }
 
 /// 打开设置
 void _openSetting(BuildContext ctx, ProxyServer proxyServer) {
-  navigator(ctx, futureWidget(AppConfiguration.instance,
-      (appConfiguration) => _SettingPage(proxyServer: proxyServer, appConfiguration: appConfiguration)));
+  navigator(
+      ctx,
+      futureWidget(AppConfiguration.instance,
+          (appConfiguration) => _SettingPage(proxyServer: proxyServer, appConfiguration: appConfiguration)));
 }
 
 /// 左侧抽屉
@@ -187,15 +186,11 @@ class DrawerWidget extends StatelessWidget {
                     label: '历史记录',
                     onTap: () => navigator(context,
                         MobileHistory(proxyServer: proxyServer, container: container, historyTask: historyTask))),
-                _menuRow(context,
-                    icon: LucideIcons.squarePen,
-                    label: '请求重写',
-                    showDivider: false,
-                    onTap: () async {
-                      var m = await RequestRewriteManager.instance;
-                      if (!context.mounted) return;
-                      navigator(context, MobileRequestRewrite(requestRewrites: m));
-                    }),
+                _menuRow(context, icon: LucideIcons.squarePen, label: '请求重写', showDivider: false, onTap: () async {
+                  var m = await RequestRewriteManager.instance;
+                  if (!context.mounted) return;
+                  navigator(context, MobileRequestRewrite(requestRewrites: m));
+                }),
               ],
             ),
             // ===== 抓包与转发 =====
@@ -212,13 +207,9 @@ class DrawerWidget extends StatelessWidget {
                     onTap: () => navigator(context, FilterMenu(proxyServer: proxyServer))),
                 _mcpRow(context),
                 _menuRow(context,
-                    icon: LucideIcons.wrench,
-                    label: '工具箱',
-                    onTap: () => _openToolbox(context, proxyServer)),
+                    icon: LucideIcons.wrench, label: '工具箱', onTap: () => _openToolbox(context, proxyServer)),
                 _menuRow(context,
-                    icon: LucideIcons.braces,
-                    label: 'JSON',
-                    onTap: () => navigator(context, const JsonViewerPage())),
+                    icon: LucideIcons.braces, label: 'JSON', onTap: () => navigator(context, const JsonViewerPage())),
                 _menuRow(context,
                     icon: LucideIcons.fileCode2,
                     label: 'JavaScript',
@@ -309,8 +300,7 @@ class _SettingPage extends StatelessWidget {
               title: localizations.externalProxy,
               onTap: () {
                 showDialog(
-                    context: context,
-                    builder: (_) => ExternalProxyDialog(configuration: proxyServer.configuration));
+                    context: context, builder: (_) => ExternalProxyDialog(configuration: proxyServer.configuration));
               },
             ),
             // 忽略代理的域名
@@ -345,8 +335,7 @@ class _SettingPage extends StatelessWidget {
                       configuration.proxyPassDomains = textEditingController.text;
                       proxyServer.configuration.flushConfig();
                     },
-                    decoration:
-                        const InputDecoration(contentPadding: EdgeInsets.all(10), border: OutlineInputBorder()),
+                    decoration: const InputDecoration(contentPadding: EdgeInsets.all(10), border: OutlineInputBorder()),
                     maxLines: 5,
                     minLines: 1)),
           ]),
@@ -383,32 +372,26 @@ class FilterMenu extends StatelessWidget {
 
     return Scaffold(
         appBar: ShadHeader(title: localizations.filter),
-        body: ListView(
-            padding: const EdgeInsets.all(12),
-            children: [
-              ShadSection(margin: EdgeInsets.zero, children: [
-                ShadTile(
-                    title: localizations.domainWhitelist,
-                    onTap: () => navigator(
-                        context,
-                        MobileFilterWidget(
-                            configuration: proxyServer.configuration, hostList: HostFilter.whitelist))),
-                ShadTile(
-                    title: localizations.domainBlacklist,
-                    onTap: () => navigator(
-                        context,
-                        MobileFilterWidget(
-                            configuration: proxyServer.configuration, hostList: HostFilter.blacklist))),
-                if (!Platform.isIOS)
-                  ShadTile(
-                      title: localizations.appWhitelist,
-                      onTap: () => navigator(context, AppWhitelist(proxyServer: proxyServer))),
-                if (!Platform.isIOS)
-                  ShadTile(
-                      title: localizations.appBlacklist,
-                      showDivider: false,
-                      onTap: () => navigator(context, AppBlacklist(proxyServer: proxyServer))),
-              ]),
-            ]));
+        body: ListView(padding: const EdgeInsets.all(12), children: [
+          ShadSection(margin: EdgeInsets.zero, children: [
+            ShadTile(
+                title: localizations.domainWhitelist,
+                onTap: () => navigator(context,
+                    MobileFilterWidget(configuration: proxyServer.configuration, hostList: HostFilter.whitelist))),
+            ShadTile(
+                title: localizations.domainBlacklist,
+                onTap: () => navigator(context,
+                    MobileFilterWidget(configuration: proxyServer.configuration, hostList: HostFilter.blacklist))),
+            if (!Platform.isIOS)
+              ShadTile(
+                  title: localizations.appWhitelist,
+                  onTap: () => navigator(context, AppWhitelist(proxyServer: proxyServer))),
+            if (!Platform.isIOS)
+              ShadTile(
+                  title: localizations.appBlacklist,
+                  showDivider: false,
+                  onTap: () => navigator(context, AppBlacklist(proxyServer: proxyServer))),
+          ]),
+        ]));
   }
 }

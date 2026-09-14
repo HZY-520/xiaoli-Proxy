@@ -18,6 +18,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:lico_proxy/l10n/app_localizations.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
 import 'package:lico_proxy/native/vpn.dart';
@@ -33,6 +34,7 @@ import 'package:lico_proxy/ui/component/qrcode/qr_scan_view.dart';
 import 'package:lico_proxy/ui/component/utils.dart';
 import 'package:lico_proxy/ui/component/widgets.dart';
 import 'package:lico_proxy/utils/ip.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -115,57 +117,53 @@ class _RemoteDevicePageState extends State<RemoteDevicePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        centerTitle: true,
-        title: Text(localizations.remoteDevice, style: const TextStyle(fontSize: 16)),
-        actions: [
-          PopupMenuButton(
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-            elevation: 8,
-            color: Theme.of(context).colorScheme.surface,
-            icon: const Icon(Icons.add_outlined),
-            itemBuilder: (BuildContext context) {
-              return <PopupMenuEntry>[
-                CustomPopupMenuItem(
-                    height: 32,
-                    child: ListTile(
-                        leading: const Icon(Icons.qr_code_scanner_outlined),
-                        dense: true,
-                        title: Text(localizations.scanCode),
-                        onTap: () {
-                          Navigator.maybePop(context);
-                          connectRemote();
-                        })),
-                CustomPopupMenuItem(
-                    height: 32,
-                    child: ListTile(
-                        leading: const Icon(Icons.edit_rounded),
-                        dense: true,
-                        title: Text(localizations.inputAddress),
-                        onTap: () async {
-                          Navigator.maybePop(context);
-                          inputAddress(await localIp());
-                        })),
-                PopupMenuItem(
-                    height: 32,
-                    child: ListTile(
+      appBar: ShadHeader(title: localizations.remoteDevice, actions: [
+        PopupMenuButton(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          elevation: 8,
+          color: Theme.of(context).colorScheme.surface,
+          icon: const Icon(Icons.add_outlined),
+          itemBuilder: (BuildContext context) {
+            return <PopupMenuEntry>[
+              CustomPopupMenuItem(
+                  height: 32,
+                  child: ListTile(
+                      leading: const Icon(Icons.qr_code_scanner_outlined),
                       dense: true,
-                      leading: const Icon(Icons.phone_android),
-                      title: Text(localizations.myQRCode),
+                      title: Text(localizations.scanCode),
+                      onTap: () {
+                        Navigator.maybePop(context);
+                        connectRemote();
+                      })),
+              CustomPopupMenuItem(
+                  height: 32,
+                  child: ListTile(
+                      leading: const Icon(Icons.edit_rounded),
+                      dense: true,
+                      title: Text(localizations.inputAddress),
                       onTap: () async {
                         Navigator.maybePop(context);
-                        var ip = await localIp(readCache: false);
-                        if (context.mounted) {
-                          qrCode(context, ip, widget.proxyServer.port);
-                        }
-                      },
-                    )),
-              ];
-            },
-          ),
-          const SizedBox(width: 10),
-        ],
-      ),
+                        inputAddress(await localIp());
+                      })),
+              PopupMenuItem(
+                  height: 32,
+                  child: ListTile(
+                    dense: true,
+                    leading: const Icon(Icons.phone_android),
+                    title: Text(localizations.myQRCode),
+                    onTap: () async {
+                      Navigator.maybePop(context);
+                      var ip = await localIp(readCache: false);
+                      if (context.mounted) {
+                        qrCode(context, ip, widget.proxyServer.port);
+                      }
+                    },
+                  )),
+            ];
+          },
+        ),
+        const SizedBox(width: 10),
+      ]),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Column(

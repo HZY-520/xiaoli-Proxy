@@ -4,12 +4,14 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
 import 'package:lico_proxy/l10n/app_localizations.dart';
 import 'package:lico_proxy/network/components/manager/request_breakpoint_manager.dart';
 import 'package:lico_proxy/network/http/http.dart';
 import 'package:lico_proxy/network/util/logger.dart';
 import 'package:lico_proxy/ui/component/widgets.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 
 import '../../component/http_method_popup.dart';
 
@@ -54,10 +56,7 @@ class _RequestBreakpointPageState extends State<MobileRequestBreakpointPage> {
 
     return Scaffold(
         backgroundColor: Theme.of(context).dialogTheme.backgroundColor,
-        appBar: AppBar(
-            title: Text(localizations.breakpoint, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-            toolbarHeight: 36,
-            centerTitle: true),
+        appBar: ShadHeader(title: localizations.breakpoint),
         body: Center(
             child: Container(
                 padding: const EdgeInsets.only(left: 15, right: 10),
@@ -436,12 +435,10 @@ class _MobileBreakpointRuleEditorState extends State<MobileBreakpointRuleEditor>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: Text(
-                widget.rule == null
-                    ? "${localizations.add} ${localizations.breakpointRule}"
-                    : "${localizations.edit} ${localizations.breakpointRule}",
-                style: const TextStyle(fontSize: 16)),
+        appBar: ShadHeader(
+            title: widget.rule == null
+                ? "${localizations.add} ${localizations.breakpointRule}"
+                : "${localizations.edit} ${localizations.breakpointRule}",
             actions: [
               TextButton(
                   onPressed: () {

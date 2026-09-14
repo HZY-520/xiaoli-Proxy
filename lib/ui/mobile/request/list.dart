@@ -92,8 +92,8 @@ class RequestListState extends State<RequestListWidget> {
               decoration: BoxDecoration(
                 color: ShadTheme.of(context).colorScheme.background,
                 border: Border(
-                  bottom: BorderSide(
-                      color: ShadTheme.of(context).colorScheme.border.withValues(alpha: 0.5), width: 0.5),
+                  bottom:
+                      BorderSide(color: ShadTheme.of(context).colorScheme.border.withValues(alpha: 0.5), width: 0.5),
                 ),
               ),
               child: TabBar(

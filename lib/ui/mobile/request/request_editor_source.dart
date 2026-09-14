@@ -3,4 +3,3 @@ enum RequestEditorSource {
   breakpointRequest,
   breakpointResponse,
 }
-

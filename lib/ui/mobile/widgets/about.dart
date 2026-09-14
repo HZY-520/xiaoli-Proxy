@@ -51,14 +51,12 @@ class _AboutState extends State<About> {
               const Text('小离Proxy', style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold)),
               const SizedBox(height: 6),
               Text(localizations.proxyPinSoftware,
-                  textAlign: TextAlign.center,
-                  style: TextStyle(fontSize: 12.5, color: scheme.mutedForeground)),
+                  textAlign: TextAlign.center, style: TextStyle(fontSize: 12.5, color: scheme.mutedForeground)),
               const SizedBox(height: 10),
               ShadTag('v${AppConfiguration.version}'),
             ],
           ),
           const SizedBox(height: 24),
-
           ShadSection(title: '作者', children: [
             const ShadTile(
               icon: LucideIcons.user,
@@ -67,7 +65,6 @@ class _AboutState extends State<About> {
               showDivider: false,
             ),
           ]),
-
           ShadSection(title: '开源信息', children: [
             const ShadTile(
               icon: LucideIcons.scale,
@@ -96,7 +93,6 @@ class _AboutState extends State<About> {
               showDivider: false,
             ),
           ]),
-
           ShadSection(title: '支持与反馈', children: [
             ShadTile(
               icon: LucideIcons.messageSquare,
@@ -134,7 +130,6 @@ class _AboutState extends State<About> {
               showDivider: false,
             ),
           ]),
-
           const SizedBox(height: 6),
           Center(
             child: Text(

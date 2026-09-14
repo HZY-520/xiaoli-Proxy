@@ -219,8 +219,7 @@ class SettingPage extends StatelessWidget {
                 title: localizations.externalProxy,
                 onTap: () {
                   showDialog(
-                      context: context,
-                      builder: (_) => ExternalProxyDialog(configuration: proxyServer.configuration));
+                      context: context, builder: (_) => ExternalProxyDialog(configuration: proxyServer.configuration));
                 }),
             Padding(
                 padding: const EdgeInsets.fromLTRB(16, 10, 16, 0),
@@ -232,8 +231,7 @@ class SettingPage extends StatelessWidget {
                         Text(localizations.proxyIgnoreDomain, style: const TextStyle(fontSize: 14)),
                         const SizedBox(height: 3),
                         Text(isCN ? "多个使用;分割" : "Use ';' to separate multiple entries",
-                            style: TextStyle(
-                                fontSize: 11, color: ShadTheme.of(context).colorScheme.mutedForeground)),
+                            style: TextStyle(fontSize: 11, color: ShadTheme.of(context).colorScheme.mutedForeground)),
                       ],
                     ),
                   ),
@@ -267,10 +265,7 @@ class SettingPage extends StatelessWidget {
                 title: localizations.setting,
                 onTap: () =>
                     navigator(context, Preference(proxyServer: proxyServer, appConfiguration: appConfiguration))),
-            ShadTile(
-                title: localizations.about,
-                showDivider: false,
-                onTap: () => navigator(context, const About())),
+            ShadTile(title: localizations.about, showDivider: false, onTap: () => navigator(context, const About())),
           ]),
           const SizedBox(height: 8),
         ]));

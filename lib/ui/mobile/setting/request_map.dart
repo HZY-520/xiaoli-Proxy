@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
 import 'package:lico_proxy/l10n/app_localizations.dart';
 import 'package:lico_proxy/network/components/manager/request_map_manager.dart';
@@ -11,6 +12,7 @@ import 'package:lico_proxy/ui/component/widgets.dart';
 import 'package:lico_proxy/ui/mobile/setting/request_map/map_local.dart';
 import 'package:lico_proxy/ui/mobile/setting/request_map/map_scipt.dart';
 import 'package:lico_proxy/utils/lang.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../../network/util/logger.dart';
@@ -53,10 +55,7 @@ class _RequestMapPageState extends State<MobileRequestMapPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            title: Text(localizations.requestMap, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-            toolbarHeight: 36,
-            centerTitle: true),
+        appBar: ShadHeader(title: localizations.requestMap),
         body: Padding(
             padding: const EdgeInsets.all(10),
             child: futureWidget(
@@ -454,46 +453,42 @@ class _RequestMapEditState extends State<MobileRequestMapEdit> {
     bool isCN = Localizations.localeOf(context) == const Locale.fromSubtags(languageCode: 'zh');
 
     return Scaffold(
-        appBar: AppBar(
-            title: Row(children: [
-              Text(localizations.requestMap, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-            ]),
-            actions: [
-              TextButton(
-                  style: TextButton.styleFrom(foregroundColor: Colors.white),
-                  child: Text(localizations.save, style: const TextStyle(color: Colors.white, fontSize: 15)),
-                  onPressed: () async {
-                    if (!(formKey.currentState as FormState).validate()) {
-                      FlutterToastr.show(localizations.cannotBeEmpty, context, position: FlutterToastr.center);
-                      return;
-                    }
+        appBar: ShadHeader(title: localizations.requestMap, actions: [
+          TextButton(
+              style: TextButton.styleFrom(foregroundColor: Colors.white),
+              child: Text(localizations.save, style: const TextStyle(color: Colors.white, fontSize: 15)),
+              onPressed: () async {
+                if (!(formKey.currentState as FormState).validate()) {
+                  FlutterToastr.show(localizations.cannotBeEmpty, context, position: FlutterToastr.center);
+                  return;
+                }
 
-                    (formKey.currentState as FormState).save();
-                    rule.name = nameInput.text;
-                    rule.url = urlInput.text;
-                    rule.type = mapType;
-                    RequestMapItem item;
-                    if (mapType == RequestMapType.local) {
-                      item = mapLocalKey.currentState!.getRequestMapItem();
-                    } else {
-                      String? scriptCode = mapScriptKey.currentState?.getScriptCode();
-                      item = widget.item ?? RequestMapItem();
-                      item.script = scriptCode;
-                    }
+                (formKey.currentState as FormState).save();
+                rule.name = nameInput.text;
+                rule.url = urlInput.text;
+                rule.type = mapType;
+                RequestMapItem item;
+                if (mapType == RequestMapType.local) {
+                  item = mapLocalKey.currentState!.getRequestMapItem();
+                } else {
+                  String? scriptCode = mapScriptKey.currentState?.getScriptCode();
+                  item = widget.item ?? RequestMapItem();
+                  item.script = scriptCode;
+                }
 
-                    var requestMapManager = await RequestMapManager.instance;
-                    var index = requestMapManager.rules.indexOf(rule);
-                    if (index >= 0) {
-                      await requestMapManager.updateRule(rule, item);
-                    } else {
-                      await requestMapManager.addRule(rule, item);
-                    }
+                var requestMapManager = await RequestMapManager.instance;
+                var index = requestMapManager.rules.indexOf(rule);
+                if (index >= 0) {
+                  await requestMapManager.updateRule(rule, item);
+                } else {
+                  await requestMapManager.addRule(rule, item);
+                }
 
-                    if (mounted) {
-                      Navigator.of(this.context).pop(rule);
-                    }
-                  })
-            ]),
+                if (mounted) {
+                  Navigator.of(this.context).pop(rule);
+                }
+              })
+        ]),
         body: Container(
           padding: const EdgeInsets.all(15),
           child: NestedScrollView(

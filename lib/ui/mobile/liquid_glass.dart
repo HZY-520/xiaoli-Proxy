@@ -32,8 +32,7 @@ class GlassBackground extends StatelessWidget {
 /// 分组区块：等价于 shadcn 的 Card，内部按行 + 细分隔线排列。
 ///
 /// 参数名保留 `glassSection` 以兼容原有调用点。
-Widget glassSection(BuildContext context, List<Widget> children,
-    {EdgeInsetsGeometry? margin}) {
+Widget glassSection(BuildContext context, List<Widget> children, {EdgeInsetsGeometry? margin}) {
   return ShadSection(
     margin: margin ?? const EdgeInsets.only(bottom: 14),
     children: children,
@@ -41,9 +40,7 @@ Widget glassSection(BuildContext context, List<Widget> children,
 }
 
 /// 适配亮/暗模式的图标颜色
-Color glassIconColor(BuildContext context) =>
-    ShadTheme.of(context).colorScheme.mutedForeground;
+Color glassIconColor(BuildContext context) => ShadTheme.of(context).colorScheme.mutedForeground;
 
 /// 适配亮/暗模式的文字颜色
-Color glassTextColor(BuildContext context) =>
-    ShadTheme.of(context).colorScheme.foreground;
+Color glassTextColor(BuildContext context) => ShadTheme.of(context).colorScheme.foreground;
