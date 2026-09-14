@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/services.dart';
-import 'package:proxypin/network/channel/host_port.dart';
-import 'package:proxypin/network/util/process_info.dart';
+import 'package:lico_proxy/network/channel/host_port.dart';
+import 'package:lico_proxy/network/util/process_info.dart';
 
 class ProcessInfoPlugin {
   static const MethodChannel _methodChannel = MethodChannel('com.proxy/processInfo');

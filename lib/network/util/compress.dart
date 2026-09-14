@@ -2,7 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:brotli/brotli.dart';
-import 'package:proxypin/network/util/logger.dart';
+import 'package:lico_proxy/network/util/logger.dart';
 import 'package:zstandard/zstandard.dart';
 
 ///GZIP 解压缩

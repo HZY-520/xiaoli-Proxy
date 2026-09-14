@@ -1,4 +1,4 @@
-import 'package:proxypin/network/util/uri.dart';
+import 'package:lico_proxy/network/util/uri.dart';
 
 void main() {
   String url =

@@ -17,18 +17,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/network/bin/server.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/storage/favorites.dart';
-import 'package:proxypin/ui/component/state_component.dart';
-import 'package:proxypin/ui/component/utils.dart';
-import 'package:proxypin/ui/content/body.dart';
-import 'package:proxypin/ui/content/menu.dart';
-import 'package:proxypin/ui/component/multi_window_compat.dart';
-import 'package:proxypin/utils/export_request.dart';
-import 'package:proxypin/utils/lang.dart';
-import 'package:proxypin/utils/platform.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/network/bin/server.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/storage/favorites.dart';
+import 'package:lico_proxy/ui/component/state_component.dart';
+import 'package:lico_proxy/ui/component/utils.dart';
+import 'package:lico_proxy/ui/content/body.dart';
+import 'package:lico_proxy/ui/content/menu.dart';
+import 'package:lico_proxy/ui/component/multi_window_compat.dart';
+import 'package:lico_proxy/utils/export_request.dart';
+import 'package:lico_proxy/utils/lang.dart';
+import 'package:lico_proxy/utils/platform.dart';
 
 /// HttpCanary 主题色
 const _hcOrange = Color(0xFFFF9E05);

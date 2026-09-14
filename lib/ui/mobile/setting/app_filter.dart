@@ -15,13 +15,13 @@
  */
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/native/installed_apps.dart';
-import 'package:proxypin/native/vpn.dart';
-import 'package:proxypin/network/bin/configuration.dart';
-import 'package:proxypin/network/bin/server.dart';
-import 'package:proxypin/ui/component/widgets.dart';
-import 'package:proxypin/utils/task.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/native/installed_apps.dart';
+import 'package:lico_proxy/native/vpn.dart';
+import 'package:lico_proxy/network/bin/configuration.dart';
+import 'package:lico_proxy/network/bin/server.dart';
+import 'package:lico_proxy/ui/component/widgets.dart';
+import 'package:lico_proxy/utils/task.dart';
 
 ///应用白名单 目前只支持安卓 ios没办法获取安装的列表
 ///@author wang

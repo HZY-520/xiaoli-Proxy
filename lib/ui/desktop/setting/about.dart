@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/ui/app_update/app_update_repository.dart';
-import 'package:proxypin/ui/configuration.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/ui/app_update/app_update_repository.dart';
+import 'package:lico_proxy/ui/configuration.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class DesktopAbout extends StatefulWidget {

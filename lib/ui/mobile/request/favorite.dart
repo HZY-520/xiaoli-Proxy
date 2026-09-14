@@ -20,26 +20,28 @@ import 'dart:convert';
 
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:flutter/services.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
-import 'package:proxypin/network/bin/server.dart';
-import 'package:proxypin/network/components/manager/request_rewrite_manager.dart';
-import 'package:proxypin/network/components/manager/rewrite_rule.dart';
-import 'package:proxypin/network/components/manager/script_manager.dart';
-import 'package:proxypin/network/channel/host_port.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/http/http_client.dart';
-import 'package:proxypin/storage/favorites.dart';
-import 'package:proxypin/ui/component/utils.dart';
-import 'package:proxypin/ui/component/widgets.dart';
-import 'package:proxypin/ui/content/panel.dart';
-import 'package:proxypin/ui/mobile/request/repeat.dart';
-import 'package:proxypin/ui/mobile/request/request_editor.dart';
-import 'package:proxypin/ui/mobile/setting/request_rewrite.dart';
-import 'package:proxypin/ui/mobile/setting/script.dart';
-import 'package:proxypin/utils/curl.dart';
-import 'package:proxypin/utils/lang.dart';
+import 'package:lico_proxy/network/bin/server.dart';
+import 'package:lico_proxy/network/components/manager/request_rewrite_manager.dart';
+import 'package:lico_proxy/network/components/manager/rewrite_rule.dart';
+import 'package:lico_proxy/network/components/manager/script_manager.dart';
+import 'package:lico_proxy/network/channel/host_port.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/http/http_client.dart';
+import 'package:lico_proxy/storage/favorites.dart';
+import 'package:lico_proxy/ui/component/utils.dart';
+import 'package:lico_proxy/ui/component/widgets.dart';
+import 'package:lico_proxy/ui/content/panel.dart';
+import 'package:lico_proxy/ui/mobile/request/repeat.dart';
+import 'package:lico_proxy/ui/mobile/request/request_editor.dart';
+import 'package:lico_proxy/ui/mobile/setting/request_rewrite.dart';
+import 'package:lico_proxy/ui/mobile/setting/script.dart';
+import 'package:lico_proxy/utils/curl.dart';
+import 'package:lico_proxy/utils/lang.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:file_picker/file_picker.dart';
 
@@ -79,16 +81,13 @@ class _FavoritesState extends State<MobileFavorites> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            elevation: 0,
-            title: Text(localizations.favorites,
-                style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-            centerTitle: true,
+        appBar: ShadHeader(
+            title: localizations.favorites,
             actions: [
-              IconButton(
-                  tooltip: localizations.export,
-                  icon: const Icon(Icons.upload_file, size: 20),
+              ShadIconButton.ghost(
+                  icon: const Icon(LucideIcons.upload, size: 19),
+                  width: 38,
+                  height: 38,
                   onPressed: () async {
                     try {
                       await _exportJson();
@@ -96,9 +95,10 @@ class _FavoritesState extends State<MobileFavorites> {
                       if (context.mounted) FlutterToastr.show('${localizations.importFailed}: $e', context);
                     }
                   }),
-              IconButton(
-                  tooltip: localizations.import,
-                  icon: const Icon(Icons.download_for_offline_outlined, size: 20),
+              ShadIconButton.ghost(
+                  icon: const Icon(LucideIcons.download, size: 19),
+                  width: 38,
+                  height: 38,
                   onPressed: () async {
                     final result = await FilePicker.pickFiles(
                         type: FileType.custom, allowedExtensions: ['json', 'har']);
@@ -209,6 +209,8 @@ class _FavoriteItemState extends State<_FavoriteItem> {
         onLongPressStart: menu,
         child: ListTile(
             selected: selected,
+            selectedTileColor: ShadTheme.of(context).colorScheme.primary.withValues(alpha: 0.06),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
             minLeadingWidth: 25,
             leading: getIcon(response),
             title: title,
@@ -233,7 +235,7 @@ class _FavoriteItemState extends State<_FavoriteItem> {
   }
 
   ///右键菜单
-  void menu(details) {
+  void menu(LongPressStartDetails details) {
     // setState(() {
     //   selected = true;
     // });
@@ -397,16 +399,12 @@ class _FavoriteItemState extends State<_FavoriteItem> {
     showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-            content: TextFormField(
-              initialValue: name,
-              decoration: InputDecoration(label: Text(localizations.name)),
-              onChanged: (val) => name = val,
-            ),
+          return ShadDialog.alert(
+            title: Text(localizations.name),
             actions: <Widget>[
-              TextButton(onPressed: () => Navigator.pop(context), child: Text(localizations.cancel)),
-              TextButton(
-                child: Text(localizations.save),
+              ShadButton.outline(
+                  onPressed: () => Navigator.pop(context), child: Text(localizations.cancel)),
+              ShadButton(
                 onPressed: () {
                   Navigator.maybePop(context);
                   setState(() {
@@ -414,8 +412,14 @@ class _FavoriteItemState extends State<_FavoriteItem> {
                     FavoriteStorage.flushConfig();
                   });
                 },
+                child: Text(localizations.save),
               ),
             ],
+            child: TextFormField(
+              initialValue: name,
+              decoration: InputDecoration(label: Text(localizations.name)),
+              onChanged: (val) => name = val,
+            ),
           );
         });
   }

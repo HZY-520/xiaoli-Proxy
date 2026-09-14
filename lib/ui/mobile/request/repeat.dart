@@ -19,8 +19,10 @@ import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:flutter/services.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 ///高级重放
@@ -79,12 +81,11 @@ class _CustomRepeatState extends State<MobileCustomRepeat> {
     final formKey = GlobalKey<FormState>();
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text(localizations.customRepeat, style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+        appBar: ShadHeader(
+          title: localizations.customRepeat,
           actions: [
-            TextButton(
-              style: TextButton.styleFrom(foregroundColor: Colors.white),
-              child: Text(localizations.done, style: const TextStyle(color: Colors.white, fontSize: 15)),
+            ShadButton(
+              size: ShadButtonSize.sm,
               onPressed: () {
                 if (!formKey.currentState!.validate()) {
                   return;
@@ -117,6 +118,7 @@ class _CustomRepeatState extends State<MobileCustomRepeat> {
                 Future.delayed(Duration(milliseconds: delayValue), () => submitTask(int.parse(count.text)));
                 Navigator.of(context).pop();
               },
+              child: Text(localizations.done),
             )
           ],
         ),
@@ -141,9 +143,8 @@ class _CustomRepeatState extends State<MobileCustomRepeat> {
                             padding: const EdgeInsets.only(left: 10, right: 10),
                             decoration: BoxDecoration(
                                 border: Border.all(
-                                    color: Theme.of(context).colorScheme.primary.withAlpha((0.5 * 255).round()),
-                                    width: 1.0),
-                                borderRadius: BorderRadius.circular(4)),
+                                    color: ShadTheme.of(context).colorScheme.border, width: 1.0),
+                                borderRadius: BorderRadius.circular(10)),
                             child: Row(
                               children: [
                                 Text(time == null
@@ -157,26 +158,27 @@ class _CustomRepeatState extends State<MobileCustomRepeat> {
                                         time = null;
                                       });
                                     },
-                                    child: const Icon(Icons.clear, size: 18),
+                                    child: const Icon(LucideIcons.x, size: 18),
                                   ),
                                 if (time == null)
-                                  Icon(Icons.access_time, size: 18, color: Theme.of(context).colorScheme.primary),
+                                  Icon(LucideIcons.clock, size: 18, color: ShadTheme.of(context).colorScheme.mutedForeground),
                               ],
                             ),
                           ))), //指定时间
                   const SizedBox(height: 6),
                   //记录选择
-                  Row(children: [
-                    Text(localizations.keepCustomSettings),
-                    Expanded(
-                        child: Checkbox(
+                  Padding(
+                      padding: const EdgeInsets.only(top: 6, bottom: 2),
+                      child: Row(children: [
+                        Expanded(child: Text(localizations.keepCustomSettings)),
+                        ShadSwitch(
                             value: keepSetting,
                             onChanged: (val) {
                               setState(() {
-                                keepSetting = val == true;
+                                keepSetting = val;
                               });
-                            })),
-                  ])
+                            }),
+                      ]))
                 ],
               ),
             )));
@@ -289,14 +291,18 @@ class _CustomRepeatState extends State<MobileCustomRepeat> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.end,
                   children: [
-                    TextButton(
+                    ShadButton.outline(
+                      size: ShadButtonSize.sm,
                       onPressed: () => Navigator.pop(context),
                       child: Text(localizations.cancel),
                     ),
-                    TextButton(
+                    const SizedBox(width: 8),
+                    ShadButton(
+                      size: ShadButtonSize.sm,
                       onPressed: () => Navigator.pop(context, current),
                       child: Text(localizations.done),
                     ),
+                    const SizedBox(width: 12),
                   ],
                 )
               ],
@@ -323,7 +329,7 @@ class _CustomRepeatState extends State<MobileCustomRepeat> {
   }
 
   FormField textField(TextEditingController? controller, {TextStyle? style}) {
-    Color color = Theme.of(context).colorScheme.primary;
+    final scheme = ShadTheme.of(context).colorScheme;
 
     return TextFormField(
       controller: controller,
@@ -333,9 +339,15 @@ class _CustomRepeatState extends State<MobileCustomRepeat> {
       decoration: InputDecoration(
           errorStyle: const TextStyle(height: 2, fontSize: 0),
           contentPadding: const EdgeInsets.only(left: 10, right: 10, top: 5, bottom: 5),
-          border: OutlineInputBorder(borderSide: BorderSide(width: 1, color: color.withOpacity(0.3))),
-          enabledBorder: OutlineInputBorder(borderSide: BorderSide(width: 1.5, color: color.withOpacity(0.5))),
-          focusedBorder: OutlineInputBorder(borderSide: BorderSide(width: 2, color: color))),
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(width: 1, color: scheme.border)),
+          enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(width: 1, color: scheme.border)),
+          focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(10),
+              borderSide: BorderSide(width: 1.5, color: scheme.primary))),
       validator: (val) => val == null || val.isEmpty ? localizations.cannotBeEmpty : null,
     );
   }

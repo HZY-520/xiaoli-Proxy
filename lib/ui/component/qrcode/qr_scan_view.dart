@@ -1,9 +1,9 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
 import 'package:flutter_qr_reader_plus/flutter_qr_reader.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:proxypin/network/util/logger.dart';
+import 'package:lico_proxy/network/util/logger.dart';
 
 ///@Author: Hongen Wang
 /// qr code scanner

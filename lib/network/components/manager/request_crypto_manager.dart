@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/util/file_read.dart';
-import 'package:proxypin/network/util/logger.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/util/file_read.dart';
+import 'package:lico_proxy/network/util/logger.dart';
 
 class RequestCryptoManager {
   static String separator = Platform.pathSeparator;

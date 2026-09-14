@@ -745,7 +745,7 @@ class AppLocalizationsZh extends AppLocalizations {
   String get captureDetail => '抓包详情';
 
   @override
-  String get proxyPinSoftware => 'ProxyPin全平台开源抓包软件';
+  String get proxyPinSoftware => '小离Proxy 移动端开源抓包软件';
 
   @override
   String get prompt => '提示';
@@ -1948,7 +1948,7 @@ class AppLocalizationsZhHant extends AppLocalizationsZh {
   String get captureDetail => '抓包詳情';
 
   @override
-  String get proxyPinSoftware => 'ProxyPin全平台開源抓包軟體';
+  String get proxyPinSoftware => '小離Proxy 行動端開源抓包軟體';
 
   @override
   String get prompt => '提示';

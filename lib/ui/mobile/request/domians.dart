@@ -18,22 +18,24 @@ import 'dart:collection';
 
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/network/bin/configuration.dart';
-import 'package:proxypin/network/bin/server.dart';
-import 'package:proxypin/network/channel/host_port.dart';
-import 'package:proxypin/network/components/host_filter.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/http/http_client.dart';
-import 'package:proxypin/ui/component/model/search_model.dart';
-import 'package:proxypin/ui/component/multi_select_controller.dart';
-import 'package:proxypin/ui/component/widgets.dart';
-import 'package:proxypin/ui/mobile/request/request_sequence.dart';
-import 'package:proxypin/utils/export_request.dart';
-import 'package:proxypin/utils/lang.dart';
-import 'package:proxypin/utils/listenable_list.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/network/bin/configuration.dart';
+import 'package:lico_proxy/network/bin/server.dart';
+import 'package:lico_proxy/network/channel/host_port.dart';
+import 'package:lico_proxy/network/components/host_filter.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/http/http_client.dart';
+import 'package:lico_proxy/ui/component/model/search_model.dart';
+import 'package:lico_proxy/ui/component/multi_select_controller.dart';
+import 'package:lico_proxy/ui/component/widgets.dart';
+import 'package:lico_proxy/ui/mobile/request/request_sequence.dart';
+import 'package:lico_proxy/utils/export_request.dart';
+import 'package:lico_proxy/utils/lang.dart';
+import 'package:lico_proxy/utils/listenable_list.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 
 ///域名列表
 ///@author wanghongen
@@ -221,22 +223,18 @@ class DomainListState extends State<DomainList> with AutomaticKeepAliveClientMix
     var value = containerMap[view.elementAt(index)];
     var time = value == null ? '' : formatDate(value.last.requestTime, [m, '/', d, ' ', HH, ':', nn, ':', ss]);
 
-    return ListTile(
-        visualDensity: const VisualDensity(vertical: -4),
-        title: Text(view.elementAt(index).domain, maxLines: 1, overflow: TextOverflow.ellipsis),
-        trailing: const Icon(Icons.chevron_right),
-        subtitle: Text(localizations.domainListSubtitle(value?.length ?? '', time),
-            maxLines: 1, overflow: TextOverflow.ellipsis),
+    return ShadTile(
+        title: view.elementAt(index).domain,
+        subtitle: localizations.domainListSubtitle(value?.length ?? '', time),
+        trailing: const Icon(LucideIcons.chevronRight, size: 16),
         onLongPress: () => menu(index),
-        // show menus
-        contentPadding: const EdgeInsets.only(left: 10),
         onTap: () {
           Navigator.push(context, MaterialPageRoute(builder: (context) {
             showHostAndPort = view.elementAt(index);
             var list = containerMap[view.elementAt(index)];
 
             return Scaffold(
-                appBar: AppBar(title: Text(view.elementAt(index).domain, style: const TextStyle(fontSize: 16))),
+                appBar: ShadHeader(title: view.elementAt(index).domain),
                 body: RequestSequence(
                   key: requestSequenceKey,
                   displayDomain: false,
@@ -262,7 +260,9 @@ class DomainListState extends State<DomainList> with AutomaticKeepAliveClientMix
     var hostAndPort = view.elementAt(index);
 
     showModalBottomSheet(
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
+        shape: RoundedRectangleBorder(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+            side: BorderSide(color: ShadTheme.of(context).colorScheme.border.withValues(alpha: 0.6), width: 0.5)),
         context: context,
         enableDrag: true,
         builder: (ctx) {

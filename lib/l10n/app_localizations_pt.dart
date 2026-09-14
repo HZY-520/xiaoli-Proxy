@@ -752,7 +752,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get captureDetail => 'Capture Detail';
 
   @override
-  String get proxyPinSoftware => 'ProxyPin Open source traffic capture software for all platforms';
+  String get proxyPinSoftware => 'Xiaoli Proxy - Open source traffic capture for Android';
 
   @override
   String get prompt => 'Prompt';

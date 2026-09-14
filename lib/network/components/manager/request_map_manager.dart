@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:proxypin/storage/path.dart';
+import 'package:lico_proxy/storage/path.dart';
 
 import '../../util/logger.dart';
 import '../../util/random.dart';

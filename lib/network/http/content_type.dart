@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 
-import 'package:proxypin/network/util/cache.dart';
-import 'package:proxypin/network/util/logger.dart';
+import 'package:lico_proxy/network/util/cache.dart';
+import 'package:lico_proxy/network/util/logger.dart';
 
 ///content type
 ///@author WangHongEn

@@ -18,18 +18,18 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:code_forge/code_forge.dart';
-import 'package:proxypin/ui/component/multi_window_compat.dart';
+import 'package:lico_proxy/ui/component/multi_window_compat.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:re_highlight/styles/atom-one-dark.dart';
 import 'package:re_highlight/styles/atom-one-light.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/network/http/content_type.dart';
-import 'package:proxypin/ui/component/search/finder.dart';
-import 'package:proxypin/utils/highlight_languages.dart';
-import 'package:proxypin/utils/platform.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/network/http/content_type.dart';
+import 'package:lico_proxy/ui/component/search/finder.dart';
+import 'package:lico_proxy/utils/highlight_languages.dart';
+import 'package:lico_proxy/utils/platform.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:xml/xml.dart';
 

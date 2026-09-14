@@ -18,10 +18,10 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:math';
 
-import 'package:proxypin/network/channel/channel_context.dart';
-import 'package:proxypin/network/channel/host_port.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/network/util/socket_address.dart';
+import 'package:lico_proxy/network/channel/channel_context.dart';
+import 'package:lico_proxy/network/channel/host_port.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/network/util/socket_address.dart';
 
 import 'channel_dispatcher.dart';
 

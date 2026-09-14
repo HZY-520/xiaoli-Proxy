@@ -33,7 +33,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace "com.network.proxy"
+    namespace "com.lico.proxy"
     compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 //    ndkVersion "26.1.10909125"
@@ -61,7 +61,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.network.proxy"
+        applicationId "com.lico.proxy"
         // ABI is controlled via `flutter build apk --split-per-abi` (arm64-v8a only).
         // ndk.abiFilters is intentionally omitted: Flutter's plugin sets it to all
         // three ABIs and it does not strip cargokit's prebuilt jniLibs anyway.
@@ -75,24 +75,31 @@ android {
 
     signingConfigs {
         release {
-            keyAlias keystoreProperties['keyAlias']
-            keyPassword keystoreProperties['keyPassword']
-            storeFile keystoreProperties['storeFile'] ? file(keystoreProperties['storeFile']) : null
-            storePassword keystoreProperties['storePassword']
+            // 未提供 key.properties 时回退到 debug 签名，保证 clone 后可直接构建
+            if (keystoreProperties['storeFile'] != null && file(keystoreProperties['storeFile']).exists()) {
+                keyAlias keystoreProperties['keyAlias']
+                keyPassword keystoreProperties['keyPassword']
+                storeFile file(keystoreProperties['storeFile'])
+                storePassword keystoreProperties['storePassword']
+            }
         }
     }
 
     buildTypes {
         release {
-            // Signing with the debug keys for now, so `flutter run --release` works.
-            signingConfig signingConfigs.release
+            // 有正式密钥则用 release 签名，否则用 debug 签名，`flutter build apk --release` 始终可用
+            signingConfig keystoreProperties['storeFile'] != null && file(keystoreProperties['storeFile']).exists()
+                    ? signingConfigs.release
+                    : signingConfigs.debug
 
             minifyEnabled true
             shrinkResources true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
         debug {
-            signingConfig signingConfigs.release
+            signingConfig keystoreProperties['storeFile'] != null && file(keystoreProperties['storeFile']).exists()
+                    ? signingConfigs.release
+                    : signingConfigs.debug
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }

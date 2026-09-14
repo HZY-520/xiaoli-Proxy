@@ -1,15 +1,16 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:flutter/services.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/network/bin/configuration.dart';
-import 'package:proxypin/network/bin/server.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/ui/component/widgets.dart';
-import 'package:proxypin/ui/configuration.dart';
-import 'package:proxypin/ui/mobile/liquid_glass.dart';
-import 'package:proxypin/ui/mobile/setting/theme.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/network/bin/configuration.dart';
+import 'package:lico_proxy/network/bin/server.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/ui/component/widgets.dart';
+import 'package:lico_proxy/ui/configuration.dart';
+import 'package:lico_proxy/ui/mobile/setting/theme.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 
 ///设置
 ///@author wanghongen
@@ -52,24 +53,24 @@ class _PreferenceState extends State<Preference> {
   @override
   Widget build(BuildContext context) {
     AppLocalizations localizations = AppLocalizations.of(context)!;
-    final dividerColor = Theme.of(context).dividerColor.withValues(alpha: 0.22);
+    final dividerColor = ShadTheme.of(context).colorScheme.border.withValues(alpha: 0.45);
 
-    Widget section(List<Widget> tiles) => glassSection(context, tiles);
+    Widget section(List<Widget> tiles) => ShadSection(children: tiles);
 
     return Scaffold(
-        appBar: AppBar(title: Text(localizations.preference, style: const TextStyle(fontSize: 16)), centerTitle: true),
+        appBar: ShadHeader(title: localizations.preference),
         body: ListView(
           padding: const EdgeInsets.all(12),
           children: [
             section([
               ListTile(
                 title: Text(localizations.language),
-                trailing: const Icon(Icons.arrow_forward_ios, size: 16),
+                trailing: const Icon(LucideIcons.chevronRight, size: 16),
                 onTap: () => _language(context),
               ),
-              Divider(height: 0, thickness: 0.3, color: dividerColor),
+              Divider(height: 0, thickness: 0.5, color: dividerColor),
               MobileThemeSetting(appConfiguration: appConfiguration),
-              Divider(height: 0, thickness: 0.3, color: dividerColor),
+              Divider(height: 0, thickness: 0.5, color: dividerColor),
               ListTile(title: Text(localizations.themeColor)),
               Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 0, vertical: 8),
@@ -79,7 +80,7 @@ class _PreferenceState extends State<Preference> {
             section([
               ListTile(
                   title: Text(localizations.autoStartup),
-                  subtitle: Text(localizations.autoStartupDescribe, style: const TextStyle(fontSize: 12)),
+                  subtitle: Text(localizations.autoStartupDescribe, style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
                   trailing: SwitchWidget(
                       value: proxyServer.configuration.startup,
                       scale: 0.8,
@@ -87,11 +88,11 @@ class _PreferenceState extends State<Preference> {
                         configuration.startup = value;
                         configuration.flushConfig();
                       })),
-              Divider(height: 0, thickness: 0.3, color: dividerColor),
+              Divider(height: 0, thickness: 0.5, color: dividerColor),
               if (Platform.isAndroid) ...[
                 ListTile(
                     title: Text(localizations.windowMode),
-                    subtitle: Text(localizations.windowModeSubTitle, style: const TextStyle(fontSize: 12)),
+                    subtitle: Text(localizations.windowModeSubTitle, style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
                     trailing: SwitchWidget(
                         value: appConfiguration.pipEnabled.value,
                         scale: 0.8,
@@ -99,11 +100,11 @@ class _PreferenceState extends State<Preference> {
                           appConfiguration.pipEnabled.value = value;
                           appConfiguration.flushConfig();
                         })),
-                Divider(height: 0, thickness: 0.3, color: dividerColor),
+                Divider(height: 0, thickness: 0.5, color: dividerColor),
               ],
               ListTile(
                   title: Text(localizations.pipIcon),
-                  subtitle: Text(localizations.pipIconDescribe, style: const TextStyle(fontSize: 12)),
+                  subtitle: Text(localizations.pipIconDescribe, style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
                   trailing: SwitchWidget(
                       value: appConfiguration.pipIcon.value,
                       scale: 0.8,
@@ -111,10 +112,10 @@ class _PreferenceState extends State<Preference> {
                         appConfiguration.pipIcon.value = value;
                         appConfiguration.flushConfig();
                       })),
-              Divider(height: 0, thickness: 0.3, color: dividerColor),
+              Divider(height: 0, thickness: 0.5, color: dividerColor),
               ListTile(
                   title: Text(localizations.bottomNavigation),
-                  subtitle: Text(localizations.bottomNavigationSubtitle, style: const TextStyle(fontSize: 12)),
+                  subtitle: Text(localizations.bottomNavigationSubtitle, style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
                   trailing: SwitchWidget(
                       value: appConfiguration.bottomNavigation,
                       scale: 0.8,
@@ -122,10 +123,10 @@ class _PreferenceState extends State<Preference> {
                         appConfiguration.bottomNavigation = value;
                         appConfiguration.flushConfig();
                       })),
-              Divider(height: 0, thickness: 0.3, color: dividerColor),
+              Divider(height: 0, thickness: 0.5, color: dividerColor),
               ListTile(
                   title: Text(localizations.clearConfirm),
-                  subtitle: Text(localizations.clearConfirmSubtitle, style: const TextStyle(fontSize: 12)),
+                  subtitle: Text(localizations.clearConfirmSubtitle, style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
                   trailing: SwitchWidget(
                       value: appConfiguration.clearConfirm,
                       scale: 0.8,
@@ -138,7 +139,7 @@ class _PreferenceState extends State<Preference> {
             section([
               ListTile(
                   title: Text(localizations.memoryCleanup),
-                  subtitle: Text(localizations.memoryCleanupSubtitle, style: const TextStyle(fontSize: 12)),
+                  subtitle: Text(localizations.memoryCleanupSubtitle, style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground)),
                   trailing: memoryCleanup(context, localizations)),
             ]),
             const SizedBox(height: 15),
@@ -175,11 +176,18 @@ class _PreferenceState extends State<Preference> {
     showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-            contentPadding: const EdgeInsets.only(left: 5, top: 5),
-            actionsPadding: const EdgeInsets.only(bottom: 5, right: 5),
-            title: Text(localizations.language, style: const TextStyle(fontSize: 16)),
-            content: Wrap(
+          return ShadDialog.alert(
+            padding: const EdgeInsets.only(left: 5, top: 5, right: 5, bottom: 5),
+            title: Text(localizations.language),
+            actions: [
+              ShadButton.outline(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                  },
+                  child: Text(localizations.cancel)),
+            ],
+            child: Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
               children: [
                 TextButton(
                     onPressed: () {
@@ -232,13 +240,6 @@ class _PreferenceState extends State<Preference> {
                 const Divider(thickness: 0.5),
               ],
             ),
-            actions: [
-              TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                  },
-                  child: Text(localizations.cancel)),
-            ],
           );
         });
   }

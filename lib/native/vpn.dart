@@ -1,6 +1,6 @@
 import 'package:flutter/services.dart';
-import 'package:proxypin/network/bin/configuration.dart';
-import 'package:proxypin/network/util/logger.dart';
+import 'package:lico_proxy/network/bin/configuration.dart';
+import 'package:lico_proxy/network/util/logger.dart';
 
 class Vpn {
   static const MethodChannel proxyVpnChannel = MethodChannel('com.proxy/proxyVpn');

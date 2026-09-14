@@ -6,11 +6,11 @@ import 'dart:math' as math;
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/network/components/manager/request_crypto_manager.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/ui/component/utils.dart';
-import 'package:proxypin/ui/component/widgets.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/network/components/manager/request_crypto_manager.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/ui/component/utils.dart';
+import 'package:lico_proxy/ui/component/widgets.dart';
 
 bool _refresh = false;
 

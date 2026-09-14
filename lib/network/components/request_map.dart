@@ -17,10 +17,10 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:proxypin/network/components/interceptor.dart';
-import 'package:proxypin/network/components/manager/environment_manager.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/util/file_read.dart';
+import 'package:lico_proxy/network/components/interceptor.dart';
+import 'package:lico_proxy/network/components/manager/environment_manager.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/util/file_read.dart';
 
 import 'js/script_engine.dart';
 import 'manager/request_map_manager.dart';

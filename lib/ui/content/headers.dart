@@ -17,11 +17,11 @@ import 'package:code_forge/code_forge.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/ui/component/search/highlight_text.dart';
-import 'package:proxypin/ui/component/utils.dart';
-import 'package:proxypin/ui/configuration.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/ui/component/search/highlight_text.dart';
+import 'package:lico_proxy/ui/component/utils.dart';
+import 'package:lico_proxy/ui/configuration.dart';
 
 import '../component/search/search_controller.dart';
 

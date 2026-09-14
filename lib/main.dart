@@ -20,19 +20,20 @@ import 'dart:io';
 
 import 'package:code_forge/code_forge.dart';
 import 'package:flutter/material.dart';
-import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
-import 'package:proxypin/network/bin/configuration.dart';
-import 'package:proxypin/network/components/manager/environment_manager.dart';
-import 'package:proxypin/ui/component/chinese_font.dart';
-import 'package:proxypin/ui/component/multi_window_compat.dart';
-import 'package:proxypin/ui/component/multi_window.dart';
-import 'package:proxypin/ui/configuration.dart';
-import 'package:proxypin/ui/desktop/desktop.dart';
-import 'package:proxypin/ui/mobile/liquid_glass.dart';
-import 'package:proxypin/ui/mobile/mobile.dart';
-import 'package:proxypin/utils/desktop_support.dart';
-import 'package:proxypin/utils/navigator.dart';
-import 'package:proxypin/utils/platform.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:lico_proxy/network/bin/configuration.dart';
+import 'package:lico_proxy/network/components/manager/environment_manager.dart';
+import 'package:lico_proxy/ui/component/chinese_font.dart';
+import 'package:lico_proxy/ui/component/multi_window_compat.dart';
+import 'package:lico_proxy/ui/component/multi_window.dart';
+import 'package:lico_proxy/ui/configuration.dart';
+import 'package:lico_proxy/ui/desktop/desktop.dart';
+import 'package:lico_proxy/ui/mobile/liquid_glass.dart';
+import 'package:lico_proxy/ui/mobile/mobile.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
+import 'package:lico_proxy/utils/desktop_support.dart';
+import 'package:lico_proxy/utils/navigator.dart';
+import 'package:lico_proxy/utils/platform.dart';
 import 'package:window_manager/window_manager.dart';
 
 import 'l10n/app_localizations.dart';
@@ -78,20 +79,7 @@ void main(List<String> args) async {
   //移动端
   if (Platforms.isMobile()) {
     var appConfiguration = await instance;
-    // 预热液态玻璃着色器，避免首帧白屏/闪烁
-    await LiquidGlassWidgets.initialize(enablePerformanceMonitor: false);
-    runApp(LiquidGlassWidgets.wrap(
-      child: FluentApp(MobileHomePage((await configuration), appConfiguration), appConfiguration, glass: true),
-      brightnessResolver: Theme.maybeBrightnessOf,
-      theme: GlassThemeData.simple(
-        blur: 12,
-        thickness: 26,
-        quality: GlassQuality.standard,
-        lightIntensity: 0.8,
-        ambientStrength: 0.12,
-        saturation: 1.2,
-      ),
-    ));
+    runApp(FluentApp(MobileHomePage((await configuration), appConfiguration), appConfiguration, glass: true));
     return;
   }
 
@@ -117,26 +105,41 @@ class FluentApp extends StatelessWidget {
     return ValueListenableBuilder<bool>(
         valueListenable: appConfiguration.globalChange,
         builder: (_, current, __) {
-          return MaterialApp(
-            title: 'ProxyPin',
+          final isMobile = Platforms.isMobile();
+          // 移动端：shadcn 设计系统（zinc 色板）；桌面端：保持原 Material 主题
+          return ShadApp(
+            title: '小离Proxy',
             debugShowCheckedModeBanner: false,
             navigatorKey: navigatorHelper.navigatorKey,
-            theme: theme(Brightness.light),
-            darkTheme: theme(Brightness.dark),
+            theme: isMobile ? LicoTheme.light(seed: appConfiguration.themeColor) : null,
+            darkTheme: isMobile ? LicoTheme.dark(seed: appConfiguration.themeColor) : null,
             themeMode: appConfiguration.themeMode,
             locale: appConfiguration.language,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
-            builder: glass
-                ? (context, child) => GlassPage(
-                      background: const GlassBackground(),
-                      statusBarStyle: GlassStatusBarStyle.auto,
-                      child: child!,
-                    )
-                : null,
+            // 移动端：shadcn 纯色背景容器（原液态玻璃包裹已移除）
+            builder: glass ? (context, child) => GlassBackground(child: child!) : null,
+            // shadcn 主题之外仍挂一层 Material 主题，保证未迁移的 Material 组件（如旧 AppBar）可用
+            materialThemeBuilder: (context, theme) => themeDataFrom(theme),
             home: home,
           );
         });
+  }
+
+  ThemeData themeDataFrom(ThemeData base) {
+    return base.copyWith(
+      pageTransitionsTheme: const PageTransitionsTheme(builders: {
+        TargetPlatform.android: FadeUpwardsPageTransitionsBuilder(),
+      }),
+      switchTheme: SwitchThemeData(
+        thumbColor: WidgetStateProperty.resolveWith<Color?>((states) => Colors.white),
+        trackColor: WidgetStateProperty.resolveWith<Color?>((states) {
+          if (states.contains(WidgetState.selected)) return const Color(0xFF369EDB);
+          return const Color(0xFFBDBDBD);
+        }),
+        trackOutlineColor: WidgetStateProperty.resolveWith<Color?>((states) => Colors.transparent),
+      ),
+    );
   }
 
   ThemeData theme(Brightness brightness) {

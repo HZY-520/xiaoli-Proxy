@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/util/url_pattern.dart';
-import 'package:proxypin/utils/lang.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/util/url_pattern.dart';
+import 'package:lico_proxy/utils/lang.dart';
 
 ///重写规则
 ///@author: wanghongen

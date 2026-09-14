@@ -14,7 +14,8 @@
  * limitations under the License.
  */
 import 'package:flutter/material.dart';
-import 'package:proxypin/ui/component/search_condition.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:lico_proxy/ui/component/search_condition.dart';
 
 import '../../component/model/search_model.dart';
 
@@ -55,6 +56,7 @@ class MobileSearchState extends State<MobileSearch> {
 
   @override
   Widget build(BuildContext context) {
+    final scheme = ShadTheme.of(context).colorScheme;
     return Padding(
         padding: const EdgeInsets.only(left: 0),
         child: TextFormField(
@@ -80,13 +82,16 @@ class MobileSearchState extends State<MobileSearch> {
                 border: InputBorder.none,
                 prefixIcon: InkWell(
                     onTap: showSearch,
-                    child: Icon(Icons.search, color: _searched ? Colors.green : Theme.of(context).colorScheme.primary)),
+                    child: Icon(LucideIcons.search,
+                        size: 20, color: _searched ? const Color(0xFF16A34A) : scheme.primary)),
                 hintText: 'Search')));
   }
 
   void showSearch() {
     showModalBottomSheet(
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
+        shape: RoundedRectangleBorder(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+            side: BorderSide(color: ShadTheme.of(context).colorScheme.border.withValues(alpha: 0.6), width: 0.5)),
         isScrollControlled: true,
         context: context,
         builder: (context) {
@@ -96,7 +101,7 @@ class MobileSearchState extends State<MobileSearch> {
           return Padding(
               padding: MediaQuery.of(context).viewInsets,
               child: Container(
-                  constraints: BoxConstraints(minHeight: 450,maxHeight:  480),
+                  constraints: BoxConstraints(minHeight: 450, maxHeight: 480),
                   child: SearchConditions(
                     padding: const EdgeInsets.only(left: 15, right: 15, top: 10),
                     searchModel: searchModel,

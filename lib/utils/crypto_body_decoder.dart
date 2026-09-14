@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:proxypin/network/http/http.dart';
+import 'package:lico_proxy/network/http/http.dart';
 
 import '../network/components/manager/request_crypto_manager.dart';
 import '../network/util/logger.dart';

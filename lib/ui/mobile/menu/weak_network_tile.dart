@@ -9,23 +9,24 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/network/components/manager/network_condition_manager.dart';
-import 'package:proxypin/ui/mobile/setting/weak_network.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/network/components/manager/network_condition_manager.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
+import 'package:lico_proxy/ui/mobile/setting/weak_network.dart';
 
-/// 手机端「网络限制」入口 ListTile
+/// 手机端「网络限制」入口（shadcn 重构版）
 ///
 /// 用于抽屉菜单和底部导航配置页共用；启用时在标题旁展示一个小圆点，
 /// 提醒用户当前网络已被人为限速，避免"网络怎么变慢了"的困惑。
 ///
-/// [color] 图标颜色（配置页用主题色，抽屉不传保持默认灰）；
-/// [trailing] 抽屉里通常不带箭头，配置页需要 arrow_forward_ios，
-///            外部传入即可。
+/// [icon] 前置图标，默认使用限速图标；
+/// [trailing] 右侧组件，默认无（配置页不需要箭头）。
 class WeakNetworkMenuTile extends StatefulWidget {
-  final Color? color;
+  final IconData? icon;
   final Widget? trailing;
 
-  const WeakNetworkMenuTile({super.key, this.color, this.trailing});
+  const WeakNetworkMenuTile({super.key, this.icon, this.trailing});
 
   @override
   State<WeakNetworkMenuTile> createState() => _WeakNetworkMenuTileState();
@@ -61,8 +62,7 @@ class _WeakNetworkMenuTileState extends State<WeakNetworkMenuTile> {
   @override
   Widget build(BuildContext context) {
     final l10n = AppLocalizations.of(context)!;
-    final theme = Theme.of(context);
-    final accent = theme.colorScheme.primary;
+    final scheme = ShadTheme.of(context).colorScheme;
 
     // 生效时给标题带一个圆点徽标，视觉上等同于桌面端工具栏指示器
     final title = _isActive
@@ -72,14 +72,14 @@ class _WeakNetworkMenuTileState extends State<WeakNetworkMenuTile> {
             Container(
               width: 8,
               height: 8,
-              decoration: BoxDecoration(color: accent, shape: BoxShape.circle),
+              decoration: BoxDecoration(color: scheme.primary, shape: BoxShape.circle),
             ),
           ])
         : Text(l10n.weakNetwork);
 
-    return ListTile(
-      title: title,
-      leading: Icon(Icons.speed, color: widget.color),
+    return ShadTile(
+      titleWidget: title,
+      icon: widget.icon ?? LucideIcons.gauge,
       trailing: widget.trailing,
       onTap: () async {
         final m = _manager ?? await NetworkConditionManager.instance;

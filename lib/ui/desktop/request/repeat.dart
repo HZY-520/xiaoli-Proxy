@@ -20,7 +20,7 @@ import 'dart:math';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 ///高级重放

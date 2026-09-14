@@ -14,14 +14,14 @@
  * limitations under the License.
  */
 
-import 'package:proxypin/ui/component/multi_window_compat.dart';
+import 'package:lico_proxy/ui/component/multi_window_compat.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
-import 'package:proxypin/ui/component/buttons.dart';
-import 'package:proxypin/ui/component/text_field.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/utils/platform.dart';
+import 'package:lico_proxy/ui/component/buttons.dart';
+import 'package:lico_proxy/ui/component/text_field.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/utils/platform.dart';
 
 ///正则表达式工具
 ///@author Hongen Wang

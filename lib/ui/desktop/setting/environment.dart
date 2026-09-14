@@ -10,9 +10,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/network/components/manager/environment_manager.dart';
-import 'package:proxypin/network/util/random.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/network/components/manager/environment_manager.dart';
+import 'package:lico_proxy/network/util/random.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// 环境变量管理弹窗

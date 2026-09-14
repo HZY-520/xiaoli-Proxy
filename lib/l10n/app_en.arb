@@ -255,7 +255,7 @@
   "shareCurl": "Share cURL Request",
   "requestResponse": "Request and Response",
   "captureDetail": "Capture Detail",
-  "proxyPinSoftware": "ProxyPin Open source traffic capture software for all platforms",
+  "proxyPinSoftware": "Xiaoli Proxy - Open source traffic capture for Android",
 
   "prompt": "Prompt",
   "curlSchemeRequest": "If the curl format is recognized, should it be converted into an HTTP request?",

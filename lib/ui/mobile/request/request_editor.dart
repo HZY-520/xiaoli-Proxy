@@ -21,26 +21,26 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:re_highlight/styles/atom-one-dark.dart';
 import 'package:re_highlight/styles/atom-one-light.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
-import 'package:proxypin/network/bin/server.dart';
-import 'package:proxypin/network/channel/host_port.dart';
-import 'package:proxypin/network/components/manager/environment_manager.dart';
-import 'package:proxypin/network/http/content_type.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/http/http_headers.dart';
-import 'package:proxypin/network/http/http_client.dart';
-import 'package:proxypin/ui/component/env_var_highlight.dart';
-import 'package:proxypin/ui/component/search/finder.dart';
-import 'package:proxypin/ui/component/state_component.dart';
-import 'package:proxypin/ui/configuration.dart';
-import 'package:proxypin/ui/content/body.dart';
-import 'package:proxypin/utils/curl.dart';
-import 'package:proxypin/utils/highlight_languages.dart';
-import 'package:proxypin/utils/lang.dart';
-import 'package:proxypin/utils/xml_formatter.dart';
+import 'package:lico_proxy/network/bin/server.dart';
+import 'package:lico_proxy/network/channel/host_port.dart';
+import 'package:lico_proxy/network/components/manager/environment_manager.dart';
+import 'package:lico_proxy/network/http/content_type.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/http/http_headers.dart';
+import 'package:lico_proxy/network/http/http_client.dart';
+import 'package:lico_proxy/ui/component/env_var_highlight.dart';
+import 'package:lico_proxy/ui/component/search/finder.dart';
+import 'package:lico_proxy/ui/component/state_component.dart';
+import 'package:lico_proxy/ui/configuration.dart';
+import 'package:lico_proxy/ui/content/body.dart';
+import 'package:lico_proxy/utils/curl.dart';
+import 'package:lico_proxy/utils/highlight_languages.dart';
+import 'package:lico_proxy/utils/lang.dart';
+import 'package:lico_proxy/utils/xml_formatter.dart';
 
-import 'package:proxypin/ui/mobile/request/request_editor_source.dart';
+import 'package:lico_proxy/ui/mobile/request/request_editor_source.dart';
 
 import '../../component/http_method_popup.dart';
 
@@ -431,7 +431,7 @@ class _HttpState extends State<_HttpWidget> with SingleTickerProviderStateMixin,
     _bodyLanguage = _resolveLanguage(widget.message);
     _innerTab = TabController(length: _hasParamsTab ? 3 : 2, vsync: this, initialIndex: _hasParamsTab ? 1 : 0);
     if (widget.message?.headers == null && !widget.readOnly) {
-      initHeader["User-Agent"] = ["ProxyPin/${AppConfiguration.version}"];
+      initHeader["User-Agent"] = ["XiaoliProxy/${AppConfiguration.version}"];
       initHeader["Accept"] = ["*/*"];
       return;
     }

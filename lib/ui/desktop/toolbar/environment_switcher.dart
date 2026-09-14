@@ -9,9 +9,9 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/network/components/manager/environment_manager.dart';
-import 'package:proxypin/ui/desktop/setting/environment.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/network/components/manager/environment_manager.dart';
+import 'package:lico_proxy/ui/desktop/setting/environment.dart';
 
 /// 顶部工具栏的环境切换器
 ///

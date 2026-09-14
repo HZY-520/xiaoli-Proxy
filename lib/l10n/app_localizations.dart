@@ -1555,7 +1555,7 @@ abstract class AppLocalizations {
   /// No description provided for @proxyPinSoftware.
   ///
   /// In en, this message translates to:
-  /// **'ProxyPin Open source traffic capture software for all platforms'**
+  /// **'Xiaoli Proxy - Open source traffic capture for Android'**
   String get proxyPinSoftware;
 
   /// No description provided for @prompt.

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/http/http_headers.dart';
-import 'package:proxypin/utils/lang.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/http/http_headers.dart';
+import 'package:lico_proxy/utils/lang.dart';
 import 'dart:convert';
 
 /// 复制为 fetch 请求

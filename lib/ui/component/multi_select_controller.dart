@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:proxypin/utils/listenable_list.dart';
+import 'package:lico_proxy/utils/listenable_list.dart';
 
 class MultiSelectController {
   final ListenableList<String> selectedIds = ListenableList<String>();

@@ -1,5 +1,5 @@
 import 'package:flutter/services.dart';
-import 'package:proxypin/network/util/logger.dart';
+import 'package:lico_proxy/network/util/logger.dart';
 
 class NativeMethod {
   static const MethodChannel _channel = MethodChannel('com.proxypin/method');

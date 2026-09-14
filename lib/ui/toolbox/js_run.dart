@@ -4,16 +4,16 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:code_forge/code_forge.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
 import 'package:re_highlight/styles/monokai-sublime.dart';
 import 'package:flutter_js/flutter_js.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
-import 'package:proxypin/ui/component/search/finder.dart';
-import 'package:proxypin/utils/platform.dart';
+import 'package:lico_proxy/ui/component/search/finder.dart';
+import 'package:lico_proxy/utils/platform.dart';
 import 'package:re_highlight/languages/javascript.dart';
-import 'package:proxypin/network/components/js/file.dart';
-import 'package:proxypin/network/components/js/md5.dart';
-import 'package:proxypin/network/components/js/xhr.dart';
+import 'package:lico_proxy/network/components/js/file.dart';
+import 'package:lico_proxy/network/components/js/md5.dart';
+import 'package:lico_proxy/network/components/js/xhr.dart';
 
 class JavaScript extends StatefulWidget {
   final String? windowId;

@@ -1,5 +1,5 @@
-import 'package:proxypin/network/channel/host_port.dart';
-import 'package:proxypin/network/http/http.dart';
+import 'package:lico_proxy/network/channel/host_port.dart';
+import 'package:lico_proxy/network/http/http.dart';
 
 /// A Interceptor that can intercept and modify the request and response.
 /// @author Hongen Wang

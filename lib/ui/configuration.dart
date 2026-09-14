@@ -19,8 +19,8 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/utils/platform.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/utils/platform.dart';
 import 'package:path_provider/path_provider.dart';
 
 /// @author wanghongen
@@ -65,7 +65,7 @@ class ThemeModel {
 }
 
 class AppConfiguration {
-  static const String version = "1.3.1";
+  static const String version = "1.0";
 
   ValueNotifier<bool> globalChange = ValueNotifier(false);
 

@@ -9,10 +9,10 @@
  */
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/network/components/manager/network_condition_manager.dart';
-import 'package:proxypin/ui/component/utils.dart';
-import 'package:proxypin/ui/component/widgets.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/network/components/manager/network_condition_manager.dart';
+import 'package:lico_proxy/ui/component/utils.dart';
+import 'package:lico_proxy/ui/component/widgets.dart';
 
 /// Dropdown 下拉里"新增预设"项使用的哨兵值
 const String _kNewProfileValue = '__new__';

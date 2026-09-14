@@ -20,46 +20,47 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
-import 'package:proxypin/native/app_lifecycle.dart';
-import 'package:proxypin/native/floating_window.dart';
-import 'package:proxypin/native/pip.dart';
-import 'package:proxypin/native/vpn.dart';
-import 'package:proxypin/network/bin/configuration.dart';
-import 'package:proxypin/network/bin/listener.dart';
-import 'package:proxypin/network/bin/server.dart';
-import 'package:proxypin/network/channel/channel.dart';
-import 'package:proxypin/network/channel/channel_context.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/http/websocket.dart';
-import 'package:proxypin/network/http/http_client.dart';
-import 'package:proxypin/network/mcp/mcp_server.dart';
-import 'package:proxypin/storage/histories.dart';
-import 'package:proxypin/ui/component/memory_cleanup.dart';
-import 'package:proxypin/ui/component/multi_select_controller.dart';
-import 'package:proxypin/ui/toolbox/toolbox.dart';
-import 'package:proxypin/ui/configuration.dart';
-import 'package:proxypin/ui/content/panel.dart';
-import 'package:proxypin/ui/launch/launch.dart';
-import 'package:proxypin/ui/mobile/liquid_glass.dart';
-import 'package:proxypin/ui/mobile/menu/drawer.dart';
-import 'package:proxypin/ui/mobile/menu/bottom_navigation.dart';
-import 'package:proxypin/ui/mobile/menu/menu.dart';
-import 'package:proxypin/ui/mobile/request/history.dart';
-import 'package:proxypin/ui/mobile/request/list.dart';
-import 'package:proxypin/ui/mobile/request/search.dart';
-import 'package:proxypin/ui/mobile/widgets/pip.dart';
-import 'package:proxypin/ui/mobile/widgets/remote_device.dart';
-import 'package:proxypin/utils/ip.dart';
-import 'package:proxypin/utils/lang.dart';
-import 'package:proxypin/utils/listenable_list.dart';
-import 'package:proxypin/utils/navigator.dart';
+import 'package:lico_proxy/native/app_lifecycle.dart';
+import 'package:lico_proxy/native/floating_window.dart';
+import 'package:lico_proxy/native/pip.dart';
+import 'package:lico_proxy/native/vpn.dart';
+import 'package:lico_proxy/network/bin/configuration.dart';
+import 'package:lico_proxy/network/bin/listener.dart';
+import 'package:lico_proxy/network/bin/server.dart';
+import 'package:lico_proxy/network/channel/channel.dart';
+import 'package:lico_proxy/network/channel/channel_context.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/http/websocket.dart';
+import 'package:lico_proxy/network/http/http_client.dart';
+import 'package:lico_proxy/network/mcp/mcp_server.dart';
+import 'package:lico_proxy/storage/histories.dart';
+import 'package:lico_proxy/ui/component/memory_cleanup.dart';
+import 'package:lico_proxy/ui/component/multi_select_controller.dart';
+import 'package:lico_proxy/ui/toolbox/toolbox.dart';
+import 'package:lico_proxy/ui/configuration.dart';
+import 'package:lico_proxy/ui/content/panel.dart';
+import 'package:lico_proxy/ui/launch/launch.dart';
+import 'package:lico_proxy/ui/mobile/liquid_glass.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:lico_proxy/ui/mobile/menu/drawer.dart';
+import 'package:lico_proxy/ui/mobile/menu/bottom_navigation.dart';
+import 'package:lico_proxy/ui/mobile/menu/menu.dart';
+import 'package:lico_proxy/ui/mobile/request/history.dart';
+import 'package:lico_proxy/ui/mobile/request/list.dart';
+import 'package:lico_proxy/ui/mobile/request/search.dart';
+import 'package:lico_proxy/ui/mobile/widgets/pip.dart';
+import 'package:lico_proxy/ui/mobile/widgets/remote_device.dart';
+import 'package:lico_proxy/utils/ip.dart';
+import 'package:lico_proxy/utils/lang.dart';
+import 'package:lico_proxy/utils/listenable_list.dart';
+import 'package:lico_proxy/utils/navigator.dart';
 
 import '../app_update/app_update_repository.dart';
-import 'package:proxypin/ui/component/multi_window.dart';
-import 'package:proxypin/ui/mobile/debug/breakpoint_executor.dart';
+import 'package:lico_proxy/ui/component/multi_window.dart';
+import 'package:lico_proxy/ui/mobile/debug/breakpoint_executor.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 
 ///移动端首页
 ///@author wanghongen
@@ -206,10 +207,7 @@ class MobileHomeState extends State<MobileHomePage> implements EventListener, Li
           child: Scaffold(
               appBar: PreferredSize(
                   preferredSize: const Size.fromHeight(42),
-                  child: AppBar(
-                      title: Text(localizations.toolbox,
-                          style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w400)),
-                      centerTitle: true)),
+                  child: ShadHeader(title: localizations.toolbox)),
               body: Toolbox(proxyServer: proxyServer))),
       NavigatorPage(navigatorKey: configNavigatorKey, child: ConfigPage(proxyServer: proxyServer)),
       NavigatorPage(
@@ -641,48 +639,65 @@ class _MobileAppBarState extends State<_MobileAppBar> {
     final Color iconColor = glassIconColor(context);
     final Color titleColor = glassTextColor(context);
 
-    return GlassAppBar(
-      toolbarHeight: 56,
-      backgroundColor: Colors.transparent,
-      centerTitle: false,
-      leading: Builder(
-        builder: (ctx) => GlassIconButton(
-          icon: Icon(Icons.menu, color: iconColor, size: 24),
-          size: 40,
-          iconSize: 24,
-          onPressed: () => Scaffold.of(ctx).openDrawer(),
+    return Container(
+      height: 58,
+      decoration: BoxDecoration(
+        color: ShadTheme.of(context).colorScheme.background,
+        border: Border(
+          bottom: BorderSide(
+            color: ShadTheme.of(context).colorScheme.border.withValues(alpha: 0.5),
+            width: 0.5,
+          ),
         ),
       ),
-      title: Text('ProxyBird',
-          style: TextStyle(
-            color: titleColor,
-            fontSize: 24,
-            fontWeight: FontWeight.w500,
-            height: 1.2,
-          )),
-      actions: [
-        GlassIconButton(
-            icon: Icon(Icons.search, color: iconColor, size: 22),
-            size: 40,
-            iconSize: 22,
-            onPressed: () => _openSearch(context)),
-        GlassIconButton(
-            icon: Icon(Icons.delete_sweep, color: iconColor, size: 22),
-            size: 40,
-            iconSize: 22,
-            onPressed: () => _onClear(context, localizations)),
-        GlassIconButton(
-            icon: Icon(
-              Icons.picture_in_picture_alt,
-              size: 22,
-              color: _floatingActive ? iconColor : iconColor.withValues(alpha: 0.6),
+      child: Row(
+        children: [
+          const SizedBox(width: 4),
+          Builder(
+            builder: (ctx) => ShadIconButton.ghost(
+              icon: Icon(LucideIcons.menu, color: iconColor, size: 22),
+              width: 40,
+              height: 40,
+              onPressed: () => Scaffold.of(ctx).openDrawer(),
             ),
-            size: 40,
-            iconSize: 22,
-            onPressed: _toggleFloatingWindow),
-        MoreMenu(proxyServer: widget.proxyServer, remoteDevice: widget.remoteDevice),
-        const SizedBox(width: 6),
-      ],
+          ),
+          // 品牌区
+          ClipRRect(
+            borderRadius: BorderRadius.circular(7),
+            child: Image.asset('assets/icon.png', width: 26, height: 26, fit: BoxFit.cover),
+          ),
+          const SizedBox(width: 9),
+          Text('小离Proxy',
+              style: TextStyle(
+                color: titleColor,
+                fontSize: 19,
+                fontWeight: FontWeight.w700,
+                height: 1.2,
+              )),
+          const Spacer(),
+          ShadIconButton.ghost(
+              icon: Icon(LucideIcons.search, color: iconColor, size: 20),
+              width: 38,
+              height: 38,
+              onPressed: () => _openSearch(context)),
+          ShadIconButton.ghost(
+              icon: Icon(LucideIcons.eraser, color: iconColor, size: 20),
+              width: 38,
+              height: 38,
+              onPressed: () => _onClear(context, localizations)),
+          ShadIconButton.ghost(
+              icon: Icon(
+                LucideIcons.pictureInPicture2,
+                size: 20,
+                color: _floatingActive ? iconColor : iconColor.withValues(alpha: 0.55),
+              ),
+              width: 38,
+              height: 38,
+              onPressed: _toggleFloatingWindow),
+          MoreMenu(proxyServer: widget.proxyServer, remoteDevice: widget.remoteDevice),
+          const SizedBox(width: 4),
+        ],
+      ),
     );
   }
 }

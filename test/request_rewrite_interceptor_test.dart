@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:proxypin/network/components/manager/request_rewrite_manager.dart';
-import 'package:proxypin/network/components/manager/rewrite_rule.dart';
-import 'package:proxypin/network/components/request_rewrite.dart';
-import 'package:proxypin/network/http/http.dart';
+import 'package:lico_proxy/network/components/manager/request_rewrite_manager.dart';
+import 'package:lico_proxy/network/components/manager/rewrite_rule.dart';
+import 'package:lico_proxy/network/components/request_rewrite.dart';
+import 'package:lico_proxy/network/http/http.dart';
 
 void main() {
   test('responseRewrite applies response replacement rules', () async {

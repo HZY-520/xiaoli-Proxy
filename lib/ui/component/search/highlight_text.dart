@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:proxypin/ui/component/search/highlight_text_document.dart';
-import 'package:proxypin/ui/component/search/search_controller.dart';
+import 'package:lico_proxy/ui/component/search/highlight_text_document.dart';
+import 'package:lico_proxy/ui/component/search/search_controller.dart';
 
 class HighlightTextWidget extends StatelessWidget {
   final String text;

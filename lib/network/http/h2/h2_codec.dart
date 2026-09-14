@@ -18,16 +18,16 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'dart:convert' show latin1;
 
-import 'package:proxypin/network/channel/channel_context.dart';
-import 'package:proxypin/network/channel/host_port.dart';
-import 'package:proxypin/network/http/codec.dart';
-import 'package:proxypin/network/http/h2/setting.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/http/http_headers.dart';
-import 'package:proxypin/network/util/byte_buf.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/network/http/sse.dart';
-import 'package:proxypin/network/http/websocket.dart';
+import 'package:lico_proxy/network/channel/channel_context.dart';
+import 'package:lico_proxy/network/channel/host_port.dart';
+import 'package:lico_proxy/network/http/codec.dart';
+import 'package:lico_proxy/network/http/h2/setting.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/http/http_headers.dart';
+import 'package:lico_proxy/network/util/byte_buf.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/network/http/sse.dart';
+import 'package:lico_proxy/network/http/websocket.dart';
 
 import '../../util/byte_utils.dart';
 import 'frame.dart';

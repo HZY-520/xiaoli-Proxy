@@ -1,7 +1,7 @@
-import 'package:proxypin/network/channel/channel.dart';
-import 'package:proxypin/network/channel/channel_context.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/http/websocket.dart';
+import 'package:lico_proxy/network/channel/channel.dart';
+import 'package:lico_proxy/network/channel/channel_context.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/http/websocket.dart';
 
 ///请求和响应事件监听
 abstract class EventListener {

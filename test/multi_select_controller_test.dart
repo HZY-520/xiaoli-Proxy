@@ -1,5 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:proxypin/ui/component/multi_select_controller.dart';
+import 'package:lico_proxy/ui/component/multi_select_controller.dart';
 
 void main() {
   group('MultiSelectController', () {

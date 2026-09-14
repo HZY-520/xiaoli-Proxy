@@ -7,7 +7,7 @@ import 'dart:typed_data';
 import 'package:crypto/crypto.dart';
 import 'package:pointycastle/asn1/unsupported_object_identifier_exception.dart';
 import 'package:pointycastle/pointycastle.dart';
-import 'package:proxypin/network/util/cert/extension.dart';
+import 'package:lico_proxy/network/util/cert/extension.dart';
 
 import '../crypto.dart';
 import '../lang.dart';

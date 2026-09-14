@@ -17,20 +17,20 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:proxypin/network/bin/listener.dart';
-import 'package:proxypin/network/channel/channel.dart';
-import 'package:proxypin/network/channel/channel_context.dart';
-import 'package:proxypin/network/components/manager/request_rewrite_manager.dart';
-import 'package:proxypin/network/components/manager/script_manager.dart';
-import 'package:proxypin/network/channel/host_port.dart';
-import 'package:proxypin/network/http/codec.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/http/http_headers.dart';
-import 'package:proxypin/network/util/crts.dart';
-import 'package:proxypin/network/util/localizations.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/storage/histories.dart';
-import 'package:proxypin/utils/har.dart';
+import 'package:lico_proxy/network/bin/listener.dart';
+import 'package:lico_proxy/network/channel/channel.dart';
+import 'package:lico_proxy/network/channel/channel_context.dart';
+import 'package:lico_proxy/network/components/manager/request_rewrite_manager.dart';
+import 'package:lico_proxy/network/components/manager/script_manager.dart';
+import 'package:lico_proxy/network/channel/host_port.dart';
+import 'package:lico_proxy/network/http/codec.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/http/http_headers.dart';
+import 'package:lico_proxy/network/util/crts.dart';
+import 'package:lico_proxy/network/util/localizations.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/storage/histories.dart';
+import 'package:lico_proxy/utils/har.dart';
 
 import '../components/host_filter.dart';
 

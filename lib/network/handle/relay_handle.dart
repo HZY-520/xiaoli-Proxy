@@ -1,5 +1,5 @@
-import 'package:proxypin/network/channel/channel.dart';
-import 'package:proxypin/network/channel/channel_context.dart';
+import 'package:lico_proxy/network/channel/channel.dart';
+import 'package:lico_proxy/network/channel/channel_context.dart';
 
 class RelayHandler extends ChannelHandler<Object> {
   final Channel remoteChannel;

@@ -18,11 +18,11 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/ui/component/json/theme.dart';
-import 'package:proxypin/ui/component/json/toast.dart';
-import 'package:proxypin/utils/lang.dart';
-import 'package:proxypin/utils/platform.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/ui/component/json/theme.dart';
+import 'package:lico_proxy/ui/component/json/toast.dart';
+import 'package:lico_proxy/utils/lang.dart';
+import 'package:lico_proxy/utils/platform.dart';
 
 import '../search/search_controller.dart';
 

@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:proxypin/ui/configuration.dart';
-import 'package:proxypin/ui/desktop/window_listener.dart';
+import 'package:lico_proxy/ui/configuration.dart';
+import 'package:lico_proxy/ui/desktop/window_listener.dart';
 import 'package:screen_retriever/screen_retriever.dart';
 import 'package:window_manager/window_manager.dart';
 

@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:proxypin/ui/component/context_menu.dart';
+import 'package:lico_proxy/ui/component/context_menu.dart';
 
 void main() {
   const hostKey = Key('host');

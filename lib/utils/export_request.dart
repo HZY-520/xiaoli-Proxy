@@ -5,13 +5,13 @@ import 'dart:typed_data';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/ui/component/utils.dart';
-import 'package:proxypin/ui/configuration.dart';
-import 'package:proxypin/utils/har.dart';
-import 'package:proxypin/utils/platform.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/ui/component/utils.dart';
+import 'package:lico_proxy/ui/configuration.dart';
+import 'package:lico_proxy/utils/har.dart';
+import 'package:lico_proxy/utils/platform.dart';
 import 'package:share_plus/share_plus.dart';
 
 enum ExportType {

@@ -1,21 +1,21 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:proxypin/ui/component/multi_window_compat.dart';
+import 'package:lico_proxy/ui/component/multi_window_compat.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/network/components/manager/request_map_manager.dart';
-import 'package:proxypin/ui/component/app_dialog.dart';
-import 'package:proxypin/ui/component/utils.dart';
-import 'package:proxypin/ui/component/widgets.dart';
-import 'package:proxypin/ui/desktop/setting/request_map/map_local.dart';
-import 'package:proxypin/ui/desktop/setting/request_map/map_scipt.dart';
-import 'package:proxypin/utils/lang.dart';
-import 'package:proxypin/utils/platform.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/network/components/manager/request_map_manager.dart';
+import 'package:lico_proxy/ui/component/app_dialog.dart';
+import 'package:lico_proxy/ui/component/utils.dart';
+import 'package:lico_proxy/ui/component/widgets.dart';
+import 'package:lico_proxy/ui/desktop/setting/request_map/map_local.dart';
+import 'package:lico_proxy/ui/desktop/setting/request_map/map_scipt.dart';
+import 'package:lico_proxy/utils/lang.dart';
+import 'package:lico_proxy/utils/platform.dart';
 
 import '../../../../network/util/logger.dart';
 

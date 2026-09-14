@@ -1,4 +1,4 @@
-import 'package:proxypin/network/http/http.dart';
+import 'package:lico_proxy/network/http/http.dart';
 
 /// MCP 断点拦截队列
 ///

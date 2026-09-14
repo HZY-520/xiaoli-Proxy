@@ -1,6 +1,6 @@
-import 'package:proxypin/network/http/constants.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/utils/lang.dart';
+import 'package:lico_proxy/network/http/constants.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/utils/lang.dart';
 
 // 复制为 Python Requests 请求
 String copyAsPythonRequests(HttpRequest request) {

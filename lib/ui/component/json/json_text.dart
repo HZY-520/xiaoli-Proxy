@@ -17,10 +17,10 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/ui/component/json/theme.dart';
-import 'package:proxypin/ui/component/search/search_controller.dart';
-import 'package:proxypin/utils/font.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/ui/component/json/theme.dart';
+import 'package:lico_proxy/ui/component/search/search_controller.dart';
+import 'package:lico_proxy/utils/font.dart';
 import 'package:scrollable_positioned_list_nic/scrollable_positioned_list_nic.dart';
 
 import '../../../utils/platform.dart';

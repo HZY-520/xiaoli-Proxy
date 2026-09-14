@@ -18,19 +18,19 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:ui' as ui;
 
-import 'package:proxypin/ui/component/multi_window_compat.dart';
+import 'package:lico_proxy/ui/component/multi_window_compat.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter/services.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
 import 'package:flutter_qr_reader_plus/flutter_qr_reader.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
 import 'package:image_pickers/image_pickers.dart';
-import 'package:proxypin/ui/component/app_dialog.dart';
-import 'package:proxypin/ui/component/qrcode/qr_scan_view.dart';
-import 'package:proxypin/ui/component/text_field.dart';
-import 'package:proxypin/utils/platform.dart';
+import 'package:lico_proxy/ui/component/app_dialog.dart';
+import 'package:lico_proxy/ui/component/qrcode/qr_scan_view.dart';
+import 'package:lico_proxy/ui/component/text_field.dart';
+import 'package:lico_proxy/utils/platform.dart';
 import 'package:qr_flutter/qr_flutter.dart';
 
 ///二维码

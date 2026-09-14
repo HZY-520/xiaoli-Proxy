@@ -16,10 +16,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/network/http/content_type.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/utils/lang.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/network/http/content_type.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/utils/lang.dart';
 
 import 'model/search_model.dart';
 

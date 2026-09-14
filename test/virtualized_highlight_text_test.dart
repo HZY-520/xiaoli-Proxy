@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:proxypin/ui/component/search/search_controller.dart';
-import 'package:proxypin/ui/component/search/virtualized_highlight_text.dart';
+import 'package:lico_proxy/ui/component/search/search_controller.dart';
+import 'package:lico_proxy/ui/component/search/virtualized_highlight_text.dart';
 import 'package:scrollable_positioned_list_nic/scrollable_positioned_list_nic.dart';
 
 void main() {

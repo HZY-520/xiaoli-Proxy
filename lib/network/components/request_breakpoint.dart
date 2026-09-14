@@ -1,13 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 
-import 'package:proxypin/network/components/interceptor.dart';
-import 'package:proxypin/network/components/manager/environment_manager.dart';
-import 'package:proxypin/network/components/manager/request_breakpoint_manager.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/util/cache.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/ui/component/multi_window.dart';
+import 'package:lico_proxy/network/components/interceptor.dart';
+import 'package:lico_proxy/network/components/manager/environment_manager.dart';
+import 'package:lico_proxy/network/components/manager/request_breakpoint_manager.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/util/cache.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/ui/component/multi_window.dart';
 
 import '../http/http_headers.dart';
 

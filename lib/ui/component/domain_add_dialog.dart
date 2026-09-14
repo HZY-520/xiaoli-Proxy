@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/network/components/host_filter.dart';
-import 'package:proxypin/network/util/url_pattern.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/network/components/host_filter.dart';
+import 'package:lico_proxy/network/util/url_pattern.dart';
 
 /// Shared dialog for adding/editing a domain filter entry.
 ///

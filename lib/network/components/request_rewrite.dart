@@ -17,16 +17,16 @@
 import 'dart:collection';
 import 'dart:convert';
 
-import 'package:proxypin/network/components/interceptor.dart';
-import 'package:proxypin/network/components/manager/environment_manager.dart';
-import 'package:proxypin/network/components/manager/request_rewrite_manager.dart';
-import 'package:proxypin/network/http/constants.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/http/http_headers.dart';
-import 'package:proxypin/network/util/file_read.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/network/util/uri.dart';
-import 'package:proxypin/utils/lang.dart';
+import 'package:lico_proxy/network/components/interceptor.dart';
+import 'package:lico_proxy/network/components/manager/environment_manager.dart';
+import 'package:lico_proxy/network/components/manager/request_rewrite_manager.dart';
+import 'package:lico_proxy/network/http/constants.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/http/http_headers.dart';
+import 'package:lico_proxy/network/util/file_read.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/network/util/uri.dart';
+import 'package:lico_proxy/utils/lang.dart';
 
 import 'manager/rewrite_rule.dart';
 

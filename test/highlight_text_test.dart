@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:proxypin/ui/component/search/highlight_text.dart';
-import 'package:proxypin/ui/component/search/search_controller.dart';
+import 'package:lico_proxy/ui/component/search/highlight_text.dart';
+import 'package:lico_proxy/ui/component/search/search_controller.dart';
 
 void main() {
   group('HighlightTextWidget', () {

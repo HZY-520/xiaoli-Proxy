@@ -3,9 +3,9 @@ import 'dart:math';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:proxypin/ui/component/utils.dart';
-import 'package:proxypin/utils/lang.dart';
-import 'package:proxypin/utils/num.dart';
+import 'package:lico_proxy/ui/component/utils.dart';
+import 'package:lico_proxy/utils/lang.dart';
+import 'package:lico_proxy/utils/num.dart';
 
 import '../../l10n/app_localizations.dart';
 import '../../network/http/http.dart';

@@ -5,7 +5,7 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:proxypin/network/http/websocket.dart';
+import 'package:lico_proxy/network/http/websocket.dart';
 
 /// Parse SSE stream chunks into message frames.
 /// We reuse WebSocketFrame as a generic message container so UI and listeners work.

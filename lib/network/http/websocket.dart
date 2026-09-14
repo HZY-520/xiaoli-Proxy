@@ -18,7 +18,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:proxypin/network/util/logger.dart';
+import 'package:lico_proxy/network/util/logger.dart';
 
 class WebSocketFrame {
   final bool fin;

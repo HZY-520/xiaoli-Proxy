@@ -5,11 +5,11 @@ import 'dart:io';
 import 'package:flutter_js/javascript_runtime.dart';
 import 'package:http/http.dart' as http;
 import 'package:http/io_client.dart';
-import 'package:proxypin/network/bin/server.dart';
-import 'package:proxypin/network/util/file_read.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/ui/component/multi_window_compat.dart';
-import 'package:proxypin/utils/platform.dart';
+import 'package:lico_proxy/network/bin/server.dart';
+import 'package:lico_proxy/network/util/file_read.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/ui/component/multi_window_compat.dart';
+import 'package:lico_proxy/utils/platform.dart';
 
 /*
  * Based on bits and pieces from different OSS sources

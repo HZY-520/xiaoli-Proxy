@@ -14,21 +14,21 @@
  * limitations under the License.
  */
 import 'package:flutter/material.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/network/bin/configuration.dart';
-import 'package:proxypin/network/bin/server.dart';
-import 'package:proxypin/network/components/manager/hosts_manager.dart';
-import 'package:proxypin/network/components/manager/network_condition_manager.dart';
-import 'package:proxypin/network/components/manager/request_block_manager.dart';
-import 'package:proxypin/network/util/system_proxy.dart';
-import 'package:proxypin/ui/component/multi_window.dart';
-import 'package:proxypin/ui/component/proxy_port_setting.dart';
-import 'package:proxypin/ui/component/widgets.dart';
-import 'package:proxypin/ui/desktop/setting/about.dart';
-import 'package:proxypin/ui/desktop/setting/external_proxy.dart';
-import 'package:proxypin/ui/desktop/setting/hosts.dart';
-import 'package:proxypin/ui/desktop/setting/request_block.dart';
-import 'package:proxypin/ui/desktop/setting/weak_network.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/network/bin/configuration.dart';
+import 'package:lico_proxy/network/bin/server.dart';
+import 'package:lico_proxy/network/components/manager/hosts_manager.dart';
+import 'package:lico_proxy/network/components/manager/network_condition_manager.dart';
+import 'package:lico_proxy/network/components/manager/request_block_manager.dart';
+import 'package:lico_proxy/network/util/system_proxy.dart';
+import 'package:lico_proxy/ui/component/multi_window.dart';
+import 'package:lico_proxy/ui/component/proxy_port_setting.dart';
+import 'package:lico_proxy/ui/component/widgets.dart';
+import 'package:lico_proxy/ui/desktop/setting/about.dart';
+import 'package:lico_proxy/ui/desktop/setting/external_proxy.dart';
+import 'package:lico_proxy/ui/desktop/setting/hosts.dart';
+import 'package:lico_proxy/ui/desktop/setting/request_block.dart';
+import 'package:lico_proxy/ui/desktop/setting/weak_network.dart';
 
 import 'filter.dart';
 

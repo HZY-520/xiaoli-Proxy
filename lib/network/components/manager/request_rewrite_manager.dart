@@ -17,11 +17,11 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:proxypin/network/components/manager/rewrite_rule.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/util/file_read.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/network/util/random.dart';
+import 'package:lico_proxy/network/components/manager/rewrite_rule.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/util/file_read.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/network/util/random.dart';
 
 /// @author wanghongen
 /// 2023/7/26

@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:crypto/crypto.dart';
-import 'package:proxypin/ui/component/multi_window_compat.dart';
+import 'package:lico_proxy/ui/component/multi_window_compat.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
-import 'package:proxypin/network/util/logger.dart';
+import 'package:lico_proxy/network/util/logger.dart';
 
 import '../component/buttons.dart';
 

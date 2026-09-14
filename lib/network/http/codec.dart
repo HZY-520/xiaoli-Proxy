@@ -17,13 +17,13 @@
 import 'dart:math';
 import 'dart:typed_data';
 
-import 'package:proxypin/network/channel/channel_context.dart';
-import 'package:proxypin/network/channel/host_port.dart';
-import 'package:proxypin/network/http/parse/body_reader.dart';
-import 'package:proxypin/network/http/constants.dart';
-import 'package:proxypin/network/http/h2/h2_codec.dart';
-import 'package:proxypin/network/http/parse/http_parser.dart';
-import 'package:proxypin/network/util/byte_buf.dart';
+import 'package:lico_proxy/network/channel/channel_context.dart';
+import 'package:lico_proxy/network/channel/host_port.dart';
+import 'package:lico_proxy/network/http/parse/body_reader.dart';
+import 'package:lico_proxy/network/http/constants.dart';
+import 'package:lico_proxy/network/http/h2/h2_codec.dart';
+import 'package:lico_proxy/network/http/parse/http_parser.dart';
+import 'package:lico_proxy/network/util/byte_buf.dart';
 
 import 'http.dart';
 import 'http_headers.dart';

@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import 'package:proxypin/network/components/manager/hosts_manager.dart';
-import 'package:proxypin/network/channel/host_port.dart';
-import 'package:proxypin/network/util/logger.dart';
+import 'package:lico_proxy/network/components/manager/hosts_manager.dart';
+import 'package:lico_proxy/network/channel/host_port.dart';
+import 'package:lico_proxy/network/util/logger.dart';
 
 import 'interceptor.dart';
 

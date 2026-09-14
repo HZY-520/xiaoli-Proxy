@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:proxypin/ui/component/search/search_controller.dart';
+import 'package:lico_proxy/ui/component/search/search_controller.dart';
 
 import '../../../utils/platform.dart';
 

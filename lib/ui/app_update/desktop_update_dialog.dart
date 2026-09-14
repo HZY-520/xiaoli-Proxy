@@ -1,10 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/ui/app_update/desktop_update_service.dart';
-import 'package:proxypin/ui/app_update/remote_version_entity.dart';
-import 'package:proxypin/utils/navigator.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/ui/app_update/desktop_update_service.dart';
+import 'package:lico_proxy/ui/app_update/remote_version_entity.dart';
+import 'package:lico_proxy/utils/navigator.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 /// 桌面端更新进度对话框。参考 ssrdog 项目实现。

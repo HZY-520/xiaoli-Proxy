@@ -51,3 +51,7 @@ app.*.map.json
 l10n_errors.txt
 pubspec.lock
 /dist/
+# Android 签名（本地私有，勿提交）
+android/key.properties
+android/*.jks
+android/*.keystore

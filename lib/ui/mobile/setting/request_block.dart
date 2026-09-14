@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/network/components/manager/request_block_manager.dart';
-import 'package:proxypin/ui/component/widgets.dart';
-import 'package:proxypin/utils/lang.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/network/components/manager/request_block_manager.dart';
+import 'package:lico_proxy/ui/component/widgets.dart';
+import 'package:lico_proxy/utils/lang.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 
 class MobileRequestBlock extends StatefulWidget {
   final RequestBlockManager requestBlockManager;
@@ -20,7 +22,7 @@ class _RequestBlockState extends State<MobileRequestBlock> {
   Widget build(BuildContext context) {
     return Scaffold(
         resizeToAvoidBottomInset: false,
-        appBar: AppBar(title: Text(localizations.requestBlock, style: const TextStyle(fontSize: 16))),
+        appBar: ShadHeader(title: localizations.requestBlock),
         body: Container(
             padding: const EdgeInsets.all(10),
             child: Wrap(children: [
@@ -36,8 +38,14 @@ class _RequestBlockState extends State<MobileRequestBlock> {
                       widget.requestBlockManager.flushConfig();
                     }),
                 const Expanded(child: SizedBox()),
-                TextButton.icon(
-                    icon: const Icon(Icons.add, size: 20), onPressed: showEdit, label: Text(localizations.add)),
+                ShadButton(
+                    size: ShadButtonSize.sm,
+                    onPressed: () => showEdit(),
+                    child: Row(mainAxisSize: MainAxisSize.min, children: [
+                      const Icon(LucideIcons.plus, size: 16),
+                      const SizedBox(width: 6),
+                      Text(localizations.add),
+                    ])),
                 const SizedBox(width: 5),
               ]),
               const SizedBox(height: 10),
@@ -105,7 +113,9 @@ class _RequestBlockState extends State<MobileRequestBlock> {
     var list = widget.requestBlockManager.list;
 
     showModalBottomSheet(
-        shape: const RoundedRectangleBorder(borderRadius: BorderRadius.vertical(top: Radius.circular(10))),
+        shape: RoundedRectangleBorder(
+            borderRadius: const BorderRadius.vertical(top: Radius.circular(16)),
+            side: BorderSide(color: ShadTheme.of(context).colorScheme.border.withValues(alpha: 0.6), width: 0.5)),
         context: context,
         isScrollControlled: true,
         enableDrag: true,
@@ -128,16 +138,14 @@ class _RequestBlockState extends State<MobileRequestBlock> {
                   await widget.requestBlockManager.removeBlockRequest(index);
                   setState(() {});
                 }),
-            Container(color: Theme.of(context).hoverColor, height: 8),
-            TextButton(
-                child: Container(
-                    height: 50,
-                    width: double.infinity,
-                    padding: const EdgeInsets.only(top: 10),
-                    child: Text(localizations.cancel, textAlign: TextAlign.center)),
+            const SizedBox(height: 8),
+            ShadButton.outline(
+                width: double.infinity,
+                size: ShadButtonSize.lg,
                 onPressed: () {
                   Navigator.of(context).pop();
-                }),
+                },
+                child: Text(localizations.cancel)),
           ]);
         });
   }
@@ -171,9 +179,31 @@ class RequestBlockAddDialog extends StatelessWidget {
     RequestBlockItem item =
         index == null ? RequestBlockItem(true, '', BlockType.values.first) : requestBlockManager.list.elementAt(index!);
     bool enabled = item.enabled;
-    return AlertDialog(
+    return ShadDialog(
         scrollable: true,
-        content: Padding(
+        actions: [
+          ShadButton.outline(
+              onPressed: () => Navigator.of(context).pop(), child: Text(localizations.cancel)),
+          ShadButton(
+              onPressed: () {
+                if (!(formKey.currentState as FormState).validate()) {
+                  return;
+                }
+                (formKey.currentState as FormState).save();
+
+                item.enabled = enabled;
+                item.urlReg = null;
+                if (index != null) {
+                  requestBlockManager.list[index!] = item;
+                } else {
+                  requestBlockManager.addBlockRequest(item);
+                }
+                requestBlockManager.flushConfig();
+                Navigator.of(context).pop(item);
+              },
+              child: Text(localizations.save)),
+        ],
+        child: Padding(
             padding: const EdgeInsets.all(8.0),
             child: Form(
                 key: formKey,
@@ -202,27 +232,6 @@ class RequestBlockAddDialog extends StatelessWidget {
                           .toList(),
                       onSaved: (val) => item.type = val!,
                       onChanged: (val) {}),
-                ]))),
-        actions: [
-          TextButton(child: Text(localizations.cancel), onPressed: () => Navigator.of(context).pop()),
-          TextButton(
-              child: Text(localizations.save),
-              onPressed: () {
-                if (!(formKey.currentState as FormState).validate()) {
-                  return;
-                }
-                (formKey.currentState as FormState).save();
-
-                item.enabled = enabled;
-                item.urlReg = null;
-                if (index != null) {
-                  requestBlockManager.list[index!] = item;
-                } else {
-                  requestBlockManager.addBlockRequest(item);
-                }
-                requestBlockManager.flushConfig();
-                Navigator.of(context).pop(item);
-              }),
-        ]);
+                ]))));
   }
 }

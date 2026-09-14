@@ -17,10 +17,10 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/network/bin/configuration.dart';
-import 'package:proxypin/network/channel/host_port.dart';
-import 'package:proxypin/ui/component/widgets.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/network/bin/configuration.dart';
+import 'package:lico_proxy/network/channel/host_port.dart';
+import 'package:lico_proxy/ui/component/widgets.dart';
 
 /// @author wanghongen
 /// 2023/10/8

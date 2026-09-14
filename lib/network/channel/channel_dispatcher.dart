@@ -2,20 +2,20 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:proxypin/native/process_info.dart';
-import 'package:proxypin/network/channel/channel.dart';
-import 'package:proxypin/network/channel/channel_context.dart';
-import 'package:proxypin/network/handle/relay_handle.dart';
-import 'package:proxypin/network/channel/host_port.dart';
-import 'package:proxypin/network/handle/websocket_handle.dart';
-import 'package:proxypin/network/http/codec.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/http/http_client.dart';
-import 'package:proxypin/network/util/attribute_keys.dart';
-import 'package:proxypin/network/util/byte_buf.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/network/util/process_info.dart';
-import 'package:proxypin/network/handle/sse_handle.dart';
+import 'package:lico_proxy/native/process_info.dart';
+import 'package:lico_proxy/network/channel/channel.dart';
+import 'package:lico_proxy/network/channel/channel_context.dart';
+import 'package:lico_proxy/network/handle/relay_handle.dart';
+import 'package:lico_proxy/network/channel/host_port.dart';
+import 'package:lico_proxy/network/handle/websocket_handle.dart';
+import 'package:lico_proxy/network/http/codec.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/http/http_client.dart';
+import 'package:lico_proxy/network/util/attribute_keys.dart';
+import 'package:lico_proxy/network/util/byte_buf.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/network/util/process_info.dart';
+import 'package:lico_proxy/network/handle/sse_handle.dart';
 
 import '../util/task_queue.dart';
 

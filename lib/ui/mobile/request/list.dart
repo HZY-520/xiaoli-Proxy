@@ -14,21 +14,19 @@
  * limitations under the License.
  */
 
-import 'dart:ui' show ImageFilter;
-
 import 'package:flutter/material.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/network/bin/server.dart';
-import 'package:proxypin/network/channel/channel.dart';
-import 'package:proxypin/network/channel/channel_context.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/ui/component/multi_select_controller.dart';
-import 'package:proxypin/ui/mobile/request/domians.dart';
-import 'package:proxypin/ui/mobile/request/request.dart';
-import 'package:proxypin/ui/mobile/request/request_sequence.dart';
-import 'package:proxypin/utils/export_request.dart';
-import 'package:proxypin/utils/listenable_list.dart';
-
+import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/network/bin/server.dart';
+import 'package:lico_proxy/network/channel/channel.dart';
+import 'package:lico_proxy/network/channel/channel_context.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/ui/component/multi_select_controller.dart';
+import 'package:lico_proxy/ui/mobile/request/domians.dart';
+import 'package:lico_proxy/ui/mobile/request/request.dart';
+import 'package:lico_proxy/ui/mobile/request/request_sequence.dart';
+import 'package:lico_proxy/utils/export_request.dart';
+import 'package:lico_proxy/utils/listenable_list.dart';
 import '../../component/model/search_model.dart';
 
 /// 请求列表
@@ -88,38 +86,28 @@ class RequestListState extends State<RequestListWidget> {
     return DefaultTabController(
         length: tabs.length,
         child: Scaffold(
-          appBar: AppBar(
-            toolbarHeight: 0,
-            backgroundColor: Colors.transparent,
-            foregroundColor: Colors.black87,
-            elevation: 0,
-            scrolledUnderElevation: 0,
-            automaticallyImplyLeading: false,
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(48),
-              child: ClipRRect(
-                borderRadius: const BorderRadius.vertical(bottom: Radius.circular(20)),
-                child: BackdropFilter(
-                  filter: ImageFilter.blur(sigmaX: 18, sigmaY: 18),
-                  child: Container(
-                    color: Theme.of(context).brightness == Brightness.dark
-                        ? Colors.black.withValues(alpha: 0.35)
-                        : Colors.white.withValues(alpha: 0.45),
-                    child: TabBar(
-                      tabs: tabs,
-                      onTap: (index) => tabClickHandles[index].call(),
-                      labelColor: const Color(0xFFFF9E05),
-                      unselectedLabelColor: const Color(0xFF666666),
-                      labelStyle: const TextStyle(fontSize: 16, fontWeight: FontWeight.w500),
-                      unselectedLabelStyle: const TextStyle(fontSize: 16),
-                      indicatorColor: const Color(0xFFFF9E05),
-                      indicatorWeight: 2,
-                      indicatorSize: TabBarIndicatorSize.label,
-                      dividerColor: Colors.transparent,
-                      dividerHeight: 0,
-                    ),
-                  ),
+          appBar: PreferredSize(
+            preferredSize: const Size.fromHeight(48),
+            child: Container(
+              decoration: BoxDecoration(
+                color: ShadTheme.of(context).colorScheme.background,
+                border: Border(
+                  bottom: BorderSide(
+                      color: ShadTheme.of(context).colorScheme.border.withValues(alpha: 0.5), width: 0.5),
                 ),
+              ),
+              child: TabBar(
+                tabs: tabs,
+                onTap: (index) => tabClickHandles[index].call(),
+                labelColor: ShadTheme.of(context).colorScheme.primary,
+                unselectedLabelColor: ShadTheme.of(context).colorScheme.mutedForeground,
+                labelStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w600),
+                unselectedLabelStyle: const TextStyle(fontSize: 15, fontWeight: FontWeight.w400),
+                indicatorColor: ShadTheme.of(context).colorScheme.primary,
+                indicatorWeight: 2,
+                indicatorSize: TabBarIndicatorSize.label,
+                dividerColor: Colors.transparent,
+                dividerHeight: 0,
               ),
             ),
           ),
@@ -210,7 +198,7 @@ class RequestListState extends State<RequestListWidget> {
   //导出har或文件夹
   Future<void> export(BuildContext context, String title) async {
     var view = currentView()!;
-    var folderName = '${title.contains("ProxyPin") ? '' : 'ProxyPin'}$title'.replaceAll(" ", "_").replaceAll(":", "_");
+    var folderName = '${title.contains("小离Proxy") ? '' : '小离Proxy'}$title'.replaceAll(" ", "_").replaceAll(":", "_");
 
     showExportDialog(context, view.toList(), folderName);
   }

@@ -1,8 +1,8 @@
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/utils/desktop_tray.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/utils/desktop_tray.dart';
 import 'package:window_manager/window_manager.dart';
 
 /// macOS 原地更新：解压新版本 .app -> 等待当前进程退出 -> 替换 -> 重启。

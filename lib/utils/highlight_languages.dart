@@ -1,4 +1,4 @@
-import 'package:proxypin/network/http/content_type.dart';
+import 'package:lico_proxy/network/http/content_type.dart';
 import 'package:re_highlight/languages/javascript.dart';
 import 'package:re_highlight/languages/json.dart';
 import 'package:re_highlight/languages/xml.dart';

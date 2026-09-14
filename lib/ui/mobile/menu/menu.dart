@@ -1,32 +1,24 @@
 /*
- * Copyright 2023 Hongen Wang All rights reserved.
+ * 小离Proxy - 顶栏更多菜单（shadcn 重构版）
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 由 PopupMenuButton 改为 shadcn 的 Popover，菜单项统一为 ShadTile 风格。
+ * 所有菜单动作与原实现一致。
  */
 import 'dart:io';
 
 import 'package:date_format/date_format.dart';
 import 'package:flutter/material.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/network/bin/server.dart';
-import 'package:proxypin/ui/mobile/mobile.dart';
-import 'package:proxypin/ui/mobile/setting/app_filter.dart';
-import 'package:proxypin/ui/mobile/setting/report_servers.dart';
-import 'package:proxypin/ui/mobile/setting/ssl.dart';
-import 'package:proxypin/ui/mobile/widgets/highlight.dart';
-import 'package:proxypin/ui/mobile/widgets/remote_device.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/network/bin/server.dart';
+import 'package:lico_proxy/ui/mobile/mobile.dart';
+import 'package:lico_proxy/ui/mobile/setting/app_filter.dart';
+import 'package:lico_proxy/ui/mobile/setting/report_servers.dart';
+import 'package:lico_proxy/ui/mobile/setting/ssl.dart';
+import 'package:lico_proxy/ui/mobile/widgets/highlight.dart';
+import 'package:lico_proxy/ui/mobile/widgets/remote_device.dart';
 
-/// +号菜单
+/// 顶栏「更多」菜单
 class MoreMenu extends StatelessWidget {
   static bool sortDesc = true;
 
@@ -38,117 +30,86 @@ class MoreMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     AppLocalizations localizations = AppLocalizations.of(context)!;
+    final scheme = ShadTheme.of(context).colorScheme;
 
-    return PopupMenuButton(
-      offset: const Offset(0, 30),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-      elevation: 8,
-      color: Theme.of(context).colorScheme.surface,
-      child: const SizedBox(height: 38, width: 38, child: Icon(Icons.more_vert, size: 26)),
-      itemBuilder: (BuildContext context) {
-        return <PopupMenuEntry>[
-          PopupMenuItem(
-              height: 32,
-              child: ListTile(
-                  dense: true,
-                  title: Text(localizations.httpsProxy),
-                  leading:
-                      proxyServer.enableSsl ? Icon(Icons.lock_open) : Icon(Icons.https_outlined, color: Colors.red),
-                  onTap: () {
-                    navigator(context, MobileSslWidget(proxyServer: proxyServer));
-                  })),
-          if (Platform.isAndroid)
-            PopupMenuItem(
-                height: 32,
-                child: ListTile(
-                    dense: true,
-                    title: Text(localizations.appWhitelist),
-                    leading: const Icon(Icons.android_rounded),
-                    onTap: () {
-                      navigator(context, AppWhitelist(proxyServer: proxyServer));
-                    })),
-          PopupMenuItem(
-              height: 32,
-              child: ListTile(
-                dense: true,
-                leading: const Icon(Icons.devices),
-                title: Text(localizations.remoteDevice),
-                onTap: () {
-                  Navigator.maybePop(context);
-                  navigator(context, RemoteDevicePage(proxyServer: proxyServer, remoteDevice: remoteDevice));
-                },
-              )),
-          PopupMenuItem(
-              height: 32,
-              child: ListTile(
-                dense: true,
-                leading: const Icon(Icons.cloud_upload_outlined),
-                title: Text(localizations.reportServers),
-                onTap: () {
-                  Navigator.maybePop(context);
-                  navigator(context, const ReportServersPageMobile());
-                },
-              )),
-          PopupMenuItem(
-              height: 32,
-              child: ListTile(
-                dense: true,
-                leading: const Icon(Icons.search),
-                title: Text(localizations.search),
-                onTap: () async {
-                  await Navigator.maybePop(context);
-                  MobileApp.searchStateKey.currentState?.showSearch();
-                },
-              )),
-          const PopupMenuDivider(height: 0),
-          PopupMenuItem(
-              height: 32,
-              child: ListTile(
-                dense: true,
-                leading: const Icon(Icons.highlight_outlined),
-                title: Text('${localizations.keyword}${localizations.highlight}'),
-                onTap: () {
-                  navigator(context, const KeywordHighlight());
-                },
-              )),
-          PopupMenuItem(
-              height: 32,
-              child: ListTile(
-                dense: true,
-                leading: const Icon(Icons.share_outlined),
-                title: Text(localizations.viewExport),
-                onTap: () async {
-                  Navigator.maybePop(context);
-                  var name = formatDate(DateTime.now(), [m, '-', d, ' ', HH, ':', nn, ':', ss]);
-                  MobileApp.requestStateKey.currentState?.export(context, 'ProxyPin$name');
-                },
-              )),
-          PopupMenuItem(
-              height: 32,
-              child: ListTile(
-                dense: true,
-                leading: const Icon(Icons.checklist_rtl_outlined),
-                title: Text(localizations.select),
-                onTap: () async {
-                  await Navigator.maybePop(context);
-                  MobileApp.multiSelectController.toggleSelectionMode();
-                },
-              )),
-          PopupMenuItem(
-              height: 32,
-              child: ListTile(
-                dense: true,
-                leading: const Icon(Icons.sort, size: 16),
-                title: Text(sortDesc ? localizations.timeAsc : localizations.timeDesc),
-                onTap: () async {
-                  await Navigator.maybePop(context);
-
-                  sortDesc = !sortDesc;
-                  MobileApp.requestStateKey.currentState?.sort(sortDesc);
-                },
-              )),
-        ];
-      },
+    return ShadPopover(
+      padding: const EdgeInsets.all(6),
+      popover: (ctx) => SizedBox(
+        width: 208,
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            _MenuItem(
+              icon: proxyServer.enableSsl ? LucideIcons.lockOpen : LucideIcons.lock,
+              iconColor: proxyServer.enableSsl ? null : scheme.destructive,
+              label: localizations.httpsProxy,
+              onTap: () => navigator(ctx, MobileSslWidget(proxyServer: proxyServer)),
+            ),
+            if (Platform.isAndroid)
+              _MenuItem(
+                icon: LucideIcons.smartphone,
+                label: localizations.appWhitelist,
+                onTap: () => navigator(ctx, AppWhitelist(proxyServer: proxyServer)),
+              ),
+            _MenuItem(
+              icon: LucideIcons.monitorSmartphone,
+              label: localizations.remoteDevice,
+              onTap: () => navigator(ctx, RemoteDevicePage(proxyServer: proxyServer, remoteDevice: remoteDevice)),
+            ),
+            _MenuItem(
+              icon: LucideIcons.cloudUpload,
+              label: localizations.reportServers,
+              onTap: () => navigator(ctx, const ReportServersPageMobile()),
+            ),
+            _MenuItem(
+              icon: LucideIcons.search,
+              label: localizations.search,
+              onTap: () async {
+                await Navigator.maybePop(ctx);
+                MobileApp.searchStateKey.currentState?.showSearch();
+              },
+            ),
+            Divider(height: 8, thickness: 0.5, color: scheme.border.withValues(alpha: 0.6)),
+            _MenuItem(
+              icon: LucideIcons.highlighter,
+              label: '${localizations.keyword}${localizations.highlight}',
+              onTap: () => navigator(ctx, const KeywordHighlight()),
+            ),
+            _MenuItem(
+              icon: LucideIcons.share2,
+              label: localizations.viewExport,
+              onTap: () async {
+                Navigator.maybePop(ctx);
+                var name = formatDate(DateTime.now(), [m, '-', d, ' ', HH, ':', nn, ':', ss]);
+                MobileApp.requestStateKey.currentState?.export(context, '小离Proxy$name');
+              },
+            ),
+            _MenuItem(
+              icon: LucideIcons.listChecks,
+              label: localizations.select,
+              onTap: () async {
+                await Navigator.maybePop(ctx);
+                MobileApp.multiSelectController.toggleSelectionMode();
+              },
+            ),
+            _MenuItem(
+              icon: LucideIcons.arrowUpDown,
+              label: sortDesc ? localizations.timeAsc : localizations.timeDesc,
+              onTap: () async {
+                await Navigator.maybePop(ctx);
+                sortDesc = !sortDesc;
+                MobileApp.requestStateKey.currentState?.sort(sortDesc);
+              },
+            ),
+          ],
+        ),
+      ),
+      child: const ShadIconButton.ghost(
+        icon: Icon(LucideIcons.ellipsisVertical, size: 22),
+        width: 38,
+        height: 38,
+      ),
     );
   }
 
@@ -159,5 +120,39 @@ class MoreMenu extends StatelessWidget {
         MaterialPageRoute(builder: (BuildContext context) => widget),
       );
     }
+  }
+}
+
+/// 菜单项：紧凑的图标 + 文字行
+class _MenuItem extends StatelessWidget {
+  final IconData icon;
+  final String label;
+  final VoidCallback onTap;
+  final Color? iconColor;
+
+  const _MenuItem({required this.icon, required this.label, required this.onTap, this.iconColor});
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = ShadTheme.of(context).colorScheme;
+    return InkWell(
+      onTap: onTap,
+      borderRadius: BorderRadius.circular(8),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 9),
+        child: Row(
+          children: [
+            Icon(icon, size: 17, color: iconColor ?? scheme.mutedForeground),
+            const SizedBox(width: 10),
+            Expanded(
+              child: Text(label,
+                  style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

@@ -15,10 +15,10 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/ui/component/state_component.dart';
-import 'package:proxypin/ui/component/widgets.dart';
-import 'package:proxypin/utils/keyword_highlight.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/ui/component/state_component.dart';
+import 'package:lico_proxy/ui/component/widgets.dart';
+import 'package:lico_proxy/utils/keyword_highlight.dart';
 
 class KeywordHighlight extends StatefulWidget {
   const KeywordHighlight({super.key});

@@ -16,12 +16,12 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:proxypin/network/channel/host_port.dart';
-import 'package:proxypin/network/http/content_type.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/http/http_headers.dart';
-import 'package:proxypin/network/util/process_info.dart';
-import 'package:proxypin/ui/configuration.dart';
+import 'package:lico_proxy/network/channel/host_port.dart';
+import 'package:lico_proxy/network/http/content_type.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/http/http_headers.dart';
+import 'package:lico_proxy/network/util/process_info.dart';
+import 'package:lico_proxy/ui/configuration.dart';
 
 class Har {
   static int maxBodyLength = 1024 * 1024 * 4;

@@ -16,7 +16,7 @@
 
 import 'dart:typed_data';
 
-import 'package:proxypin/network/http/http.dart';
+import 'package:lico_proxy/network/http/http.dart';
 
 import '../codec.dart';
 import 'chunked_decoder.dart';

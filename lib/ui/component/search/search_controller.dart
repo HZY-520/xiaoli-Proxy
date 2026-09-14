@@ -2,8 +2,8 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:get/get_rx/src/rx_types/rx_types.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/ui/component/search/search_field.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/ui/component/search/search_field.dart';
 
 class SearchTextController extends ValueNotifier<SearchSettings> with WidgetsBindingObserver {
   SearchTextController() : super(SearchSettings.empty) {

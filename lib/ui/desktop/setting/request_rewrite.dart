@@ -16,24 +16,24 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:proxypin/ui/component/multi_window_compat.dart';
+import 'package:lico_proxy/ui/component/multi_window_compat.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/network/components/manager/request_rewrite_manager.dart';
-import 'package:proxypin/network/components/manager/rewrite_rule.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/ui/component/multi_window.dart';
-import 'package:proxypin/ui/component/utils.dart';
-import 'package:proxypin/ui/component/widgets.dart';
-import 'package:proxypin/ui/desktop/setting/rewrite/rewrite_replace.dart';
-import 'package:proxypin/ui/desktop/setting/rewrite/rewrite_update.dart';
-import 'package:proxypin/utils/lang.dart';
-import 'package:proxypin/utils/platform.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/network/components/manager/request_rewrite_manager.dart';
+import 'package:lico_proxy/network/components/manager/rewrite_rule.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/ui/component/multi_window.dart';
+import 'package:lico_proxy/ui/component/utils.dart';
+import 'package:lico_proxy/ui/component/widgets.dart';
+import 'package:lico_proxy/ui/desktop/setting/rewrite/rewrite_replace.dart';
+import 'package:lico_proxy/ui/desktop/setting/rewrite/rewrite_update.dart';
+import 'package:lico_proxy/utils/lang.dart';
+import 'package:lico_proxy/utils/platform.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../component/http_method_popup.dart';

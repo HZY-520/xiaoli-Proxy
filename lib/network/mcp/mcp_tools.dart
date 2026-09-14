@@ -18,14 +18,14 @@ import 'dart:convert';
 import 'dart:io' as io;
 import 'dart:math';
 
-import 'package:proxypin/network/components/manager/rewrite_rule.dart';
-import 'package:proxypin/network/components/manager/request_breakpoint_manager.dart';
-import 'package:proxypin/network/components/manager/request_rewrite_manager.dart';
-import 'package:proxypin/network/components/manager/script_manager.dart';
-import 'package:proxypin/network/components/request_breakpoint.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/mcp/mcp_intercept_queue.dart';
-import 'package:proxypin/utils/listenable_list.dart';
+import 'package:lico_proxy/network/components/manager/rewrite_rule.dart';
+import 'package:lico_proxy/network/components/manager/request_breakpoint_manager.dart';
+import 'package:lico_proxy/network/components/manager/request_rewrite_manager.dart';
+import 'package:lico_proxy/network/components/manager/script_manager.dart';
+import 'package:lico_proxy/network/components/request_breakpoint.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/mcp/mcp_intercept_queue.dart';
+import 'package:lico_proxy/utils/listenable_list.dart';
 
 /// MCP 工具定义和处理器
 /// 提供给 AI 客户端调用的工具集

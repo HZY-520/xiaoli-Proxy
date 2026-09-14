@@ -20,19 +20,19 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show Clipboard, ClipboardData;
 import 'package:flutter_toastr/flutter_toastr.dart';
-import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/native/native_method.dart';
-import 'package:proxypin/network/bin/server.dart';
-import 'package:proxypin/network/util/cert/cert_data.dart';
-import 'package:proxypin/network/util/crts.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/storage/local_storage.dart';
-import 'package:proxypin/storage/shared_preference_keys.dart';
-import 'package:proxypin/ui/component/utils.dart';
-import 'package:proxypin/ui/mobile/liquid_glass.dart';
-import 'package:proxypin/ui/mobile/menu/drawer.dart';
-import 'package:proxypin/utils/lang.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/native/native_method.dart';
+import 'package:lico_proxy/network/bin/server.dart';
+import 'package:lico_proxy/network/util/cert/cert_data.dart';
+import 'package:lico_proxy/network/util/crts.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/storage/local_storage.dart';
+import 'package:lico_proxy/storage/shared_preference_keys.dart';
+import 'package:lico_proxy/ui/component/utils.dart';
+import 'package:lico_proxy/ui/mobile/menu/drawer.dart';
+import 'package:lico_proxy/utils/lang.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class MobileSslWidget extends StatefulWidget {
@@ -88,15 +88,12 @@ class _MobileSslState extends State<MobileSslWidget> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    final dividerColor = Theme.of(context).dividerColor.withValues(alpha: 0.22);
+    final dividerColor = ShadTheme.of(context).colorScheme.border.withValues(alpha: 0.45);
 
-    Widget section(List<Widget> tiles) => glassSection(context, tiles);
+    Widget section(List<Widget> tiles) => ShadSection(children: tiles);
 
     return Scaffold(
-        appBar: AppBar(
-          title: Text(localizations.httpsProxy, style: const TextStyle(fontSize: 16)),
-          centerTitle: true,
-        ),
+        appBar: ShadHeader(title: localizations.httpsProxy),
         body: ListView(padding: const EdgeInsets.all(12), children: [
           if (Platform.isIOS)
             (_loading)
@@ -700,11 +697,11 @@ class _IosCaInstallState extends State<IosCaInstall> {
       title = isCN ? '证书已安装并信任' : 'Certificate Installed & Trusted';
     }
 
-    return GlassCard(
-      padding: const EdgeInsets.all(16),
-      margin: const EdgeInsets.only(bottom: 12),
-      useOwnLayer: true,
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12),
+      child: ShadCard(
+        padding: const EdgeInsets.all(16),
+        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(children: [
             Icon(icon, color: color, size: 28),
             const SizedBox(width: 8),
@@ -714,20 +711,31 @@ class _IosCaInstallState extends State<IosCaInstall> {
           if (subtitle != null) Text(subtitle),
           const SizedBox(height: 12),
           if (!installed) ...[
-            Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24),
-                child: FilledButton.icon(
-                    style: FilledButton.styleFrom(
-                        minimumSize: const Size.fromHeight(40), // Make button full width
-                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8))),
-                    onPressed: _downloadCert,
-                    icon: const Icon(Icons.download),
-                    label: Text(localizations.downloadRootCa))),
-            TextButton.icon(
-                onPressed: _copyProxyLink, icon: const Icon(Icons.link), label: Text(localizations.downloadRootCaNote))
+            ShadButton(
+                width: double.infinity,
+                onPressed: _downloadCert,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(LucideIcons.download, size: 17),
+                    const SizedBox(width: 8),
+                    Text(localizations.downloadRootCa),
+                  ],
+                )),
+            ShadButton.ghost(
+                onPressed: _copyProxyLink,
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(LucideIcons.link, size: 17),
+                    const SizedBox(width: 8),
+                    Text(localizations.downloadRootCaNote),
+                  ],
+                )),
           ],
           if (trusted && certDetails != null) ...[const Divider(height: 12), _certDetails(certDetails!)]
         ]),
+      ),
     );
   }
 

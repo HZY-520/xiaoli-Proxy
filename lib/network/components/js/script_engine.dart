@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_js/flutter_js.dart';
-import 'package:proxypin/network/components/js/xhr.dart';
+import 'package:lico_proxy/network/components/js/xhr.dart';
 
 import '../../http/http.dart';
 import '../../http/http.dart' as http;

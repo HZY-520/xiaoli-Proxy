@@ -14,10 +14,12 @@
  * limitations under the License.
  */
 import 'package:flutter/material.dart';
-import 'package:proxypin/native/installed_apps.dart';
-import 'package:proxypin/network/bin/configuration.dart';
-import 'package:proxypin/network/bin/server.dart';
-import 'package:proxypin/ui/mobile/setting/app_filter.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
+import 'package:lico_proxy/native/installed_apps.dart';
+import 'package:lico_proxy/network/bin/configuration.dart';
+import 'package:lico_proxy/network/bin/server.dart';
+import 'package:lico_proxy/ui/mobile/setting/app_filter.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 
 /// 目标应用：选择抓包作用的应用。
 /// 与「黑白名单 → 白名单应用」共用 configuration.appWhitelist（HttpCanary 原版设计）。
@@ -104,24 +106,31 @@ class _TargetAppPageState extends State<TargetAppPage> {
     showModalBottomSheet(
       context: context,
       builder: (ctx) {
+        final scheme = ShadTheme.of(ctx).colorScheme;
         return SafeArea(
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ListTile(
-                leading: const Icon(Icons.delete_outline, color: Colors.red),
-                title: const Text('从目标应用中移除'),
-                onTap: () {
-                  Navigator.of(ctx).pop();
-                  _removeApp(appInfo);
-                },
-              ),
-              ListTile(
-                leading: const Icon(Icons.close),
-                title: const Text('取消'),
-                onTap: () => Navigator.of(ctx).pop(),
-              ),
-            ],
+          child: Padding(
+            padding: const EdgeInsets.symmetric(vertical: 8),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ShadTile(
+                  icon: LucideIcons.trash2,
+                  iconColor: scheme.destructive,
+                  title: '从目标应用中移除',
+                  danger: true,
+                  onTap: () {
+                    Navigator.of(ctx).pop();
+                    _removeApp(appInfo);
+                  },
+                ),
+                ShadTile(
+                  icon: LucideIcons.x,
+                  title: '取消',
+                  showDivider: false,
+                  onTap: () => Navigator.of(ctx).pop(),
+                ),
+              ],
+            ),
           ),
         );
       },
@@ -131,15 +140,13 @@ class _TargetAppPageState extends State<TargetAppPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('目标应用', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-        centerTitle: false,
-        backgroundColor: Colors.transparent,
-        elevation: 0,
+      appBar: ShadHeader(
+        title: '目标应用',
         actions: [
-          IconButton(
-            icon: const Icon(Icons.add),
-            tooltip: '添加应用',
+          ShadIconButton.ghost(
+            icon: const Icon(LucideIcons.plus, size: 20),
+            width: 38,
+            height: 38,
             onPressed: _addApp,
           ),
         ],
@@ -147,20 +154,14 @@ class _TargetAppPageState extends State<TargetAppPage> {
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
           : appInfoList.isEmpty
-              ? Center(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 24),
-                    child: Text(
-                      '点击右上角 + 添加需要抓包的应用',
-                      style: TextStyle(color: Colors.grey.shade600, fontSize: 14),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
+              ? const ShadEmpty(
+                  icon: LucideIcons.smartphone,
+                  message: '点击右上角 + 添加需要抓包的应用',
                 )
               : ListView.separated(
                   itemCount: appInfoList.length,
                   separatorBuilder: (_, __) =>
-                      Divider(height: 1, thickness: 1, color: Colors.grey.shade200, indent: 76),
+                      Divider(height: 0.5, thickness: 0.5, color: ShadTheme.of(context).colorScheme.border.withValues(alpha: 0.5), indent: 76),
                   itemBuilder: (BuildContext context, int index) {
                     AppInfo appInfo = appInfoList[index];
                     return ListTile(
@@ -170,10 +171,11 @@ class _TargetAppPageState extends State<TargetAppPage> {
                               width: 48,
                               height: 48,
                               decoration: BoxDecoration(
-                                color: Colors.grey.shade200,
+                                color: ShadTheme.of(context).colorScheme.muted,
                                 shape: BoxShape.circle,
                               ),
-                              child: const Icon(Icons.question_mark, color: Colors.grey),
+                              child: Icon(LucideIcons.circleHelp,
+                                  color: ShadTheme.of(context).colorScheme.mutedForeground),
                             )
                           : ClipOval(
                               child: Image.memory(
@@ -191,7 +193,7 @@ class _TargetAppPageState extends State<TargetAppPage> {
                         padding: const EdgeInsets.only(top: 2),
                         child: Text(
                           appInfo.packageName ?? '',
-                          style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
+                          style: TextStyle(fontSize: 12, color: ShadTheme.of(context).colorScheme.mutedForeground),
                         ),
                       ),
                       trailing: const Icon(Icons.shield_outlined, color: Color(0xFFFFB300), size: 28),

@@ -18,7 +18,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:path_provider/path_provider.dart';
-import 'package:proxypin/network/util/url_pattern.dart';
+import 'package:lico_proxy/network/util/url_pattern.dart';
 
 /// 请求屏蔽
 /// @author wanghongen

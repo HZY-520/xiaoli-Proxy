@@ -1,7 +1,7 @@
 import 'package:flutter_test/flutter_test.dart';
-import 'package:proxypin/network/http/content_type.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/utils/html_formatter.dart';
+import 'package:lico_proxy/network/http/content_type.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/utils/html_formatter.dart';
 
 void main() {
   test('HTML.pretty formats nested markup', () {

@@ -20,25 +20,27 @@ import 'dart:io';
 import 'package:date_format/date_format.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:flutter/services.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
-import 'package:proxypin/network/bin/configuration.dart';
-import 'package:proxypin/network/bin/server.dart';
-import 'package:proxypin/network/channel/host_port.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/http/http_client.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/storage/histories.dart';
-import 'package:proxypin/ui/component/history_cache_time.dart';
-import 'package:proxypin/ui/component/multi_select_controller.dart';
-import 'package:proxypin/ui/component/utils.dart';
-import 'package:proxypin/ui/component/widgets.dart';
-import 'package:proxypin/ui/mobile/request/list.dart';
-import 'package:proxypin/ui/mobile/request/search.dart';
-import 'package:proxypin/utils/listenable_list.dart';
-import 'package:proxypin/utils/platform.dart';
-import 'package:proxypin/utils/quick_share.dart';
+import 'package:lico_proxy/network/bin/configuration.dart';
+import 'package:lico_proxy/network/bin/server.dart';
+import 'package:lico_proxy/network/channel/host_port.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/http/http_client.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/storage/histories.dart';
+import 'package:lico_proxy/ui/component/history_cache_time.dart';
+import 'package:lico_proxy/ui/component/multi_select_controller.dart';
+import 'package:lico_proxy/ui/component/utils.dart';
+import 'package:lico_proxy/ui/component/widgets.dart';
+import 'package:lico_proxy/ui/mobile/request/list.dart';
+import 'package:lico_proxy/ui/mobile/request/search.dart';
+import 'package:lico_proxy/utils/listenable_list.dart';
+import 'package:lico_proxy/utils/platform.dart';
+import 'package:lico_proxy/utils/quick_share.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 import 'package:share_plus/share_plus.dart';
 
 import '../../../utils/har.dart';
@@ -158,18 +160,14 @@ class _MobileHistoryState extends State<MobileHistory> {
       }
 
       return Scaffold(
-          appBar: AppBar(
-              backgroundColor: Colors.transparent,
-              elevation: 0,
-              title: Text(localizations.history,
-                  style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
-              centerTitle: true,
+          appBar: ShadHeader(
+              title: localizations.history,
               actions: [
-                IconButton(
+                ShadIconButton.ghost(
                     onPressed: () => import(storage),
-                    icon: const Icon(Icons.input, size: 18),
-                    tooltip: localizations.import),
-                const SizedBox(width: 3),
+                    icon: const Icon(LucideIcons.import, size: 19),
+                    width: 38,
+                    height: 38),
                 HistoryCacheTime(configuration, onSelected: (val) {
                   if (val == 0) {
                     widget.container.removeListener(widget.historyTask);
@@ -177,10 +175,10 @@ class _MobileHistoryState extends State<MobileHistory> {
                     widget.container.addListener(widget.historyTask);
                   }
                 }),
-                const SizedBox(width: 5)
+                const SizedBox(width: 6)
               ]),
           body: children.isEmpty
-              ? Center(child: Text(localizations.emptyData))
+              ? ShadEmpty(icon: LucideIcons.inbox, message: localizations.emptyData)
               : ListView.separated(
                   itemCount: children.length,
                   itemBuilder: (context, index) => children[index],
@@ -303,7 +301,7 @@ class _MobileHistoryState extends State<MobileHistory> {
   Future<void> export(HistoryStorage storage, HistoryItem item, {Offset? offset}) async {
     //文件名称
     String fileName =
-        '${item.name.contains("ProxyPin") ? '' : 'ProxyPin'}${item.name}.har'.replaceAll(" ", "_").replaceAll(":", "_");
+        '${item.name.contains("小离Proxy") ? '' : '小离Proxy'}${item.name}.har'.replaceAll(" ", "_").replaceAll(":", "_");
     //获取请求
     List<HttpRequest> requests = await storage.getRequests(item);
     var json = await Har.writeJson(requests, title: item.name);
@@ -350,15 +348,12 @@ class _MobileHistoryState extends State<MobileHistory> {
     showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-            content: TextField(
-              decoration: InputDecoration(label: Text(localizations.name)),
-              onChanged: (val) => name = val,
-            ),
+          return ShadDialog.alert(
+            title: Text(localizations.name),
             actions: <Widget>[
-              TextButton(onPressed: () => Navigator.pop(context), child: Text(localizations.cancel)),
-              TextButton(
-                child: Text(localizations.save),
+              ShadButton.outline(
+                  onPressed: () => Navigator.pop(context), child: Text(localizations.cancel)),
+              ShadButton(
                 onPressed: () {
                   if (name.isEmpty) {
                     FlutterToastr.show(localizations.historyEmptyName, context, position: 2);
@@ -370,8 +365,13 @@ class _MobileHistoryState extends State<MobileHistory> {
                     storage.refresh();
                   });
                 },
+                child: Text(localizations.save),
               ),
             ],
+            child: TextField(
+              decoration: InputDecoration(label: Text(localizations.name)),
+              onChanged: (val) => name = val,
+            ),
           );
         });
   }
@@ -381,11 +381,13 @@ class _MobileHistoryState extends State<MobileHistory> {
     showDialog(
         context: context,
         builder: (context) {
-          return AlertDialog(
-            title: Text(localizations.historyDeleteConfirm, style: const TextStyle(fontSize: 18)),
+          return ShadDialog.alert(
+            title: Text(localizations.historyDeleteConfirm),
             actions: [
-              TextButton(onPressed: () => Navigator.pop(context), child: Text(localizations.cancel)),
-              TextButton(
+              ShadButton.outline(
+                  onPressed: () => Navigator.pop(context), child: Text(localizations.cancel)),
+              ShadButton(
+                  backgroundColor: ShadTheme.of(context).colorScheme.destructive,
                   onPressed: () {
                     setState(() {
                       if (storage.getHistory(index) == widget.historyTask.history) {

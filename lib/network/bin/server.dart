@@ -17,17 +17,17 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:proxypin/network/bin/configuration.dart';
-import 'package:proxypin/network/components/hosts.dart';
-import 'package:proxypin/network/components/interceptor.dart';
-import 'package:proxypin/network/components/network_condition.dart';
-import 'package:proxypin/network/components/report_server_interceptor.dart';
-import 'package:proxypin/network/components/request_block.dart';
-import 'package:proxypin/network/components/request_rewrite.dart';
-import 'package:proxypin/network/components/script.dart';
-import 'package:proxypin/network/handle/http_proxy_handle.dart';
-import 'package:proxypin/network/util/crts.dart';
-import 'package:proxypin/utils/platform.dart';
+import 'package:lico_proxy/network/bin/configuration.dart';
+import 'package:lico_proxy/network/components/hosts.dart';
+import 'package:lico_proxy/network/components/interceptor.dart';
+import 'package:lico_proxy/network/components/network_condition.dart';
+import 'package:lico_proxy/network/components/report_server_interceptor.dart';
+import 'package:lico_proxy/network/components/request_block.dart';
+import 'package:lico_proxy/network/components/request_rewrite.dart';
+import 'package:lico_proxy/network/components/script.dart';
+import 'package:lico_proxy/network/handle/http_proxy_handle.dart';
+import 'package:lico_proxy/network/util/crts.dart';
+import 'package:lico_proxy/utils/platform.dart';
 
 import '../components/request_map.dart';
 import '../http/codec.dart';
@@ -35,7 +35,7 @@ import '../channel/network.dart';
 import '../util/logger.dart';
 import '../util/system_proxy.dart';
 import 'listener.dart';
-import 'package:proxypin/network/components/request_breakpoint.dart';
+import 'package:lico_proxy/network/components/request_breakpoint.dart';
 
 Future<void> main() async {
   var configuration = await Configuration.instance;

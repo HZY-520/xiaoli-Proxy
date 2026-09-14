@@ -1,6 +1,6 @@
 import 'dart:io';
-import 'package:proxypin/network/util/cert/cert_data.dart';
-import 'package:proxypin/network/util/logger.dart';
+import 'package:lico_proxy/network/util/cert/cert_data.dart';
+import 'package:lico_proxy/network/util/logger.dart';
 
 class CertInstaller {
   static Future<bool> installCertificate(File certFile) async {

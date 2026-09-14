@@ -16,8 +16,8 @@
 
 import 'dart:io';
 
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/ui/configuration.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/ui/configuration.dart';
 
 /// Memory cleanup handle
 /// @author wanghongen

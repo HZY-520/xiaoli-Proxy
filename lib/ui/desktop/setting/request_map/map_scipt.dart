@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:code_forge/code_forge.dart';
 import 'package:re_highlight/styles/monokai-sublime.dart';
-import 'package:proxypin/ui/component/search/finder.dart';
+import 'package:lico_proxy/ui/component/search/finder.dart';
 import 'package:re_highlight/languages/javascript.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
 
 class DesktopMapScript extends StatefulWidget {
   final String? script;

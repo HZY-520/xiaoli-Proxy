@@ -1,12 +1,12 @@
 import 'dart:convert';
 import 'dart:math';
 
-import 'package:proxypin/network/bin/server.dart';
-import 'package:proxypin/network/channel/host_port.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/http/http_client.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/utils/har.dart';
+import 'package:lico_proxy/network/bin/server.dart';
+import 'package:lico_proxy/network/channel/host_port.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/http/http_client.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/utils/har.dart';
 
 class QuickShareBatchResult {
   final int success;

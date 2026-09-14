@@ -14,7 +14,7 @@ import 'dart:math';
 
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:proxypin/network/util/url_pattern.dart';
+import 'package:lico_proxy/network/util/url_pattern.dart';
 
 /// 弱网模拟配置管理
 ///

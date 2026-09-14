@@ -1,11 +1,11 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/ui/component/search/highlight_text_document.dart';
-import 'package:proxypin/ui/component/search/search_controller.dart';
-import 'package:proxypin/ui/component/utils.dart';
-import 'package:proxypin/utils/platform.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/ui/component/search/highlight_text_document.dart';
+import 'package:lico_proxy/ui/component/search/search_controller.dart';
+import 'package:lico_proxy/ui/component/utils.dart';
+import 'package:lico_proxy/utils/platform.dart';
 import 'package:scrollable_positioned_list_nic/scrollable_positioned_list_nic.dart';
 
 class VirtualizedHighlightText extends StatefulWidget {

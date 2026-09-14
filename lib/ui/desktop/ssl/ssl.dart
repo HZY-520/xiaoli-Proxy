@@ -2,15 +2,15 @@ import 'dart:io';
 
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
-import 'package:proxypin/network/bin/server.dart';
-import 'package:proxypin/network/util/crts.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/ui/component/utils.dart';
-import 'package:proxypin/ui/desktop/ssl/pc_cert.dart';
-import 'package:proxypin/utils/ip.dart';
-import 'package:proxypin/utils/platform.dart';
+import 'package:lico_proxy/network/bin/server.dart';
+import 'package:lico_proxy/network/util/crts.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/ui/component/utils.dart';
+import 'package:lico_proxy/ui/desktop/ssl/pc_cert.dart';
+import 'package:lico_proxy/utils/ip.dart';
+import 'package:lico_proxy/utils/platform.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class SslWidget extends StatefulWidget {

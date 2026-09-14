@@ -17,7 +17,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
-import 'package:proxypin/network/mcp/mcp_server.dart';
+import 'package:lico_proxy/network/mcp/mcp_server.dart';
 
 /// MCP Server 管理页面
 /// 允许用户启动/停止 MCP Server，查看连接配置信息

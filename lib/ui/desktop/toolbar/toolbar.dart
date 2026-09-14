@@ -17,18 +17,18 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:proxypin/network/bin/server.dart';
-import 'package:proxypin/ui/component/utils.dart';
-import 'package:proxypin/ui/desktop/toolbar/phone_connect.dart';
-import 'package:proxypin/ui/desktop/toolbar/environment_switcher.dart';
-import 'package:proxypin/ui/desktop/toolbar/weak_network_indicator.dart';
-import 'package:proxypin/ui/desktop/setting/setting.dart';
-import 'package:proxypin/ui/desktop/ssl/ssl.dart';
-import 'package:proxypin/ui/configuration.dart';
-import 'package:proxypin/ui/launch/launch.dart';
-import 'package:proxypin/utils/ip.dart';
+import 'package:lico_proxy/network/bin/server.dart';
+import 'package:lico_proxy/ui/component/utils.dart';
+import 'package:lico_proxy/ui/desktop/toolbar/phone_connect.dart';
+import 'package:lico_proxy/ui/desktop/toolbar/environment_switcher.dart';
+import 'package:lico_proxy/ui/desktop/toolbar/weak_network_indicator.dart';
+import 'package:lico_proxy/ui/desktop/setting/setting.dart';
+import 'package:lico_proxy/ui/desktop/ssl/ssl.dart';
+import 'package:lico_proxy/ui/configuration.dart';
+import 'package:lico_proxy/ui/launch/launch.dart';
+import 'package:lico_proxy/utils/ip.dart';
 import 'package:window_manager/window_manager.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
 
 import '../request/list.dart';
 

@@ -11,10 +11,10 @@
 import 'dart:async';
 import 'dart:math';
 
-import 'package:proxypin/network/components/interceptor.dart';
-import 'package:proxypin/network/components/manager/network_condition_manager.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/util/logger.dart';
+import 'package:lico_proxy/network/components/interceptor.dart';
+import 'package:lico_proxy/network/components/manager/network_condition_manager.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/util/logger.dart';
 
 /// 弱网模拟拦截器：在请求/响应链路中注入延迟、丢包、离线，
 /// 并按上/下行带宽对 body 进行整体等效限速（延迟 = bytes / kbps）。

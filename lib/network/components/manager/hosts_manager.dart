@@ -17,9 +17,9 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:proxypin/network/util/random.dart';
-import 'package:proxypin/storage/path.dart';
-import 'package:proxypin/network/util/url_pattern.dart';
+import 'package:lico_proxy/network/util/random.dart';
+import 'package:lico_proxy/storage/path.dart';
+import 'package:lico_proxy/network/util/url_pattern.dart';
 
 /// Hosts manager
 /// @author wanghongen

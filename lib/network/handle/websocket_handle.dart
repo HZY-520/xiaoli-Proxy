@@ -1,10 +1,10 @@
 import 'dart:typed_data';
 
-import 'package:proxypin/network/channel/channel.dart';
-import 'package:proxypin/network/channel/channel_context.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/http/websocket.dart';
-import 'package:proxypin/network/util/logger.dart';
+import 'package:lico_proxy/network/channel/channel.dart';
+import 'package:lico_proxy/network/channel/channel_context.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/http/websocket.dart';
+import 'package:lico_proxy/network/util/logger.dart';
 
 /// websocket处理器
 class WebSocketChannelHandler extends ChannelHandler<Uint8List> {

@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 import 'package:flutter/material.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/network/bin/server.dart';
-import 'package:proxypin/ui/configuration.dart';
-import 'package:proxypin/ui/desktop/preference.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/network/bin/server.dart';
+import 'package:lico_proxy/ui/configuration.dart';
+import 'package:lico_proxy/ui/desktop/preference.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 ///左侧导航栏

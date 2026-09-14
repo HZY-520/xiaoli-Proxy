@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:proxypin/network/util/cert/pkcs12.dart';
+import 'package:lico_proxy/network/util/cert/pkcs12.dart';
 
 void main() {
   const testPath = r"C:\Users\wanghongen\Downloads\new_key.p12";

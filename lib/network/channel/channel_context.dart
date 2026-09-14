@@ -1,12 +1,12 @@
-import 'package:proxypin/network/channel/channel.dart';
-import 'package:proxypin/network/channel/host_port.dart';
-import 'package:proxypin/network/http/codec.dart';
-import 'package:proxypin/network/http/h2/frame.dart';
-import 'package:proxypin/network/http/h2/setting.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/util/attribute_keys.dart';
-import 'package:proxypin/network/util/process_info.dart';
-import 'package:proxypin/utils/lang.dart';
+import 'package:lico_proxy/network/channel/channel.dart';
+import 'package:lico_proxy/network/channel/host_port.dart';
+import 'package:lico_proxy/network/http/codec.dart';
+import 'package:lico_proxy/network/http/h2/frame.dart';
+import 'package:lico_proxy/network/http/h2/setting.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/util/attribute_keys.dart';
+import 'package:lico_proxy/network/util/process_info.dart';
+import 'package:lico_proxy/utils/lang.dart';
 
 import '../bin/listener.dart';
 import 'network.dart';

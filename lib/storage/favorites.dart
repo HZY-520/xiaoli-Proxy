@@ -17,11 +17,11 @@ import 'dart:collection';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/http/websocket.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/storage/path.dart';
-import 'package:proxypin/utils/har.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/http/websocket.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/storage/path.dart';
+import 'package:lico_proxy/utils/har.dart';
 
 /// 收藏存储
 /// @author WangHongEn

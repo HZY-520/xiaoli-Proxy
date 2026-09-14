@@ -2,10 +2,10 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:proxypin/network/http/codec.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/http/http_headers.dart';
-import 'package:proxypin/network/http/parse/body_reader.dart';
+import 'package:lico_proxy/network/http/codec.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/http/http_headers.dart';
+import 'package:lico_proxy/network/http/parse/body_reader.dart';
 
 Uint8List _b(String s) => Uint8List.fromList(utf8.encode(s));
 

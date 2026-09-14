@@ -12,9 +12,9 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/foundation.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/network/util/random.dart';
-import 'package:proxypin/storage/path.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/network/util/random.dart';
+import 'package:lico_proxy/storage/path.dart';
 
 /// 单个环境变量:key/value/enabled
 class EnvironmentVariable {

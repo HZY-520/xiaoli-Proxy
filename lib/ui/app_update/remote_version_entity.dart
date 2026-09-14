@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:proxypin/utils/lang.dart';
+import 'package:lico_proxy/utils/lang.dart';
 
 /// GitHub release 的单个资产（可下载文件）
 class ReleaseAsset {

@@ -1,24 +1,16 @@
 /*
- * Copyright 2023 Hongen Wang All rights reserved.
+ * 小离Proxy - 关于页面
  *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      https://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
+ * 作者：离愁Lico
+ * 基于 shadcn 设计系统重构
  */
 
 import 'package:flutter/material.dart';
-import 'package:proxypin/ui/configuration.dart';
-import 'package:proxypin/ui/mobile/liquid_glass.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:url_launcher/url_launcher.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/ui/configuration.dart';
+import 'package:lico_proxy/ui/mobile/shad/shad_design.dart';
 
 import '../../app_update/app_update_repository.dart';
 
@@ -35,138 +27,167 @@ class About extends StatefulWidget {
 class _AboutState extends State<About> {
   bool checkUpdating = false;
 
+  static const String author = '离愁Lico';
+  static const String repoUrl = 'https://github.com/HZY-520/xiaoli-Proxy';
+  static const String upstreamUrl = 'https://github.com/wanghongenpin/proxypin';
+
   @override
   Widget build(BuildContext context) {
     AppLocalizations localizations = AppLocalizations.of(context)!;
-
-    String gitHub = "https://github.com/wanghongenpin/proxypin";
-    final String sponsorUrl = "https://github.com/sponsors/wanghongenpin";
+    final scheme = ShadTheme.of(context).colorScheme;
 
     return Scaffold(
-        appBar: AppBar(title: Text(localizations.about, style: const TextStyle(fontSize: 16)), centerTitle: true),
-        body: ListView(padding: const EdgeInsets.all(12), children: [
-          const SizedBox(height: 6),
-          Center(child: Text("ProxyPin", style: Theme.of(context).textTheme.headlineSmall)),
-          const SizedBox(height: 10),
-          Center(
-              child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 10),
-                  child: Text(localizations.proxyPinSoftware, textAlign: TextAlign.center))),
-          const SizedBox(height: 8),
-          Center(child: Text("Version ${AppConfiguration.version}")),
-          const SizedBox(height: 12),
-          glassSection(context, [
-            ListTile(
-                title: const Text("GitHub"),
-                trailing: const Icon(Icons.open_in_new, size: 22),
-                onTap: () {
-                  _safeLaunch(Uri.parse(gitHub));
-                }),
-            Divider(height: 0, thickness: 0.4, color: Theme.of(context).dividerColor.withValues(alpha: 0.22)),
-            ListTile(
-                title: Text(localizations.feedback),
-                trailing: const Icon(Icons.open_in_new, size: 22),
-                onTap: () {
-                  _safeLaunch(Uri.parse("$gitHub/issues"));
-                }),
-            Divider(height: 0, thickness: 0.4, color: Theme.of(context).dividerColor.withValues(alpha: 0.22)),
-            ListTile(
-                title: Text(localizations.appUpdateCheckVersion),
-                trailing: checkUpdating
-                    ? const SizedBox(width: 22, height: 22, child: CircularProgressIndicator(strokeWidth: 2))
-                    : const Icon(Icons.sync, size: 22),
-                onTap: () async {
-                  if (checkUpdating) return;
-                  setState(() => checkUpdating = true);
-                  await AppUpdateRepository.checkUpdate(context, canIgnore: false, showToast: true);
-                  if (mounted) setState(() => checkUpdating = false);
-                }),
-            Divider(height: 0, thickness: 0.4, color: Theme.of(context).dividerColor.withValues(alpha: 0.22)),
-            ListTile(
-                title: Text(localizations.download),
-                trailing: const Icon(Icons.open_in_new, size: 22),
-                onTap: () {
-                  final url = "$gitHub/releases";
-                  _safeLaunch(Uri.parse(url));
-                }),
-            Divider(height: 0, thickness: 0.4, color: Theme.of(context).dividerColor.withValues(alpha: 0.22)),
-            ListTile(
-                title: Text(localizations.privacyPolicy),
-                trailing: const Icon(Icons.privacy_tip_outlined, size: 22),
-                onTap: () {
-                  showDialog(
-                    context: context,
-                    builder: (ctx) => AlertDialog(
-                      title: Text(localizations.privacyPolicy),
-                      content: SingleChildScrollView(
-                          child: ConstrainedBox(
-                              constraints: const BoxConstraints(maxWidth: 385),
-                              child: Text(localizations.privacyContent, style: const TextStyle(height: 1.35)))),
-                      actions: [
-                        TextButton(onPressed: () => Navigator.of(ctx).pop(), child: Text(localizations.close))
-                      ],
-                    ),
-                  );
-                }),
-            Divider(height: 0, thickness: 0.4, color: Theme.of(context).dividerColor.withValues(alpha: 0.22)),
-            // Sponsor / Donate entry
-            ListTile(
-              title: Text(localizations.sponsorDonate),
-              subtitle: Text(localizations.sponsorSupport, style: const TextStyle(fontSize: 12)),
-              trailing: const Icon(Icons.favorite, color: Colors.redAccent, size: 22),
-              onTap: () => _showSponsorDialog(localizations, sponsorUrl),
+      appBar: ShadHeader(title: localizations.about),
+      body: ListView(
+        padding: const EdgeInsets.fromLTRB(14, 18, 14, 28),
+        children: [
+          Column(
+            children: [
+              ClipRRect(
+                borderRadius: BorderRadius.circular(22),
+                child: Image.asset('assets/icon.png', width: 88, height: 88, fit: BoxFit.cover),
+              ),
+              const SizedBox(height: 14),
+              const Text('小离Proxy', style: TextStyle(fontSize: 21, fontWeight: FontWeight.bold)),
+              const SizedBox(height: 6),
+              Text(localizations.proxyPinSoftware,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(fontSize: 12.5, color: scheme.mutedForeground)),
+              const SizedBox(height: 10),
+              ShadTag('v${AppConfiguration.version}'),
+            ],
+          ),
+          const SizedBox(height: 24),
+
+          ShadSection(title: '作者', children: [
+            const ShadTile(
+              icon: LucideIcons.user,
+              title: author,
+              subtitle: '小离Proxy 作者 / 维护者',
+              showDivider: false,
             ),
-          ], margin: EdgeInsets.zero)
-        ]));
+          ]),
+
+          ShadSection(title: '开源信息', children: [
+            const ShadTile(
+              icon: LucideIcons.scale,
+              title: '开源许可',
+              subtitle: 'Apache License 2.0',
+            ),
+            ShadTile(
+              icon: LucideIcons.code,
+              title: '项目仓库',
+              subtitle: 'GitHub - xiaoli-Proxy',
+              trailing: const Icon(LucideIcons.externalLink, size: 16),
+              onTap: () => _safeLaunch(Uri.parse(repoUrl)),
+            ),
+            ShadTile(
+              icon: LucideIcons.gitFork,
+              title: '上游项目',
+              subtitle: 'ProxyPin（wanghongenpin）',
+              trailing: const Icon(LucideIcons.externalLink, size: 16),
+              onTap: () => _safeLaunch(Uri.parse(upstreamUrl)),
+            ),
+            ShadTile(
+              icon: LucideIcons.fileText,
+              title: '开源声明',
+              subtitle: '本项目基于 ProxyPin 二次开发，遵循 Apache-2.0 协议开源',
+              onTap: () => _showOpenSourceNotice(localizations),
+              showDivider: false,
+            ),
+          ]),
+
+          ShadSection(title: '支持与反馈', children: [
+            ShadTile(
+              icon: LucideIcons.messageSquare,
+              title: localizations.feedback,
+              subtitle: '问题反馈与建议',
+              trailing: const Icon(LucideIcons.externalLink, size: 16),
+              onTap: () => _safeLaunch(Uri.parse('$repoUrl/issues')),
+            ),
+            ShadTile(
+              icon: LucideIcons.download,
+              title: localizations.download,
+              subtitle: '获取最新版本',
+              trailing: const Icon(LucideIcons.externalLink, size: 16),
+              onTap: () => _safeLaunch(Uri.parse('$repoUrl/releases')),
+            ),
+            ShadTile(
+              icon: LucideIcons.refreshCw,
+              title: localizations.appUpdateCheckVersion,
+              subtitle: '检查是否有新版本',
+              trailing: checkUpdating
+                  ? const SizedBox(width: 16, height: 16, child: CircularProgressIndicator(strokeWidth: 2))
+                  : const Icon(LucideIcons.chevronRight, size: 16),
+              onTap: () async {
+                if (checkUpdating) return;
+                setState(() => checkUpdating = true);
+                await AppUpdateRepository.checkUpdate(context, canIgnore: false, showToast: true);
+                if (mounted) setState(() => checkUpdating = false);
+              },
+            ),
+            ShadTile(
+              icon: LucideIcons.shieldCheck,
+              title: localizations.privacyPolicy,
+              trailing: const Icon(LucideIcons.chevronRight, size: 16),
+              onTap: () => _showPrivacy(localizations),
+              showDivider: false,
+            ),
+          ]),
+
+          const SizedBox(height: 6),
+          Center(
+            child: Text(
+              'Copyright © 2024-2026 $author\nPowered by Flutter',
+              textAlign: TextAlign.center,
+              style: TextStyle(fontSize: 11.5, color: scheme.mutedForeground, height: 1.6),
+            ),
+          ),
+          const SizedBox(height: 14),
+        ],
+      ),
+    );
   }
 
   Future<void> _safeLaunch(Uri uri) async {
     await launchUrl(uri, mode: LaunchMode.externalApplication);
   }
 
-  void _showSponsorDialog(AppLocalizations l10n, String sponsorUrl) {
-    bool isCN = Localizations.localeOf(context) == const Locale.fromSubtags(languageCode: 'zh');
-
-    List<Widget> sponsors = [
-      ListTile(
-        onTap: () => _safeLaunch(Uri.parse("https://afdian.com/a/proxypin")),
-        contentPadding: EdgeInsets.zero,
-        leading: const Icon(Icons.favorite, color: Colors.pinkAccent),
-        title: Text(l10n.sponsorAfdian),
-      )
-    ];
-
-    final coffee = ListTile(
-      contentPadding: EdgeInsets.zero,
-      leading: const Icon(Icons.coffee, color: Colors.brown),
-      title: Text('Buy Me a Coffee'),
-      onTap: () => _safeLaunch(Uri.parse("https://buymeacoffee.com/proxypin")),
-    );
-    if (isCN) {
-      sponsors.add(coffee);
-    } else {
-      sponsors.insert(0, coffee);
-    }
-
-    showDialog(
+  void _showOpenSourceNotice(AppLocalizations l10n) {
+    showShadDialog(
       context: context,
-      builder: (ctx) {
-        return AlertDialog(
-          title: Text(l10n.sponsorDonate),
-          contentPadding: const EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 10),
-          content: SizedBox(
-            width: 340,
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [Text(l10n.sponsorThanks), const SizedBox(height: 12), ...sponsors],
-            ),
+      builder: (ctx) => ShadDialog.alert(
+        title: const Text('开源声明'),
+        description: const Text(
+          '小离Proxy 是基于 ProxyPin 二次开发的安卓端网络调试工具。\n\n'
+          '• 上游项目：ProxyPin（wanghongenpin）\n'
+          '• 开源协议：Apache License 2.0\n'
+          '• 本项目作者：离愁Lico\n\n'
+          '您可以在遵循 Apache-2.0 协议的前提下自由使用、修改和分发本项目源码，请保留原始版权与许可声明。',
+          style: TextStyle(height: 1.6, fontSize: 13),
+        ),
+        actions: [
+          ShadButton.outline(onPressed: () => Navigator.of(ctx).pop(), child: Text(l10n.close)),
+        ],
+      ),
+    );
+  }
+
+  void _showPrivacy(AppLocalizations l10n) {
+    showShadDialog(
+      context: context,
+      builder: (ctx) => ShadDialog.alert(
+        title: Text(l10n.privacyPolicy),
+        description: SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: const BoxConstraints(maxWidth: 385),
+            child: Text(l10n.privacyContent, style: const TextStyle(height: 1.5, fontSize: 13)),
           ),
-          actions: [
-            TextButton(onPressed: () => Navigator.of(ctx).pop(), child: Text(l10n.close)),
-          ],
-        );
-      },
+        ),
+        actions: [
+          ShadButton.outline(onPressed: () => Navigator.of(ctx).pop(), child: Text(l10n.close)),
+        ],
+      ),
     );
   }
 }

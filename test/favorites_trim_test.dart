@@ -1,9 +1,9 @@
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/http/websocket.dart';
-import 'package:proxypin/storage/favorites.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/http/websocket.dart';
+import 'package:lico_proxy/storage/favorites.dart';
 
 WebSocketFrame _frame(int index, {bool fromClient = true, int payloadBytes = 1024}) {
   final frame = WebSocketFrame(

@@ -14,8 +14,8 @@
  * limitations under the License.
  */
 import 'package:get/get.dart';
-import 'package:proxypin/network/http/content_type.dart';
-import 'package:proxypin/network/http/http.dart';
+import 'package:lico_proxy/network/http/content_type.dart';
+import 'package:lico_proxy/network/http/http.dart';
 
 /// @author wanghongen
 /// 2023/8/4

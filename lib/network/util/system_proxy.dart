@@ -16,10 +16,10 @@
 
 import 'dart:io';
 
-import 'package:proxypin/network/channel/host_port.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/utils/ip.dart';
-import 'package:proxypin/utils/lang.dart';
+import 'package:lico_proxy/network/channel/host_port.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/utils/ip.dart';
+import 'package:lico_proxy/utils/lang.dart';
 import 'package:proxy_manager/proxy_manager.dart';
 
 /// @author wanghongen

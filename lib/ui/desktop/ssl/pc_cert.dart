@@ -2,14 +2,14 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/network/bin/server.dart';
-import 'package:proxypin/network/util/cert/cert_data.dart';
-import 'package:proxypin/network/util/crts.dart';
-import 'package:proxypin/storage/local_storage.dart';
-import 'package:proxypin/ui/component/app_dialog.dart';
-import 'package:proxypin/ui/desktop/ssl/cert_installer.dart';
-import 'package:proxypin/utils/platform.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/network/bin/server.dart';
+import 'package:lico_proxy/network/util/cert/cert_data.dart';
+import 'package:lico_proxy/network/util/crts.dart';
+import 'package:lico_proxy/storage/local_storage.dart';
+import 'package:lico_proxy/ui/component/app_dialog.dart';
+import 'package:lico_proxy/ui/desktop/ssl/cert_installer.dart';
+import 'package:lico_proxy/utils/platform.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../storage/shared_preference_keys.dart';

@@ -2,8 +2,8 @@ import 'dart:convert';
 import 'dart:typed_data';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:proxypin/network/http/parse/chunked_decoder.dart';
-import 'package:proxypin/network/http/sse.dart';
+import 'package:lico_proxy/network/http/parse/chunked_decoder.dart';
+import 'package:lico_proxy/network/http/sse.dart';
 
 Uint8List _b(String s) => Uint8List.fromList(utf8.encode(s));
 

@@ -4,8 +4,8 @@ import 'dart:ffi';
 import 'package:archive/archive_io.dart';
 import 'package:ffi/ffi.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/utils/desktop_tray.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/utils/desktop_tray.dart';
 
 /// Windows 原地更新：解压 zip -> 启动 helper 脚本 -> 等待当前进程退出 -> robocopy 覆盖 -> 重启。
 class WindowsZipUpdater {

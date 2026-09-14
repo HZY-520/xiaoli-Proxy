@@ -21,11 +21,11 @@ import 'dart:math';
 import 'dart:typed_data';
 import 'package:path_provider/path_provider.dart';
 import 'package:pointycastle/export.dart';
-import 'package:proxypin/network/util/cert/pkcs12.dart';
-import 'package:proxypin/network/util/cert/x509.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/network/util/random.dart';
-import 'package:proxypin/utils/lang.dart';
+import 'package:lico_proxy/network/util/cert/pkcs12.dart';
+import 'package:lico_proxy/network/util/cert/x509.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/network/util/random.dart';
+import 'package:lico_proxy/utils/lang.dart';
 
 import 'cache.dart';
 import 'cert/basic_constraints.dart';
@@ -227,7 +227,7 @@ class CertificateManager {
       'O': 'Proxy',
       'OU': 'ProxyPin',
     };
-    x509Subject['CN'] = 'ProxyPin CA (${DateTime.now().dateFormat()},${RandomUtil.randomString(6).toUpperCase()})';
+    x509Subject['CN'] = '小离Proxy CA (${DateTime.now().dateFormat()},${RandomUtil.randomString(6).toUpperCase()})';
 
     var csrPem = X509Utils.generateSelfSignedCertificate(
       _caCert!,

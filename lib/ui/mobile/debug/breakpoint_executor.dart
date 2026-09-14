@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:proxypin/network/bin/server.dart';
-import 'package:proxypin/network/components/request_breakpoint.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/ui/mobile/request/request_editor.dart';
-import 'package:proxypin/ui/mobile/request/request_editor_source.dart';
+import 'package:lico_proxy/network/bin/server.dart';
+import 'package:lico_proxy/network/components/request_breakpoint.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/ui/mobile/request/request_editor.dart';
+import 'package:lico_proxy/ui/mobile/request/request_editor_source.dart';
 
 class BreakpointExecutor extends StatefulWidget {
   final HttpRequest request;

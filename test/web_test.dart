@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:proxypin/network/channel/channel_context.dart';
-import 'package:proxypin/network/http/codec.dart';
-import 'package:proxypin/network/http/http.dart';
+import 'package:lico_proxy/network/channel/channel_context.dart';
+import 'package:lico_proxy/network/http/codec.dart';
+import 'package:lico_proxy/network/http/http.dart';
 
 main() async {
   await socketTest();

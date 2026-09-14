@@ -4,9 +4,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
-import 'package:proxypin/network/components/manager/report_server_manager.dart';
-import 'package:proxypin/ui/component/widgets.dart';
-import 'package:proxypin/ui/component/utils.dart';
+import 'package:lico_proxy/network/components/manager/report_server_manager.dart';
+import 'package:lico_proxy/ui/component/widgets.dart';
+import 'package:lico_proxy/ui/component/utils.dart';
 import '../../../l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
 

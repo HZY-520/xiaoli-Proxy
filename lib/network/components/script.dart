@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import 'package:proxypin/network/components/interceptor.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/util/logger.dart';
+import 'package:lico_proxy/network/components/interceptor.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/util/logger.dart';
 
 import 'manager/script_manager.dart';
 

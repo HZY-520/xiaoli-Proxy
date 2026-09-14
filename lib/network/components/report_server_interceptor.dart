@@ -18,9 +18,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:proxypin/network/util/compress.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/utils/har.dart';
+import 'package:lico_proxy/network/util/compress.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/utils/har.dart';
 
 import '../http/http.dart';
 import 'interceptor.dart';

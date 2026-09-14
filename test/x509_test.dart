@@ -1,6 +1,6 @@
 import 'dart:io';
 
-import 'package:proxypin/network/util/cert/x509.dart';
+import 'package:lico_proxy/network/util/cert/x509.dart';
 
 void main() async {
   // encoding();

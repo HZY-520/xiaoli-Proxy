@@ -3,12 +3,12 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/ui/app_update/constants.dart';
-import 'package:proxypin/ui/app_update/macos_zip_updater.dart';
-import 'package:proxypin/ui/app_update/remote_version_entity.dart';
-import 'package:proxypin/ui/app_update/windows_zip_updater.dart';
-import 'package:proxypin/utils/desktop_tray.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/ui/app_update/constants.dart';
+import 'package:lico_proxy/ui/app_update/macos_zip_updater.dart';
+import 'package:lico_proxy/ui/app_update/remote_version_entity.dart';
+import 'package:lico_proxy/ui/app_update/windows_zip_updater.dart';
+import 'package:lico_proxy/utils/desktop_tray.dart';
 import 'package:window_manager/window_manager.dart';
 
 enum DesktopUpdatePhase {

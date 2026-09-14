@@ -17,11 +17,11 @@
 import 'dart:convert';
 import 'dart:typed_data';
 
-import 'package:proxypin/network/channel/channel.dart';
-import 'package:proxypin/network/channel/channel_context.dart';
-import 'package:proxypin/network/http/codec.dart';
-import 'package:proxypin/network/util/attribute_keys.dart';
-import 'package:proxypin/network/util/logger.dart';
+import 'package:lico_proxy/network/channel/channel.dart';
+import 'package:lico_proxy/network/channel/channel_context.dart';
+import 'package:lico_proxy/network/http/codec.dart';
+import 'package:lico_proxy/network/util/attribute_keys.dart';
+import 'package:lico_proxy/network/util/logger.dart';
 
 import '../channel/host_port.dart';
 

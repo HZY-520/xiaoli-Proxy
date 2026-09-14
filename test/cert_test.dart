@@ -2,12 +2,12 @@ import 'dart:io';
 import 'dart:math';
 
 import 'package:pointycastle/asymmetric/api.dart';
-import 'package:proxypin/network/util/cert/basic_constraints.dart';
-import 'package:proxypin/network/util/cert/cert_data.dart';
-import 'package:proxypin/network/util/cert/extension.dart';
-import 'package:proxypin/network/util/cert/key_usage.dart' as x509;
-import 'package:proxypin/network/util/cert/x509.dart';
-import 'package:proxypin/network/util/crypto.dart';
+import 'package:lico_proxy/network/util/cert/basic_constraints.dart';
+import 'package:lico_proxy/network/util/cert/cert_data.dart';
+import 'package:lico_proxy/network/util/cert/extension.dart';
+import 'package:lico_proxy/network/util/cert/key_usage.dart' as x509;
+import 'package:lico_proxy/network/util/cert/x509.dart';
+import 'package:lico_proxy/network/util/crypto.dart';
 
 void main() async {
   var caPem = await File('assets/certs/ca.crt').readAsString();

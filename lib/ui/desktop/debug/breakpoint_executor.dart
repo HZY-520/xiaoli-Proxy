@@ -1,7 +1,7 @@
-import 'package:proxypin/ui/component/multi_window_compat.dart';
+import 'package:lico_proxy/ui/component/multi_window_compat.dart';
 import 'package:flutter/material.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/ui/desktop/request/request_editor.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/ui/desktop/request/request_editor.dart';
 
 class BreakpointExecutor extends StatefulWidget {
   final String? windowId;

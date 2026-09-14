@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:proxypin/network/bin/configuration.dart';
-import 'package:proxypin/network/channel/network.dart';
-import 'package:proxypin/network/components/interceptor.dart';
-import 'package:proxypin/network/handle/http_proxy_handle.dart';
-import 'package:proxypin/network/http/codec.dart';
-import 'package:proxypin/network/http/http.dart';
+import 'package:lico_proxy/network/bin/configuration.dart';
+import 'package:lico_proxy/network/channel/network.dart';
+import 'package:lico_proxy/network/components/interceptor.dart';
+import 'package:lico_proxy/network/handle/http_proxy_handle.dart';
+import 'package:lico_proxy/network/http/codec.dart';
+import 'package:lico_proxy/network/http/http.dart';
 
 /// Mimics the real app's async response processing (UI listener + the 6
 /// built-in interceptors each `await`ing) that sits between receiving the

@@ -1,54 +1,49 @@
 /*
- * 液态玻璃（Liquid Glass）UI 辅助模块
- * 基于 liquid_glass_widgets（iOS 26 Liquid Glass 设计语言）实现。
- * 仅用于安卓端（移动端）UI 视觉改造，不涉及任何功能逻辑。
+ * 小离Proxy - 移动端视觉辅助模块
+ *
+ * 原为基于 liquid_glass_widgets 的液态玻璃实现，现已全面迁移到
+ * shadcn 设计语言。此文件保留同名 API，避免大范围改动调用点，
+ * 但内部实现已改为 shadcn 风格的纯色卡片与自适应文字/图标颜色。
  */
 
 import 'package:flutter/material.dart';
-import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
+import 'package:shadcn_ui/shadcn_ui.dart';
 
-/// 液态玻璃全局渐变背景：为所有玻璃表面提供“折射/模糊”的色彩来源。
+import 'shad/shad_design.dart';
+
+/// 背景层：shadcn 风格使用纯色背景，不再叠加渐变。
+///
+/// 保留此组件是为了兼容历史调用点。
 class GlassBackground extends StatelessWidget {
-  const GlassBackground({super.key});
+  /// 可选子组件；传入时作为背景色的承载层包裹子组件
+  final Widget? child;
+
+  const GlassBackground({super.key, this.child});
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    return DecoratedBox(
-      decoration: BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: isDark
-              ? const [Color(0xFF141E30), Color(0xFF243B55), Color(0xFF2C5364)]
-              : const [Color(0xFFA1C4FD), Color(0xFFC2E9FB), Color(0xFFE0EAFC)],
-        ),
-      ),
-      child: const SizedBox.expand(),
+    return ColoredBox(
+      color: ShadTheme.of(context).colorScheme.background,
+      child: child ?? const SizedBox.expand(),
     );
   }
 }
 
-/// 玻璃分组卡片：替代设置页中原来的「透明 Card 区块」。
-/// 外层玻璃卡片 + 内部保持原有 ListTile 内容与分割线。
+/// 分组区块：等价于 shadcn 的 Card，内部按行 + 细分隔线排列。
+///
+/// 参数名保留 `glassSection` 以兼容原有调用点。
 Widget glassSection(BuildContext context, List<Widget> children,
     {EdgeInsetsGeometry? margin}) {
-  return GlassCard(
-    margin: margin ?? const EdgeInsets.only(bottom: 12),
-    padding: EdgeInsets.zero,
-    clipBehavior: Clip.antiAlias,
-    child: Column(children: children),
+  return ShadSection(
+    margin: margin ?? const EdgeInsets.only(bottom: 14),
+    children: children,
   );
 }
 
-/// 适配亮/暗模式的玻璃图标颜色
+/// 适配亮/暗模式的图标颜色
 Color glassIconColor(BuildContext context) =>
-    Theme.of(context).brightness == Brightness.dark
-        ? Colors.white
-        : const Color(0xDD000000);
+    ShadTheme.of(context).colorScheme.mutedForeground;
 
-/// 适配亮/暗模式的玻璃文字颜色
+/// 适配亮/暗模式的文字颜色
 Color glassTextColor(BuildContext context) =>
-    Theme.of(context).brightness == Brightness.dark
-        ? Colors.white
-        : const Color(0xDD000000);
+    ShadTheme.of(context).colorScheme.foreground;

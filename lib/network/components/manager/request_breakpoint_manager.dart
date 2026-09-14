@@ -1,9 +1,9 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/storage/path.dart';
-import 'package:proxypin/network/util/logger.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/storage/path.dart';
+import 'package:lico_proxy/network/util/logger.dart';
 
 class RequestBreakpointRule {
   bool enabled;

@@ -16,10 +16,10 @@
         <item name="android:windowBackground">?android:colorBackground</item>
     </style>
 
-    <string name="vpn_active_notification_title">ProxyPin Active</string>
+    <string name="vpn_active_notification_title">小离Proxy 运行中</string>
     <string name="vpn_active_notification_content">抓包正在运行</string>
 
-    <string name="floating_notification_title">ProxyBird 悬浮窗运行中</string>
+    <string name="floating_notification_title">小离Proxy 悬浮窗运行中</string>
     <string name="floating_notification_content">点击返回应用，悬浮窗可保持 MCP 连接</string>
 
 </resources>

@@ -20,13 +20,13 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:date_format/date_format.dart';
-import 'package:proxypin/network/bin/configuration.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/storage/path.dart';
-import 'package:proxypin/utils/files.dart';
-import 'package:proxypin/utils/har.dart';
-import 'package:proxypin/utils/listenable_list.dart';
+import 'package:lico_proxy/network/bin/configuration.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/storage/path.dart';
+import 'package:lico_proxy/utils/files.dart';
+import 'package:lico_proxy/utils/har.dart';
+import 'package:lico_proxy/utils/listenable_list.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 

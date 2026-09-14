@@ -17,15 +17,15 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:proxypin/ui/component/multi_window_compat.dart';
-import 'package:proxypin/network/components/manager/environment_manager.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/network/util/cache.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/network/util/url_pattern.dart';
-import 'package:proxypin/network/util/random.dart';
-import 'package:proxypin/storage/path.dart';
-import 'package:proxypin/ui/component/device.dart';
+import 'package:lico_proxy/ui/component/multi_window_compat.dart';
+import 'package:lico_proxy/network/components/manager/environment_manager.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/network/util/cache.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/network/util/url_pattern.dart';
+import 'package:lico_proxy/network/util/random.dart';
+import 'package:lico_proxy/storage/path.dart';
+import 'package:lico_proxy/ui/component/device.dart';
 import 'package:http/http.dart' as http;
 
 import '../js/script_engine.dart';

@@ -2,7 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:proxypin/ui/component/context_menu.dart';
+import 'package:lico_proxy/ui/component/context_menu.dart';
 
 /// Verifies that labels of every item type share one left edge, which is the
 /// visual property being asked for (checkmark in its own gutter, text aligned).

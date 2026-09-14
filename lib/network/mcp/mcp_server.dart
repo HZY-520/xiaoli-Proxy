@@ -21,10 +21,10 @@ import 'dart:math';
 
 import 'package:shared_preferences/shared_preferences.dart';
 
-import 'package:proxypin/network/http/http.dart' as http;
-import 'package:proxypin/network/mcp/mcp_tools.dart';
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/utils/listenable_list.dart';
+import 'package:lico_proxy/network/http/http.dart' as http;
+import 'package:lico_proxy/network/mcp/mcp_tools.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/utils/listenable_list.dart';
 
 /// MCP (Model Context Protocol) Server
 /// 同时提供两种传输：

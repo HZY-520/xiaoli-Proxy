@@ -1,7 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:proxypin/ui/configuration.dart';
+import 'package:lico_proxy/ui/configuration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class KeywordHighlights {

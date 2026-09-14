@@ -9,7 +9,7 @@
  */
 
 import 'package:flutter/material.dart';
-import 'package:proxypin/network/components/manager/environment_manager.dart';
+import 'package:lico_proxy/network/components/manager/environment_manager.dart';
 
 /// 匹配 EnvironmentManager 支持的 `{{name}}` 语法（与 env_manager 内部正则保持一致）。
 final RegExp _envTokenRe = RegExp(r'\{\{\s*([\w.\-]+)\s*\}\}');

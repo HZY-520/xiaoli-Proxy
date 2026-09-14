@@ -2,12 +2,12 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
 import 'package:http/http.dart' as http;
-import 'package:proxypin/network/util/logger.dart';
-import 'package:proxypin/ui/app_update/remote_version_entity.dart';
-import 'package:proxypin/ui/component/app_dialog.dart';
-import 'package:proxypin/ui/configuration.dart';
+import 'package:lico_proxy/network/util/logger.dart';
+import 'package:lico_proxy/ui/app_update/remote_version_entity.dart';
+import 'package:lico_proxy/ui/component/app_dialog.dart';
+import 'package:lico_proxy/ui/configuration.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import 'constants.dart';

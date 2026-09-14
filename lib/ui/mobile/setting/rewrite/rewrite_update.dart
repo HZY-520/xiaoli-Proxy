@@ -23,11 +23,11 @@ import 'package:re_highlight/styles/atom-one-dark.dart';
 import 'package:re_highlight/styles/atom-one-light.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
 import 'package:get/get.dart';
-import 'package:proxypin/l10n/app_localizations.dart';
-import 'package:proxypin/network/components/manager/rewrite_rule.dart';
-import 'package:proxypin/network/http/http.dart';
-import 'package:proxypin/ui/component/widgets.dart';
-import 'package:proxypin/utils/lang.dart';
+import 'package:lico_proxy/l10n/app_localizations.dart';
+import 'package:lico_proxy/network/components/manager/rewrite_rule.dart';
+import 'package:lico_proxy/network/http/http.dart';
+import 'package:lico_proxy/ui/component/widgets.dart';
+import 'package:lico_proxy/utils/lang.dart';
 import 'package:re_highlight/languages/json.dart';
 
 class MobileRewriteUpdate extends StatefulWidget {
