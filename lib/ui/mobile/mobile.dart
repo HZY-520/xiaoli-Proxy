@@ -612,17 +612,33 @@ class _MobileAppBarState extends State<_MobileAppBar> {
     Navigator.of(context).push(MaterialPageRoute(
         fullscreenDialog: true,
         builder: (_) => Scaffold(
-              appBar: AppBar(
-                backgroundColor: Colors.transparent,
-                title: MobileSearch(
-                    key: MobileApp.searchStateKey,
-                    onSearch: (val) {
-                      MobileApp.requestStateKey.currentState?.search(val);
-                      Navigator.of(context).pop();
-                    }),
-                leading: ShadIconButton.ghost(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () => Navigator.of(context).pop(),
+              appBar: PreferredSize(
+                preferredSize: const Size.fromHeight(kToolbarHeight),
+                child: Container(
+                  height: kToolbarHeight,
+                  decoration: BoxDecoration(
+                    color: ShadTheme.of(context).colorScheme.background,
+                    border: Border(
+                      bottom: BorderSide(
+                          color: ShadTheme.of(context).colorScheme.border.withValues(alpha: 0.5), width: 0.5),
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      ShadIconButton.ghost(
+                        icon: const Icon(LucideIcons.chevronLeft, size: 20),
+                        onPressed: () => Navigator.of(context).pop(),
+                      ),
+                      Expanded(
+                        child: MobileSearch(
+                            key: MobileApp.searchStateKey,
+                            onSearch: (val) {
+                              MobileApp.requestStateKey.currentState?.search(val);
+                              Navigator.of(context).pop();
+                            }),
+                      ),
+                    ],
+                  ),
                 ),
               ),
               body: const SizedBox.shrink(),

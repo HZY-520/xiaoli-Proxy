@@ -239,7 +239,7 @@ class _McpServerPageState extends State<McpServerPage> {
                     ],
                   ),
                 ),
-                Switch(
+                ShadSwitch(
                   value: _autoStart,
                   onChanged: (value) {
                     setState(() {

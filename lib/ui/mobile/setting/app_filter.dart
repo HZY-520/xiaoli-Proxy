@@ -356,26 +356,46 @@ class _InstalledAppsWidgetState extends State<InstalledAppsWidget> {
     bool isCN = Localizations.localeOf(context) == const Locale.fromSubtags(languageCode: 'zh');
 
     return Scaffold(
-      appBar: AppBar(
-        title: TextField(
-          decoration: InputDecoration(
-            hintText: isCN ? "请输入应用名或包名" : "Please enter the application or package name",
-            border: InputBorder.none,
-            hintStyle: TextStyle(color: Colors.grey.shade500),
-            suffixIcon: ShadIconButton.ghost(
-              icon: const Icon(Icons.visibility_outlined),
-              onPressed: () {
-                setState(() {
-                  includeSystemApps = !includeSystemApps;
-                });
-                refreshApps();
-              },
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: Container(
+          height: kToolbarHeight,
+          decoration: BoxDecoration(
+            color: ShadTheme.of(context).colorScheme.background,
+            border: Border(
+              bottom: BorderSide(color: ShadTheme.of(context).colorScheme.border.withValues(alpha: 0.5), width: 0.5),
             ),
           ),
-          onChanged: (String value) {
-            keyword = value.toLowerCase();
-            setState(() {});
-          },
+          child: Row(
+            children: [
+              ShadIconButton.ghost(
+                icon: const Icon(LucideIcons.chevronLeft, size: 20),
+                onPressed: () => Navigator.of(context).maybePop(),
+              ),
+              Expanded(
+                child: TextField(
+                  decoration: InputDecoration(
+                    hintText: isCN ? "请输入应用名或包名" : "Please enter the application or package name",
+                    border: InputBorder.none,
+                    hintStyle: TextStyle(color: Colors.grey.shade500),
+                    suffixIcon: ShadIconButton.ghost(
+                      icon: const Icon(LucideIcons.eye),
+                      onPressed: () {
+                        setState(() {
+                          includeSystemApps = !includeSystemApps;
+                        });
+                        refreshApps();
+                      },
+                    ),
+                  ),
+                  onChanged: (String value) {
+                    keyword = value.toLowerCase();
+                    setState(() {});
+                  },
+                ),
+              ),
+            ],
+          ),
         ),
       ),
       body: RefreshIndicator(
