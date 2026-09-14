@@ -33,7 +33,7 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
-    namespace "com.network.proxy"
+    namespace "com.lico.proxy"
     compileSdk flutter.compileSdkVersion
     ndkVersion flutter.ndkVersion
 //    ndkVersion "26.1.10909125"
@@ -61,7 +61,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.network.proxy"
+        applicationId "com.lico.proxy"
         // ABI is controlled via `flutter build apk --split-per-abi` (arm64-v8a only).
         // ndk.abiFilters is intentionally omitted: Flutter's plugin sets it to all
         // three ABIs and it does not strip cargokit's prebuilt jniLibs anyway.

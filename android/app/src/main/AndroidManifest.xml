@@ -29,9 +29,9 @@
     <application
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher"
-        android:label="ProxyBird">
+        android:label="小离Proxy">
         <activity
-            android:name="com.network.proxy.MainActivity"
+            android:name="com.lico.proxy.MainActivity"
             android:configChanges="orientation|keyboardHidden|keyboard|screenSize|smallestScreenSize|locale|layoutDirection|fontScale|screenLayout|density|uiMode"
             android:exported="true"
             android:hardwareAccelerated="true"
@@ -72,7 +72,7 @@
             android:name=".VpnAlertDialog"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.network.proxy.ProxyVpnService" />
+                <action android:name="com.lico.proxy.ProxyVpnService" />
             </intent-filter>
         </activity>
         <!-- Don't delete the meta-data below.
