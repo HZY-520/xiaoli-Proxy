@@ -20,6 +20,7 @@ import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart' show Clipboard, ClipboardData;
 import 'package:flutter_toastr/flutter_toastr.dart';
+import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 import 'package:proxypin/l10n/app_localizations.dart';
 import 'package:proxypin/native/native_method.dart';
 import 'package:proxypin/network/bin/server.dart';
@@ -29,6 +30,7 @@ import 'package:proxypin/network/util/logger.dart';
 import 'package:proxypin/storage/local_storage.dart';
 import 'package:proxypin/storage/shared_preference_keys.dart';
 import 'package:proxypin/ui/component/utils.dart';
+import 'package:proxypin/ui/mobile/liquid_glass.dart';
 import 'package:proxypin/ui/mobile/menu/drawer.dart';
 import 'package:proxypin/utils/lang.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -86,15 +88,9 @@ class _MobileSslState extends State<MobileSslWidget> {
   @override
   Widget build(BuildContext context) {
     final localizations = AppLocalizations.of(context)!;
-    final borderColor = Theme.of(context).dividerColor.withValues(alpha: 0.13);
     final dividerColor = Theme.of(context).dividerColor.withValues(alpha: 0.22);
 
-    Widget section(List<Widget> tiles) => Card(
-          color: Colors.transparent,
-          elevation: 0,
-          shape: RoundedRectangleBorder(side: BorderSide(color: borderColor), borderRadius: BorderRadius.circular(10)),
-          child: Column(children: tiles),
-        );
+    Widget section(List<Widget> tiles) => glassSection(context, tiles);
 
     return Scaffold(
         appBar: AppBar(
@@ -704,11 +700,11 @@ class _IosCaInstallState extends State<IosCaInstall> {
       title = isCN ? '证书已安装并信任' : 'Certificate Installed & Trusted';
     }
 
-    return Card(
-      elevation: 2,
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    return GlassCard(
+      padding: const EdgeInsets.all(16),
+      margin: const EdgeInsets.only(bottom: 12),
+      useOwnLayer: true,
+      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Row(children: [
             Icon(icon, color: color, size: 28),
             const SizedBox(width: 8),
@@ -732,7 +728,6 @@ class _IosCaInstallState extends State<IosCaInstall> {
           ],
           if (trusted && certDetails != null) ...[const Divider(height: 12), _certDetails(certDetails!)]
         ]),
-      ),
     );
   }
 

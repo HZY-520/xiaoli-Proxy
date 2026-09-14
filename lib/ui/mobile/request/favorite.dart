@@ -80,8 +80,7 @@ class _FavoritesState extends State<MobileFavorites> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            backgroundColor: const Color(0xFFFF9E05),
-            foregroundColor: Colors.white,
+            backgroundColor: Colors.transparent,
             elevation: 0,
             title: Text(localizations.favorites,
                 style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),

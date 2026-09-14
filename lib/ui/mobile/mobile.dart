@@ -20,6 +20,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 import 'package:proxypin/l10n/app_localizations.dart';
 import 'package:flutter_toastr/flutter_toastr.dart';
 import 'package:proxypin/native/app_lifecycle.dart';
@@ -42,6 +43,7 @@ import 'package:proxypin/ui/toolbox/toolbox.dart';
 import 'package:proxypin/ui/configuration.dart';
 import 'package:proxypin/ui/content/panel.dart';
 import 'package:proxypin/ui/launch/launch.dart';
+import 'package:proxypin/ui/mobile/liquid_glass.dart';
 import 'package:proxypin/ui/mobile/menu/drawer.dart';
 import 'package:proxypin/ui/mobile/menu/bottom_navigation.dart';
 import 'package:proxypin/ui/mobile/menu/menu.dart';
@@ -520,8 +522,6 @@ class _MobileAppBar extends StatefulWidget implements PreferredSizeWidget {
     this.drawerOpen = false,
   });
 
-  static const Color _canaryOrange = Color(0xFFFF9E05);
-
   @override
   State<_MobileAppBar> createState() => _MobileAppBarState();
 
@@ -618,8 +618,7 @@ class _MobileAppBarState extends State<_MobileAppBar> {
         fullscreenDialog: true,
         builder: (_) => Scaffold(
               appBar: AppBar(
-                backgroundColor: _MobileAppBar._canaryOrange,
-                foregroundColor: Colors.white,
+                backgroundColor: Colors.transparent,
                 title: MobileSearch(
                     key: MobileApp.searchStateKey,
                     onSearch: (val) {
@@ -639,50 +638,51 @@ class _MobileAppBarState extends State<_MobileAppBar> {
   Widget build(BuildContext context) {
     AppLocalizations localizations = AppLocalizations.of(context)!;
 
-    // 抽屉滑出时把 AppBar 顶栏背景色和状态栏色变透明，避免侧边栏外露一条黄带
-    final Color barColor = widget.drawerOpen ? Colors.transparent : _MobileAppBar._canaryOrange;
+    final Color iconColor = glassIconColor(context);
+    final Color titleColor = glassTextColor(context);
 
-    return AppBar(
-        backgroundColor: barColor,
-        foregroundColor: Colors.white,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        centerTitle: false,
-        titleSpacing: 0,
-        systemOverlayStyle: Platform.isAndroid
-            ? SystemUiOverlayStyle(
-                statusBarColor: barColor,
-                statusBarIconBrightness: Brightness.light,
-                systemNavigationBarColor: const Color(0xFFFAFAFA),
-                systemNavigationBarIconBrightness: Brightness.dark,
-              )
-            : null,
-        title: Text('ProxyBird',
-            style: const TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.w500,
-              height: 1.2,
-            )),
-        actions: [
-          IconButton(
-              tooltip: localizations.search,
-              icon: const Icon(Icons.search, size: 22),
-              onPressed: () => _openSearch(context)),
-          IconButton(
-              tooltip: localizations.clear,
-              icon: const Icon(Icons.delete_sweep, size: 22),
-              onPressed: () => _onClear(context, localizations)),
-          IconButton(
-              tooltip: '悬浮窗保活',
-              icon: Icon(
-                Icons.picture_in_picture_alt,
-                size: 22,
-                color: _floatingActive ? Colors.white : Colors.white.withOpacity(0.7),
-              ),
-              onPressed: _toggleFloatingWindow),
-          MoreMenu(proxyServer: widget.proxyServer, remoteDevice: widget.remoteDevice),
-          const SizedBox(width: 6),
-        ]);
+    return GlassAppBar(
+      toolbarHeight: 56,
+      backgroundColor: Colors.transparent,
+      centerTitle: false,
+      leading: Builder(
+        builder: (ctx) => GlassIconButton(
+          icon: Icon(Icons.menu, color: iconColor, size: 24),
+          size: 40,
+          iconSize: 24,
+          onPressed: () => Scaffold.of(ctx).openDrawer(),
+        ),
+      ),
+      title: Text('ProxyBird',
+          style: TextStyle(
+            color: titleColor,
+            fontSize: 24,
+            fontWeight: FontWeight.w500,
+            height: 1.2,
+          )),
+      actions: [
+        GlassIconButton(
+            icon: Icon(Icons.search, color: iconColor, size: 22),
+            size: 40,
+            iconSize: 22,
+            onPressed: () => _openSearch(context)),
+        GlassIconButton(
+            icon: Icon(Icons.delete_sweep, color: iconColor, size: 22),
+            size: 40,
+            iconSize: 22,
+            onPressed: () => _onClear(context, localizations)),
+        GlassIconButton(
+            icon: Icon(
+              Icons.picture_in_picture_alt,
+              size: 22,
+              color: _floatingActive ? iconColor : iconColor.withValues(alpha: 0.6),
+            ),
+            size: 40,
+            iconSize: 22,
+            onPressed: _toggleFloatingWindow),
+        MoreMenu(proxyServer: widget.proxyServer, remoteDevice: widget.remoteDevice),
+        const SizedBox(width: 6),
+      ],
+    );
   }
 }

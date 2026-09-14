@@ -134,12 +134,11 @@ class _TargetAppPageState extends State<TargetAppPage> {
       appBar: AppBar(
         title: const Text('目标应用', style: TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
         centerTitle: false,
-        backgroundColor: const Color(0xFFFF9E05),
-        foregroundColor: Colors.white,
+        backgroundColor: Colors.transparent,
         elevation: 0,
         actions: [
           IconButton(
-            icon: const Icon(Icons.add, color: Colors.white),
+            icon: const Icon(Icons.add),
             tooltip: '添加应用',
             onPressed: _addApp,
           ),

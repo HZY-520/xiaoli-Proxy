@@ -20,6 +20,7 @@ import 'dart:io';
 
 import 'package:code_forge/code_forge.dart';
 import 'package:flutter/material.dart';
+import 'package:liquid_glass_widgets/liquid_glass_widgets.dart';
 import 'package:proxypin/network/bin/configuration.dart';
 import 'package:proxypin/network/components/manager/environment_manager.dart';
 import 'package:proxypin/ui/component/chinese_font.dart';
@@ -27,6 +28,7 @@ import 'package:proxypin/ui/component/multi_window_compat.dart';
 import 'package:proxypin/ui/component/multi_window.dart';
 import 'package:proxypin/ui/configuration.dart';
 import 'package:proxypin/ui/desktop/desktop.dart';
+import 'package:proxypin/ui/mobile/liquid_glass.dart';
 import 'package:proxypin/ui/mobile/mobile.dart';
 import 'package:proxypin/utils/desktop_support.dart';
 import 'package:proxypin/utils/navigator.dart';
@@ -76,7 +78,20 @@ void main(List<String> args) async {
   //移动端
   if (Platforms.isMobile()) {
     var appConfiguration = await instance;
-    runApp(FluentApp(MobileHomePage((await configuration), appConfiguration), appConfiguration));
+    // 预热液态玻璃着色器，避免首帧白屏/闪烁
+    await LiquidGlassWidgets.initialize(enablePerformanceMonitor: false);
+    runApp(LiquidGlassWidgets.wrap(
+      child: FluentApp(MobileHomePage((await configuration), appConfiguration), appConfiguration, glass: true),
+      brightnessResolver: Theme.maybeBrightnessOf,
+      theme: GlassThemeData.simple(
+        blur: 12,
+        thickness: 26,
+        quality: GlassQuality.standard,
+        lightIntensity: 0.8,
+        ambientStrength: 0.12,
+        saturation: 1.2,
+      ),
+    ));
     return;
   }
 
@@ -92,7 +107,10 @@ class FluentApp extends StatelessWidget {
   final Widget home;
   final AppConfiguration appConfiguration;
 
-  const FluentApp(this.home, this.appConfiguration, {super.key});
+  /// 是否启用液态玻璃（仅安卓/移动端 UI 重构时开启）
+  final bool glass;
+
+  const FluentApp(this.home, this.appConfiguration, {super.key, this.glass = false});
 
   @override
   Widget build(BuildContext context) {
@@ -109,6 +127,13 @@ class FluentApp extends StatelessWidget {
             locale: appConfiguration.language,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,
+            builder: glass
+                ? (context, child) => GlassPage(
+                      background: const GlassBackground(),
+                      statusBarStyle: GlassStatusBarStyle.auto,
+                      child: child!,
+                    )
+                : null,
             home: home,
           );
         });
@@ -164,13 +189,26 @@ class FluentApp extends StatelessWidget {
       }),
       dialogTheme:
           themeData.dialogTheme.copyWith(shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10))),
-      appBarTheme: themeData.appBarTheme.copyWith(
-        backgroundColor: const Color(0xFFFF9E05),
-        foregroundColor: Colors.white,
-        elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.white, size: 22),
-        titleTextStyle: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500),
-      ),
+      // 液态玻璃模式：顶栏透明（背景由 GlassPage 渐变提供），图标/文字颜色随亮暗主题自适应
+      appBarTheme: glass
+          ? themeData.appBarTheme.copyWith(
+              backgroundColor: Colors.transparent,
+              foregroundColor: isDark ? Colors.white : const Color(0xDD000000),
+              elevation: 0,
+              scrolledUnderElevation: 0,
+              iconTheme: IconThemeData(color: isDark ? Colors.white : const Color(0xDD000000), size: 22),
+              titleTextStyle: TextStyle(
+                  color: isDark ? Colors.white : const Color(0xDD000000),
+                  fontSize: 18,
+                  fontWeight: FontWeight.w500),
+            )
+          : themeData.appBarTheme.copyWith(
+              backgroundColor: const Color(0xFFFF9E05),
+              foregroundColor: Colors.white,
+              elevation: 0,
+              iconTheme: const IconThemeData(color: Colors.white, size: 22),
+              titleTextStyle: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w500),
+            ),
       switchTheme: SwitchThemeData(
         thumbColor: WidgetStateProperty.resolveWith<Color?>((states) {
           if (states.contains(WidgetState.selected)) {

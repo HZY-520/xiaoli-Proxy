@@ -159,8 +159,7 @@ class _MobileHistoryState extends State<MobileHistory> {
 
       return Scaffold(
           appBar: AppBar(
-              backgroundColor: const Color(0xFFFF9E05),
-              foregroundColor: Colors.white,
+              backgroundColor: Colors.transparent,
               elevation: 0,
               title: Text(localizations.history,
                   style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w500)),
