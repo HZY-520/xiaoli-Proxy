@@ -252,13 +252,15 @@ class _JsonViewerPageState extends State<JsonViewerPage> with SingleTickerProvid
       );
     }
 
+    final PreferredSizeWidget appBar = AppBar(
+        title: Text("JSON Viewer", style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w300)),
+        centerTitle: true);
+
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: Platforms.isDesktop() ? const Size.fromHeight(23) : const Size.fromHeight(36),
-        child: AppBar(
-            title: Text("JSON Viewer", style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w300)),
-            centerTitle: true),
-      ),
+      // 移动端直接使用 AppBar（自动处理状态栏安全区）；桌面端保持紧凑顶栏
+      appBar: Platforms.isDesktop()
+          ? PreferredSize(preferredSize: const Size.fromHeight(23), child: appBar)
+          : appBar,
       body: body,
     );
   }

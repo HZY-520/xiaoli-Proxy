@@ -356,9 +356,11 @@ class _InstalledAppsWidgetState extends State<InstalledAppsWidget> {
     bool isCN = Localizations.localeOf(context) == const Locale.fromSubtags(languageCode: 'zh');
 
     return Scaffold(
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(kToolbarHeight),
-        child: Container(
+      appBar: ShadInsetAppBar(
+        background: ShadTheme.of(context).colorScheme.background,
+        child: PreferredSize(
+          preferredSize: const Size.fromHeight(kToolbarHeight),
+          child: Container(
           height: kToolbarHeight,
           decoration: BoxDecoration(
             color: ShadTheme.of(context).colorScheme.background,
@@ -396,6 +398,7 @@ class _InstalledAppsWidgetState extends State<InstalledAppsWidget> {
               ),
             ],
           ),
+        ),
         ),
       ),
       body: RefreshIndicator(

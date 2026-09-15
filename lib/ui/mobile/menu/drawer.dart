@@ -168,9 +168,11 @@ class DrawerWidget extends StatelessWidget {
         width: MediaQuery.of(context).size.width * 0.86,
         backgroundColor: scheme.background,
         shape: const RoundedRectangleBorder(),
-        child: ListView(
-          padding: EdgeInsets.zero,
-          children: [
+        child: SafeArea(
+            bottom: false,
+            child: ListView(
+              padding: EdgeInsets.zero,
+              children: [
             _drawerHeader(context),
             const SizedBox(height: 8),
             // ===== 主要功能入口 =====
@@ -228,7 +230,8 @@ class DrawerWidget extends StatelessWidget {
                     onTap: () => _openSetting(context, proxyServer)),
               ],
             ),
-          ],
+              ],
+            ),
         ));
   }
 }

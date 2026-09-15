@@ -433,11 +433,10 @@ class _HistoryRecordState extends State<HistoryRecord> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(38),
-            child: ShadHeader(
-                title: localizations.historyRecordTitle(widget.history.requestLength, widget.history.name),
-                actions: [
+        appBar: ShadHeader(
+            height: 38,
+            title: localizations.historyRecordTitle(widget.history.requestLength, widget.history.name),
+            actions: [
                   PopupMenuButton(
                       offset: const Offset(0, 30),
                       icon: const Icon(Icons.more_vert_outlined),
@@ -472,7 +471,7 @@ class _HistoryRecordState extends State<HistoryRecord> {
                               child: IconText(icon: const Icon(Icons.repeat), text: localizations.repeatAllRequests)),
                         ];
                       }),
-                ])),
+                ]),
         body: futureWidget(
           loading: true,
           HistoryStorage.instance.then((storage) => storage.getRequests(widget.history)),

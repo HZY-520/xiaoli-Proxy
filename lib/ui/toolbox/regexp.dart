@@ -82,12 +82,15 @@ class _RegExpPageState extends State<RegExpPage> {
   Widget build(BuildContext context) {
     Color primaryColor = Theme.of(context).colorScheme.primary;
 
+    final PreferredSizeWidget appBar = AppBar(
+        title: Text(localizations.regExp, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+        centerTitle: true);
+
     return Scaffold(
-        appBar: PreferredSize(
-            preferredSize: Size.fromHeight(50),
-            child: AppBar(
-                title: Text(localizations.regExp, style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-                centerTitle: true)),
+        // 移动端直接使用 AppBar（自动处理状态栏安全区）；桌面端保持紧凑顶栏
+        appBar: Platforms.isDesktop()
+            ? PreferredSize(preferredSize: const Size.fromHeight(50), child: appBar)
+            : appBar,
         resizeToAvoidBottomInset: false,
         body: ListView(padding: const EdgeInsets.all(10), children: [
           TextField(

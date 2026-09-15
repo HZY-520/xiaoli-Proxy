@@ -25,6 +25,7 @@ import 'package:lico_proxy/ui/component/state_component.dart';
 
 import '../../../component/utils.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
+import '../../shad/shad_design.dart';
 
 /// 重写替换
 /// @author wanghongen
@@ -102,7 +103,7 @@ class MobileMapLocaleState extends State<MobileMapLocal> {
         length: tabs.length,
         initialIndex: tabs.length - 1,
         child: Scaffold(
-          appBar: tabBar(tabs),
+          appBar: ShadInsetAppBar(child: tabBar(tabs)),
           body: TabBarView(children: [
             KeepAliveWrapper(child: statusCodeEdit()),
             KeepAliveWrapper(child: headers()),

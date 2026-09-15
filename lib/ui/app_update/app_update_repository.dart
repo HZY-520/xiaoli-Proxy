@@ -95,20 +95,23 @@ class AppUpdateRepository {
     }
 
     List<int> parseVersion(String version) {
-      return normalizeVersion(version).split('.').map(int.parse).toList();
+      return normalizeVersion(version)
+          .split('.')
+          .map((e) => int.tryParse(e.trim()) ?? 0)
+          .toList();
     }
 
     List<int> current = parseVersion(currentVersion);
     List<int> latest = parseVersion(latestVersion);
 
-    for (int i = 0; i < current.length; i++) {
-      if (i >= latest.length || current[i] > latest[i]) {
-        return false; // 当前版本高于最新版本
-      } else if (current[i] < latest[i]) {
-        return true; // 需要更新
-      }
+    // 逐段比较，缺失的段位补 0，避免 "1.0" vs "1.0.0" 被误判为新版本
+    final length = current.length > latest.length ? current.length : latest.length;
+    for (int i = 0; i < length; i++) {
+      final c = i < current.length ? current[i] : 0;
+      final l = i < latest.length ? latest[i] : 0;
+      if (c > l) return false; // 当前版本更高
+      if (c < l) return true; // 需要更新
     }
-
-    return latest.length > current.length; // 最新版本有更多的子版本号
+    return false;
   }
 }

@@ -27,6 +27,7 @@ import 'package:lico_proxy/ui/component/widgets.dart';
 import 'package:lico_proxy/utils/lang.dart';
 import 'package:re_highlight/languages/json.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
+import '../../shad/shad_design.dart';
 
 /// 重写替换
 /// @author wanghongen
@@ -135,7 +136,7 @@ class RewriteReplaceState extends State<MobileRewriteReplace> {
         length: tabs.length,
         initialIndex: tabs.length - 1,
         child: Scaffold(
-            appBar: tabBar(tabs),
+            appBar: ShadInsetAppBar(child: tabBar(tabs)),
             body: TabBarView(children: [
               KeepAliveWrapper(child: requestEdited ? requestLine() : statusCodeEdit()),
               KeepAliveWrapper(child: headers()),

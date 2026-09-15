@@ -205,8 +205,7 @@ class MobileHomeState extends State<MobileHomePage> implements EventListener, Li
       NavigatorPage(
           navigatorKey: toolboxNavigatorKey,
           child: Scaffold(
-              appBar: PreferredSize(
-                  preferredSize: const Size.fromHeight(42), child: ShadHeader(title: localizations.toolbox)),
+              appBar: ShadHeader(title: localizations.toolbox, height: 42),
               body: Toolbox(proxyServer: proxyServer))),
       NavigatorPage(navigatorKey: configNavigatorKey, child: ConfigPage(proxyServer: proxyServer)),
       NavigatorPage(
@@ -522,7 +521,7 @@ class _MobileAppBar extends StatefulWidget implements PreferredSizeWidget {
   State<_MobileAppBar> createState() => _MobileAppBarState();
 
   @override
-  Size get preferredSize => const Size.fromHeight(56);
+  Size get preferredSize => Size.fromHeight(58 + ShadHeader.statusBarTop());
 }
 
 class _MobileAppBarState extends State<_MobileAppBar> {
@@ -612,32 +611,34 @@ class _MobileAppBarState extends State<_MobileAppBar> {
     Navigator.of(context).push(MaterialPageRoute(
         fullscreenDialog: true,
         builder: (_) => Scaffold(
-              appBar: PreferredSize(
-                preferredSize: const Size.fromHeight(kToolbarHeight),
-                child: Container(
-                  height: kToolbarHeight,
-                  decoration: BoxDecoration(
-                    color: ShadTheme.of(context).colorScheme.background,
-                    border: Border(
-                      bottom: BorderSide(
-                          color: ShadTheme.of(context).colorScheme.border.withValues(alpha: 0.5), width: 0.5),
+              appBar: ShadInsetAppBar(
+                child: PreferredSize(
+                  preferredSize: const Size.fromHeight(kToolbarHeight),
+                  child: Container(
+                    height: kToolbarHeight,
+                    decoration: BoxDecoration(
+                      color: ShadTheme.of(context).colorScheme.background,
+                      border: Border(
+                        bottom: BorderSide(
+                            color: ShadTheme.of(context).colorScheme.border.withValues(alpha: 0.5), width: 0.5),
+                      ),
                     ),
-                  ),
-                  child: Row(
-                    children: [
-                      ShadIconButton.ghost(
-                        icon: const Icon(LucideIcons.chevronLeft, size: 20),
-                        onPressed: () => Navigator.of(context).pop(),
-                      ),
-                      Expanded(
-                        child: MobileSearch(
-                            key: MobileApp.searchStateKey,
-                            onSearch: (val) {
-                              MobileApp.requestStateKey.currentState?.search(val);
-                              Navigator.of(context).pop();
-                            }),
-                      ),
-                    ],
+                    child: Row(
+                      children: [
+                        ShadIconButton.ghost(
+                          icon: const Icon(LucideIcons.chevronLeft, size: 20),
+                          onPressed: () => Navigator.of(context).pop(),
+                        ),
+                        Expanded(
+                          child: MobileSearch(
+                              key: MobileApp.searchStateKey,
+                              onSearch: (val) {
+                                MobileApp.requestStateKey.currentState?.search(val);
+                                Navigator.of(context).pop();
+                              }),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
@@ -651,19 +652,24 @@ class _MobileAppBarState extends State<_MobileAppBar> {
 
     final Color iconColor = glassIconColor(context);
     final Color titleColor = glassTextColor(context);
+    final Color bgColor = ShadTheme.of(context).colorScheme.background;
+    final double topInset = ShadHeader.statusBarTopOf(context);
 
-    return Container(
-      height: 58,
-      decoration: BoxDecoration(
-        color: ShadTheme.of(context).colorScheme.background,
-        border: Border(
-          bottom: BorderSide(
-            color: ShadTheme.of(context).colorScheme.border.withValues(alpha: 0.5),
-            width: 0.5,
+    return Column(
+      children: [
+        if (topInset > 0) Container(height: topInset, color: bgColor),
+        Container(
+          height: 58,
+          decoration: BoxDecoration(
+            color: bgColor,
+            border: Border(
+              bottom: BorderSide(
+                color: ShadTheme.of(context).colorScheme.border.withValues(alpha: 0.5),
+                width: 0.5,
+              ),
+            ),
           ),
-        ),
-      ),
-      child: Row(
+          child: Row(
         children: [
           const SizedBox(width: 4),
           Builder(
@@ -710,7 +716,9 @@ class _MobileAppBarState extends State<_MobileAppBar> {
           MoreMenu(proxyServer: widget.proxyServer, remoteDevice: widget.remoteDevice),
           const SizedBox(width: 4),
         ],
-      ),
+          ),
+        ),
+      ],
     );
   }
 }

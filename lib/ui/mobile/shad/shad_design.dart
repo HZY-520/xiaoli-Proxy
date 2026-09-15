@@ -8,7 +8,6 @@
 import 'package:flutter/material.dart';
 import 'package:shadcn_ui/shadcn_ui.dart';
 import 'package:lico_proxy/ui/configuration.dart';
-import './shad_design.dart';
 
 /// 全局 shadcn 主题构建器。
 ///
@@ -297,25 +296,54 @@ class ShadSheetItem extends StatelessWidget {
 }
 
 /// 页头：shadcn 风格的紧凑顶栏，替代 Material AppBar。
+///
+/// Android 15+ 强制 edge-to-edge，自绘顶栏不会像 [AppBar] 那样自动让出
+/// 状态栏高度，因此这里显式把状态栏区域留出并涂上背景色，
+/// 业务高度由 [height] 控制（不含状态栏安全区）。
 class ShadHeader extends StatelessWidget implements PreferredSizeWidget {
   final String title;
   final List<Widget> actions;
   final Widget? leading;
   final Widget? bottom;
 
-  const ShadHeader({super.key, required this.title, this.actions = const [], this.leading, this.bottom});
+  /// 内容区高度（不含状态栏安全区），默认与 AppBar 工具栏一致
+  final double height;
+
+  const ShadHeader({
+    super.key,
+    required this.title,
+    this.actions = const [],
+    this.leading,
+    this.bottom,
+    this.height = kToolbarHeight,
+  });
+
+  /// 系统状态栏/刘海安全区高度（无 BuildContext 版本，供 preferredSize 使用）
+  static double statusBarTop() {
+    try {
+      return MediaQueryData.fromView(WidgetsBinding.instance.platformDispatcher.views.first).padding.top;
+    } catch (_) {
+      return 0;
+    }
+  }
+
+  /// 当前上下文中的顶部安全区高度
+  static double statusBarTopOf(BuildContext context) => MediaQuery.paddingOf(context).top;
 
   @override
-  Size get preferredSize => Size.fromHeight(bottom == null ? kToolbarHeight : kToolbarHeight + 48);
+  Size get preferredSize =>
+      Size.fromHeight(height + (bottom == null ? 0 : 48) + statusBarTop());
 
   @override
   Widget build(BuildContext context) {
     final scheme = ShadTheme.of(context).colorScheme;
+    final top = statusBarTopOf(context);
     return Column(
       mainAxisSize: MainAxisSize.min,
       children: [
+        if (top > 0) Container(height: top, color: scheme.background),
         Container(
-          height: kToolbarHeight,
+          height: height,
           decoration: BoxDecoration(
             color: scheme.background,
             border: Border(bottom: BorderSide(color: scheme.border.withValues(alpha: 0.5), width: 0.5)),
@@ -337,6 +365,35 @@ class ShadHeader extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
         if (bottom != null) bottom!,
+      ],
+    );
+  }
+}
+
+/// 通用状态栏安全顶栏包装器。
+///
+/// 把任意 [PreferredSizeWidget] 顶栏（自定义 Container、TabBar 等）渲染在
+/// 状态栏下方，并用 [background]（默认主题背景色）填充状态栏区域。
+/// 桌面端安全区为 0，行为不变。
+class ShadInsetAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final PreferredSizeWidget child;
+  final Color? background;
+
+  const ShadInsetAppBar({super.key, required this.child, this.background});
+
+  @override
+  Size get preferredSize =>
+      Size.fromHeight(ShadHeader.statusBarTop() + child.preferredSize.height);
+
+  @override
+  Widget build(BuildContext context) {
+    final scheme = ShadTheme.of(context).colorScheme;
+    final top = ShadHeader.statusBarTopOf(context);
+    if (top <= 0) return child;
+    return Column(
+      children: [
+        Container(height: top, color: background ?? scheme.background),
+        SizedBox(height: child.preferredSize.height, child: child),
       ],
     );
   }
